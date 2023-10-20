@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MBProgressHUD源码解析 | franky的个人博客</title><meta name="author" content="franky"><meta name="copyright" content="franky"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="MBProgressHUD从入行以来,就经常听说,学习编程进步最快的方式,就是阅读优秀作品的源码… 那么,今天我来阅读一下MBProgressHUD这个库的源码… 查看一下文件,非常简单的俩个MBProgressHUD.h和MBProgressHUD.m文件 没什么说的,从MBProgressHUD.h文件开始看吧; 头文件首先声明了一个自定义的类 MBBackgroundView 和 一个协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MBProgressHUD源码解析">
+<meta property="og:url" content="http://example.com/2020/06/24/2020-06-24-MBProgressHUD%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="franky的个人博客">
+<meta property="og:description" content="MBProgressHUD从入行以来,就经常听说,学习编程进步最快的方式,就是阅读优秀作品的源码… 那么,今天我来阅读一下MBProgressHUD这个库的源码… 查看一下文件,非常简单的俩个MBProgressHUD.h和MBProgressHUD.m文件 没什么说的,从MBProgressHUD.h文件开始看吧; 头文件首先声明了一个自定义的类 MBBackgroundView 和 一个协议">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2020-06-24T10:11:38.000Z">
+<meta property="article:modified_time" content="2023-10-19T09:48:44.020Z">
+<meta property="article:author" content="franky">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2020/06/24/2020-06-24-MBProgressHUD%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MBProgressHUD源码解析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-19 17:48:44'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="franky的个人博客"><span class="site-name">franky的个人博客</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MBProgressHUD源码解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-06-24T10:11:38.000Z" title="Created 2020-06-24 18:11:38">2020-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-10-19T09:48:44.020Z" title="Updated 2023-10-19 17:48:44">2023-10-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MBProgressHUD源码解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="MBProgressHUD"><a href="#MBProgressHUD" class="headerlink" title="MBProgressHUD"></a>MBProgressHUD</h1><p>从入行以来,就经常听说,学习编程进步最快的方式,就是阅读优秀作品的源码…</p>
+<p>那么,今天我来阅读一下MBProgressHUD这个库的源码…</p>
+<p>查看一下文件,非常简单的俩个MBProgressHUD.h和MBProgressHUD.m文件</p>
+<p>没什么说的,从MBProgressHUD.h文件开始看吧;</p>
+<p>头文件首先声明了一个自定义的类 <code>MBBackgroundView</code> 和 一个协议 <code>MBProgressHUDDelegate</code>,自定义类放在这里声明一下,应该是因为<code>MBProgressHUD</code>里面使用到了<code>MBBackgroundView</code>类,且<code>MBProgressHUD</code>的声明与实现都放在了<code>MBBackgroundView</code>的前面,将<code>MBBackgroundView</code>的位置挪到比<code>MBProgressHUD</code>靠前的地方就不需要提前声明了,这个很简单,不需要多说了吧;而代理协议<code>MBProgressHUDDelegate</code>,对于做过iOS的开发人来说,应该说是再熟悉不过了…</p>
+<p>接下来声明了一个供外部使用的变量<code>extern CGFloat const MBProgressMaxOffset;</code>,使用<code>extern</code>修饰了的变量能够在其他文件也可以访问到;往下查看头文件的时候,发现是为了给属性<code>offset</code>使用的,注释里面写到可以使用CGPointMake(0.f, MBProgressMaxOffset)来使HUD的位置处于底部边缘的中心位置</p>
+<p>然后是4个自定义类型,<code>MBProgressHUDMode``MBProgressHUDAnimation``MBProgressHUDBackgroundStyle``MBProgressHUDCompletionBlock</code>;这四个类型也都比较简单,见名字大概就知道是什么意思了,简单提一下;<br><code>MBProgressHUDMode</code>mode翻译过来叫(设备的)模式,方式,风格,样式…在这里取风格或者样式应该更加恰当;它有6种不同的样式:</p>
+<ul>
+<li><code>MBProgressHUDModeIndeterminate </code>	&#x2F;&#x2F;iOS系统原生的UIActivityIndicatorView</li>
+<li><code>MBProgressHUDModeDeterminate </code>	&#x2F;&#x2F;一个圆形的饼状进度视图样式</li>
+<li><code>MBProgressHUDModeDeterminateHorizontalBar </code>	&#x2F;&#x2F;一个水平的条状进度视图样式</li>
+<li><code>MBProgressHUDModeAnnularDeterminate </code>	&#x2F;&#x2F;圆环形的进度视图样式</li>
+<li><code>MBProgressHUDModeCustomView </code>	&#x2F;&#x2F;自定义视图样式</li>
+<li><code>MBProgressHUDModeText </code> &#x2F;&#x2F;纯文字样式</li>
+</ul>
+<p><code>MBProgressHUDAnimation</code>动画类型</p>
+<ul>
+<li><code>MBProgressHUDAnimationFade</code> &#x2F;&#x2F;淡入淡出</li>
+<li><code>MBProgressHUDAnimationZoom</code> &#x2F;&#x2F;出现时放大,消失时缩小</li>
+<li><code>MBProgressHUDAnimationZoomOut</code> &#x2F;&#x2F;缩小</li>
+<li><code>MBProgressHUDAnimationZoomIn</code> &#x2F;&#x2F;放大</li>
+</ul>
+<p><code>MBProgressHUDBackgroundStyle</code>背景风格</p>
+<ul>
+<li><code>MBProgressHUDBackgroundStyleSolidColor</code> &#x2F;&#x2F;纯色</li>
+<li><code>MBProgressHUDBackgroundStyleBlur</code> &#x2F;&#x2F;模糊,毛玻璃效果</li>
+</ul>
+<p><code>MBProgressHUDCompletionBlock</code>是一个无返回值无参数的block</p>
+<p>接来下是<code>MBProgressHUD</code>的正式声明了<br>首先是7个方法声明</p>
+<p>前三个为类方法:</p>
+<p><code>+ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;</code></p>
+<p><code>+ (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated;</code></p>
+<p><code>+ (nullable MBProgressHUD *)HUDForView:(UIView *)view;</code></p>
+<p>后面为对象方法:</p>
+<p><code>- (instancetype)initWithView:(UIView *)view;</code></p>
+<p><code>- (void)showAnimated:(BOOL)animated;</code></p>
+<p><code>- (void)hideAnimated:(BOOL)animated;</code></p>
+<p><code>- (void)hideAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;</code></p>
+<p>每个方法的注释都很详细,不需要多介绍什么的,接下来看看属性</p>
+<p><code>@property (weak, nonatomic) id&lt;MBProgressHUDDelegate&gt; delegate;</code><br><code>@property (copy, nullable) MBProgressHUDCompletionBlock completionBlock;</code><br>这两个属性都是用来回传HUD消失事件的,代理协议里面也只有一个HUD已经隐藏的方法</p>
+<p><code>@property (assign, nonatomic) NSTimeInterval graceTime;</code>这个属性很有意思,一开始我理解成下面那个属性<code>minShowTime</code>了,往下看到<code>minShowTime</code>之后,我才发现理解错了;这个属性的意思是:如果有graceTime,那么HUD在graceTime之后才显示.作用就是不让时间非常短的任务显示HUD(嗯,用处好像不是很大,我看了下我们项目,没有一个地方使用…)举个例子:我们一般会在网络请求发起之前显示HUD,在网络请求返回时隐藏HUD,在不考虑下面<code>minShowTime</code>属性的情况下,如果这个时间间隔非常短,就会出现显示了HUD瞬间就消失了的尴尬情况,那么这个时候,设置一个graceTime,对于那些时间非常短的异步任务就根本不会显示也没有必要显示HUD了</p>
+<p><code>@property (assign, nonatomic) NSTimeInterval minShowTime;</code>这个属性的作用就容易理解多了,最小显示时间;同样也是为了解决时间间隔很短的异步任务问题,你还察觉不到就结束了,那么这个HUD压根就看不见…所以加上这么一个时间</p>
+<p><code>@property (assign, nonatomic) BOOL removeFromSuperViewOnHide;</code>这个也是非常好理解,隐藏的时候是否从父视图移除</p>
+<h6 id="下面的属性时跟外观-Appearance-相关的"><a href="#下面的属性时跟外观-Appearance-相关的" class="headerlink" title="下面的属性时跟外观(Appearance)相关的"></a>下面的属性时跟外观(Appearance)相关的</h6><p><code>@property (assign, nonatomic) MBProgressHUDMode mode;</code> 样式<br><code>@property (strong, nonatomic, nullable) UIColor *contentColor</code> 内容颜色<br><code>@property (assign, nonatomic) MBProgressHUDAnimation animationType</code> 显示或隐藏时的动画类型<br><code>@property (assign, nonatomic) CGPoint offset</code> 相对于视图中心的边框偏移量<br><code>@property (assign, nonatomic) CGFloat margin</code> HUD边缘和HUD元素之间的间距<br><code>@property (assign, nonatomic) CGSize minSize</code> HUD边框的最小尺寸<br><code>@property (assign, nonatomic, getter = isSquare) BOOL square</code> 如果可能的话，强制HUD尺寸相等。<br><code>@property (assign, nonatomic, getter=areDefaultMotionEffectsEnabled) BOOL defaultMotionEffectsEnabled</code> 当启用时，bezel center会受到设备加速计数据的轻微影响</p>
+<h6 id="进度相关属性-Progress"><a href="#进度相关属性-Progress" class="headerlink" title="进度相关属性(Progress)"></a>进度相关属性(Progress)</h6><p><code>@property (assign, nonatomic) float progress;</code> 进度指示器的进度,取值0.0~1.0,默认为0.0</p>
+<h6 id="进度对象相关属性-ProgressObject"><a href="#进度对象相关属性-ProgressObject" class="headerlink" title="进度对象相关属性(ProgressObject)"></a>进度对象相关属性(ProgressObject)</h6><p><code>@property (strong, nonatomic, nullable) NSProgress *progressObject;</code> 不是太明白干什么的</p>
+<h6 id="视图相关属性-Views"><a href="#视图相关属性-Views" class="headerlink" title="视图相关属性(Views)"></a>视图相关属性(Views)</h6><p><code>@property (strong, nonatomic, readonly) MBBackgroundView *bezelView;</code> 包含文本标签和指示器(或者自定义视图)的边框视图<br><code>@property (strong, nonatomic, readonly) MBBackgroundView *backgroundView;</code> 覆盖整个HUD区域，放置在bezelView后面的视图<br><code>@property (strong, nonatomic, nullable) UIView *customView;</code> 当HUD样式为MBProgressHUDModeCustomView的时候,显示的视图;视图应该实现intrinsicContentSize方法已显示正确的大小,为了得到最好的效果,建议使用37x37像素<br><code>@property (strong, nonatomic, readonly) UILabel *label;</code> 显示在活动指示器下方的文本标签,HUD会自动调整大小以适应整个文本<br><code>@property (strong, nonatomic, readonly) UILabel *detailsLabel;</code> 一个标签，其中包含一个可选的详细信息消息，显示在labelText消息下面。细节文本可以跨越多行。<br><code>@property (strong, nonatomic, readonly) UIButton *button;</code> 放在标签下面的按钮。只有在添加target和action后才可见。</p>
+<p>好了,MBProgressHUD的方法属性就这些了…<br>接下来看看MBProgressHUD头文件里,其他的类的声明;</p>
+<p>首先是<code>MBRoundProgressView</code>这个应该是饼图样式时使用到的视图,只有4个属性<br><code>@property (nonatomic, assign) float progress;</code> 进度<br><code>@property (nonatomic, strong) UIColor *progressTintColor;</code> 指示器进度的颜色<br><code>@property (nonatomic, strong) UIColor *backgroundTintColor;</code> 指示器背景色<br><code>@property (nonatomic, assign, getter = isAnnular) BOOL annular;</code> 是否环形,不是很清楚什么效果…</p>
+<p>然后是<code>MBBarProgressView</code>,这个应该是一个扁平的进度条视图<br><code>@property (nonatomic, assign) float progress;</code> 进度<br><code>@property (nonatomic, strong) UIColor *lineColor;</code> 条状边框线颜色<br><code>@property (nonatomic, strong) UIColor *progressRemainingColor;</code> 条状背景色<br><code>@property (nonatomic, strong) UIColor *progressColor;</code> 条状进度颜色</p>
+<p>最后是<code>MBBackgroundView</code>,这个是背景视图<br><code>@property (nonatomic) MBProgressHUDBackgroundStyle style;</code> 背景样式,毛玻璃或者纯色,iOS7和它之后都是毛玻璃效果,之前是纯色<br><code>@property (nonatomic) UIBlurEffectStyle blurEffectStyle;</code> 模糊效果样式<br><code>@property (nonatomic, strong) UIColor *color;</code> 背景色</p>
+<p>以上就是MBProgressHUD.h文件的全部内容了,其实还有一部分,是遗弃的旧版本的代码就不看了</p>
+<p>下面,我来看看.m文件源码,这才是重点啊</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">franky</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/2020/06/24/2020-06-24-MBProgressHUD%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">http://example.com/2020/06/24/2020-06-24-MBProgressHUD%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/19/2023-10-19-2023%E5%B9%B410%E6%9C%88%E4%BA%86%E9%BB%91%E8%8B%B9%E6%9E%9C%E8%BF%98%E9%A6%99%E5%90%97%EF%BC%9F%E6%80%A7%E4%BB%B7%E6%AF%94%E8%B6%85%E9%AB%98%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8F%B0%E5%BC%8F%E6%9C%BA%E6%90%AD%E9%85%8D-%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程</div></div></a></div><div class="next-post pull-right"><a href="/2019/04/25/2019-04-25-%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AA%E6%8A%A5%E9%94%99/" title="记录一个报错"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next</div><div class="next_info">记录一个报错</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">franky</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MBProgressHUD"><span class="toc-number">1.</span> <span class="toc-text">MBProgressHUD</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%B1%9E%E6%80%A7%E6%97%B6%E8%B7%9F%E5%A4%96%E8%A7%82-Appearance-%E7%9B%B8%E5%85%B3%E7%9A%84"><span class="toc-number">1.0.0.0.0.1.</span> <span class="toc-text">下面的属性时跟外观(Appearance)相关的</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%9B%E5%BA%A6%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7-Progress"><span class="toc-number">1.0.0.0.0.2.</span> <span class="toc-text">进度相关属性(Progress)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BF%9B%E5%BA%A6%E5%AF%B9%E8%B1%A1%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7-ProgressObject"><span class="toc-number">1.0.0.0.0.3.</span> <span class="toc-text">进度对象相关属性(ProgressObject)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%86%E5%9B%BE%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7-Views"><span class="toc-number">1.0.0.0.0.4.</span> <span class="toc-text">视图相关属性(Views)</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/19/2023-10-19-2023%E5%B9%B410%E6%9C%88%E4%BA%86%E9%BB%91%E8%8B%B9%E6%9E%9C%E8%BF%98%E9%A6%99%E5%90%97%EF%BC%9F%E6%80%A7%E4%BB%B7%E6%AF%94%E8%B6%85%E9%AB%98%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8F%B0%E5%BC%8F%E6%9C%BA%E6%90%AD%E9%85%8D-%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程">2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程</a><time datetime="2023-10-19T11:10:21.000Z" title="Created 2023-10-19 19:10:21">2023-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2020/06/24/2020-06-24-MBProgressHUD%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" title="MBProgressHUD源码解析">MBProgressHUD源码解析</a><time datetime="2020-06-24T10:11:38.000Z" title="Created 2020-06-24 18:11:38">2020-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/25/2019-04-25-%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AA%E6%8A%A5%E9%94%99/" title="记录一个报错">记录一个报错</a><time datetime="2019-04-25T09:12:27.000Z" title="Created 2019-04-25 17:12:27">2019-04-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/12/2019-04-12-OC%E4%B8%8EiOS%E6%B7%B7%E7%BC%96/" title="OC与iOS混编">OC与iOS混编</a><time datetime="2019-04-12T08:37:33.000Z" title="Created 2019-04-12 16:37:33">2019-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/04/04/2019-04-04-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式">设计模式</a><time datetime="2019-04-04T06:58:52.000Z" title="Created 2019-04-04 14:58:52">2019-04-04</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By franky</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
