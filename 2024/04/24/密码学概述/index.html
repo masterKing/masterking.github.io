@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>密码学概述 | franky的个人博客</title><meta name="author" content="franky"><meta name="copyright" content="franky"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="密码学（来自希腊语kryptos，意思是隐藏）一词的核心是指使数据无法被窥探者读取的技术。当然，密码学也可以用于其他目的。密码学包括一系列技术，如验证数据的真实性（检测是否修改）、确定个人或其他实体的身份、确定谁发送了特定消息或创建了特定数据片段、通过网络安全地发送数据、用密码或口令安全地锁定文件等等。 计算机安全中使用的加密主要有两种类型，称为对称密钥加密和非对称密钥加密。 对称密钥加密对称密钥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学概述">
+<meta property="og:url" content="https://masterking.github.io/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="franky的个人博客">
+<meta property="og:description" content="密码学（来自希腊语kryptos，意思是隐藏）一词的核心是指使数据无法被窥探者读取的技术。当然，密码学也可以用于其他目的。密码学包括一系列技术，如验证数据的真实性（检测是否修改）、确定个人或其他实体的身份、确定谁发送了特定消息或创建了特定数据片段、通过网络安全地发送数据、用密码或口令安全地锁定文件等等。 计算机安全中使用的加密主要有两种类型，称为对称密钥加密和非对称密钥加密。 对称密钥加密对称密钥">
+<meta property="og:locale">
+<meta property="og:image" content="https://masterking.github.io/img/WechatIMG1.jpg">
+<meta property="article:published_time" content="2024-04-24T05:28:38.000Z">
+<meta property="article:modified_time" content="2024-05-26T20:18:12.994Z">
+<meta property="article:author" content="franky">
+<meta property="article:tag" content="iOS，密码学，hash，RSA，DES，AES">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://masterking.github.io/img/WechatIMG1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://masterking.github.io/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e6857234b462ad05308d8b79794f0358";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '密码学概述',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2024-05-27 04:18:12'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/WechatIMG1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="franky的个人博客"><span class="site-name">franky的个人博客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">密码学概述</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2024-04-24T05:28:38.000Z" title="Created 2024-04-24 13:28:38">2024-04-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-05-26T20:18:12.994Z" title="Updated 2024-05-27 04:18:12">2024-05-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>20mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="密码学概述"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">Comments:</span><a href="/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/" itemprop="commentCount"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="post-content" id="article-container"><p>密码学（来自希腊语kryptos，意思是隐藏）一词的核心是指使数据无法被窥探者读取的技术。当然，密码学也可以用于其他目的。密码学包括一系列技术，如验证数据的真实性（检测是否修改）、确定个人或其他实体的身份、确定谁发送了特定消息或创建了特定数据片段、通过网络安全地发送数据、用密码或口令安全地锁定文件等等。</p>
+<p>计算机安全中使用的加密主要有两种类型，称为对称密钥加密和非对称密钥加密。</p>
+<h1 id="对称密钥加密"><a href="#对称密钥加密" class="headerlink" title="对称密钥加密"></a>对称密钥加密</h1><p>对称密钥加密（也称为秘密密钥加密）是大多数人熟悉的密钥的经典用法：使用相同的密钥来加密和解密数据。经典且最容易破解的版本是凯撒密码（以朱利叶斯·凯撒命名），其中消息中的每个字母都被替换为字母表中固定位置数的字母（例如，“a”被“c”替换，“b”被替换为“d”等）。在凯撒密码中，用于加密和解密消息的密钥只是字母表旋转的位数以及旋转的方向。现代对称密钥算法更加复杂并且更难破解。</p>
+<p>有许多不同的算法用于对称密钥加密，提供从最低限度到几乎牢不可破的安全性。其中一些算法提供了强大的安全性、易于代码实现以及快速的加密和解密。此类算法对于加密存储在计算机上的文件以保护它们以防未经授权的个人使用计算机等目的非常有用。但它们在从一台计算机向另一台计算机发送消息时用处不大，因为通信通道的两端都必须拥有相同的密钥并且必须保证其安全。此类密钥的分发和安全存储可能很困难，并且可能会造成安全漏洞。</p>
+<p>虽然交换或创建对称密钥的安全技术可以在一定程度上克服这个问题（例如 Diffie-Hellman 密钥交换），但随着非对称密钥加密算法的发明，出现了一种用于计算机通信的更实用的解决方案。</p>
+<p>常见的现代对称密钥加密算法有 DES，3DES，AES 等</p>
+<h2 id="DES"><a href="#DES" class="headerlink" title="DES"></a>DES</h2><p>数据加密标准（英语：Data Encryption Standard，缩写为 DES）是一种对称密钥加密算法，1976 年被美国联邦政府的国家标准局确定为联邦资料处理标准，随后在国际上广泛流传开来。</p>
+<p>DES 现在已经不是一种安全的加密方法，主要因为它使用的 56 位密钥过短。1999 年 1 月，distributed.net 与电子前哨基金会合作，在 22 小时 15 分钟内即公开破解了一个 DES 密钥。<br>也有一些分析报告提出了该算法的理论上的弱点，虽然在实际中难以应用。为了提供实用所需的安全性，可以使用 DES 的派生算法 3DES 来进行加密，虽然 3DES 也存在理论上的攻击方法。DES 标准和 3DES 标准已逐渐被高级加密标准（AES）所取代。</p>
+<h2 id="3DES"><a href="#3DES" class="headerlink" title="3DES"></a>3DES</h2><p>三重数据加密算法（英语：Triple Data Encryption Algorithm，缩写为 TDEA，Triple DEA），或称 3DES（Triple DES），是一种对称密钥加密块密码，相当于是对每个数据块应用三次资料加密标准（DES）算法。由于计算机运算能力的增强，原版 DES 由于密钥长度过低容易被暴力破解；3DES 即是设计用来提供一种相对简单的方法，即通过增加 DES 的密钥长度来避免类似的攻击，而不是设计一种全新的块密码算法。</p>
+<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>高级加密标准（英语：Advanced Encryption Standard，缩写：AES），又称 Rijndael加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的 DES，已经被多方分析且广为全世界所使用。经过五年的甄选流程，高级加密标准由美国国家标准与技术研究院（NIST）于 2001 年 11 月 26 日发布于 FIPS PUB 197，并在 2002 年 5 月 26 日成为有效的标准。现在，高级加密标准已然成为对称密钥加密中最流行的算法之一。</p>
+<p>该算法为比利时密码学家 Joan Daemen 和 Vincent Rijmen 所设计，结合两位作者的名字，以 Rijndael 为名投稿高级加密标准的甄选流程。</p>
+<h2 id="加密模式"><a href="#加密模式" class="headerlink" title="加密模式"></a>加密模式</h2><p>对称加密算法的加密模式是指在对称加密过程中，明文如何被切分、填充和加密，以及密文如何被解密和还原成原始的明文。常见的对称加密算法包括 AES（高级加密标准）和 DES（数据加密标准），它们可以使用不同的加密模式来实现数据的保密性。</p>
+<p>虽然加密模式通常应用于对称加密，它亦可以应用于公钥加密，例如在原理上对 RSA 进行处理，但在实用中，公钥密码学通常不用于加密较长的信息，而是使用结合对称加密和公钥加密的混合加密方案。</p>
+<p>常见的对称加密模式包括：</p>
+<ul>
+<li>电子密码本模式（ECB）：是最简单的加密模式，将明文分成固定大小的块，然后每个块单独加密。这种模式的问题在于相同的明文块会加密成相同的密文块，可能导致安全性问题。</li>
+<li>密码分组链接模式（CBC）：1976 年，IBM 发明了密码分组链接（CBC，Cipher-block chaining）模式。在 CBC 模式中，每个明文块先与前一个密文块进行异或后，再进行加密。在这种方法中，每个密文块都依赖于它前面的所有明文块。同时，为了保证每条消息的唯一性，在第一个块中需要使用初始化向量。</li>
+<li>计数器模式（CTR）：将一个计数器与明文块进行加密，然后再将结果与明文进行异或操作，从而产生密文。这种模式可以并行处理，并且不需要对明文进行填充，因此在某些情况下更高效。</li>
+<li>密文反馈模式（CFB）：将前一个密文块作为加密器的输入，然后将结果与明文进行异或操作，得到密文。这种模式可以进行流加密，即逐位地进行加密和解密。</li>
+<li>输出反馈模式（OFB）：类似于CFB，但是加密器的输出用于生成密钥流，而不是直接与明文进行异或操作。</li>
+</ul>
+<p>这些加密模式的选择取决于应用场景、安全需求和性能要求。在实际应用中，需要根据具体情况选择最合适的加密方式和模式。</p>
+<h2 id="对称加密的终端练习"><a href="#对称加密的终端练习" class="headerlink" title="对称加密的终端练习"></a>对称加密的终端练习</h2><p>MacOS 自带了一个叫 OpenSSL 的开源加密工具包，提供了一系列的加密算法和安全通信协议的实现，包括 SSL 和 TLS。它由一组函数库和命令行工具组成，可以用于处理数字证书、实现安全通信协议、进行加密和解密等任务。</p>
+<p>由于 DES，3DES 目前都不太推荐了，所以这里仅使用 AES 算法演示。</p>
+<p>使用 openssl 对明文 helloworld 进行 AES 算法 ECB 模式加密的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -n <span class="string">&quot;helloworld&quot;</span> | openssl enc -e -aes-256-ecb -a -pbkdf2 -K 123456</span><br></pre></td></tr></table></figure>
+
+<p>会输出如下结果</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bnPkNleniCxX5rE1JjnOYg==</span><br></pre></td></tr></table></figure>
+
+<p>对以上结果解密的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;bnPkNleniCxX5rE1JjnOYg==&quot;</span> | openssl enc -d -aes-256-ecb -a -pbkdf2 -K</span><br><span class="line"> 123456</span><br></pre></td></tr></table></figure>
+
+
+<p>对明文 helloworld 进行 aes cbc 加密的命令是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> helloworld | openssl enc -e -aes-256-cbc -a -pbkdf2 -K 123456</span><br><span class="line">U2FsdGVkX19TcP2WjEKOsVXGblFWLGMJM/1dDgvY/S8=</span><br></pre></td></tr></table></figure>
+
+<p>这里 -k 后面的参数 123456 就是用到的密钥。对上面的输出进行解密的命令是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> U2FsdGVkX19TcP2WjEKOsVXGblFWLGMJM/1dDgvY/S8= | openssl enc -d -aes-256</span><br><span class="line">-cbc -a -pbkdf2 -K 123456</span><br><span class="line">helloworld</span><br></pre></td></tr></table></figure>
+
+<h2 id="iOS-中使用对称加密"><a href="#iOS-中使用对称加密" class="headerlink" title="iOS 中使用对称加密"></a>iOS 中使用对称加密</h2><p>iOS 系统提供了一个 CommonCrypto 库用于加密解密，生成消息摘要（hash）等功能。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;ViewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;CommonCrypto/CommonCrypto.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NSData</span> *encryptAES256CBC(<span class="built_in">NSData</span> *data, <span class="built_in">NSData</span> *key, <span class="built_in">NSData</span> *iv) &#123;</span><br><span class="line">    size_t bufferSize = data.length + kCCBlockSizeAES128;</span><br><span class="line">    uint8_t buffer[bufferSize];</span><br><span class="line">    size_t numBytesEncrypted = <span class="number">0</span>;</span><br><span class="line">    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,</span><br><span class="line">                                          kCCAlgorithmAES,</span><br><span class="line">                                          kCCOptionPKCS7Padding,</span><br><span class="line">                                          key.bytes, key.length,</span><br><span class="line">                                          iv.bytes,</span><br><span class="line">                                          data.bytes, data.length,</span><br><span class="line">                                          buffer, bufferSize,</span><br><span class="line">                                          &amp;numBytesEncrypted);</span><br><span class="line">    <span class="keyword">if</span> (cryptStatus == kCCSuccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSData</span> dataWithBytes:buffer length:numBytesEncrypted];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Error: %d&quot;</span>, cryptStatus);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSData</span> *decryptAES256CBC(<span class="built_in">NSData</span> *data, <span class="built_in">NSData</span> *key, <span class="built_in">NSData</span> *iv) &#123;</span><br><span class="line">    size_t bufferSize = data.length + kCCBlockSizeAES128;</span><br><span class="line">    uint8_t buffer[bufferSize];</span><br><span class="line">    size_t numBytesDecrypted = <span class="number">0</span>;</span><br><span class="line">    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,</span><br><span class="line">                                          kCCAlgorithmAES,</span><br><span class="line">                                          kCCOptionPKCS7Padding,</span><br><span class="line">                                          key.bytes, key.length,</span><br><span class="line">                                          iv.bytes,</span><br><span class="line">                                          data.bytes, data.length,</span><br><span class="line">                                          buffer, bufferSize,</span><br><span class="line">                                          &amp;numBytesDecrypted);</span><br><span class="line">    <span class="keyword">if</span> (cryptStatus == kCCSuccess) &#123;</span><br><span class="line">        <span class="keyword">return</span> [<span class="built_in">NSData</span> dataWithBytes:buffer length:numBytesDecrypted];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Error: %d&quot;</span>, cryptStatus);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    <span class="built_in">NSString</span> *plaintext = <span class="string">@&quot;helloworld&quot;</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *key = <span class="string">@&quot;12345678123456781234567812345678&quot;</span>; <span class="comment">// 32字节长的密钥</span></span><br><span class="line">    <span class="built_in">NSString</span> *iv = <span class="string">@&quot;0123456789abcdef&quot;</span>; <span class="comment">// 16字节长的初始化向量</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSData</span> *plaintextData = [plaintext dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">    <span class="built_in">NSData</span> *keyData = [key dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">    <span class="built_in">NSData</span> *ivData = [iv dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSData</span> *encryptedData = encryptAES256CBC(plaintextData, keyData, ivData);</span><br><span class="line">    <span class="keyword">if</span> (encryptedData) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Encrypted data: %@&quot;</span>, [encryptedData base64EncodedStringWithOptions:<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSData</span> *decryptedData = decryptAES256CBC(encryptedData, keyData, ivData);</span><br><span class="line">    <span class="keyword">if</span> (decryptedData) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Decrypted data: %@&quot;</span>, [[<span class="built_in">NSString</span> alloc] initWithData:decryptedData encoding:<span class="built_in">NSUTF8StringEncoding</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的 iOS 代码中使用的加密和解密函数，等价于以下 openssl 终端命令：</p>
+<p>加密</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -n <span class="string">&quot;helloworld&quot;</span> | openssl enc -e -aes-256-cbc -K <span class="string">&quot;3132333435363738313233343536373831323334353637383132333435363738&quot;</span> -iv <span class="string">&quot;30313233343536373839616263646566&quot;</span> -<span class="built_in">base64</span></span><br><span class="line">dMujh+yeGsbTA0xqdhae4Q==</span><br></pre></td></tr></table></figure>
+
+<p>解密</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;dMujh+yeGsbTA0xqdhae4Q==&quot;</span> | openssl enc -d -aes-256-cbc -K <span class="string">&quot;3132333435363738313233343536373831323334353637383132333435363738&quot;</span> -iv <span class="string">&quot;30313233343536373839616263646566&quot;</span> -<span class="built_in">base64</span></span><br><span class="line">helloworld%</span><br></pre></td></tr></table></figure>
+
+<p>openssl 的 -K 和 -iv 参数的类型是 16 进制编码的字符串。12345678123456781234567812345678 的 16 进制编码就是 3132333435363738313233343536373831323334353637383132333435363738，同样 0123456789abcdef 的 16 进制编码就是 30313233343536373839616263646566</p>
+<h1 id="非对称密钥加密"><a href="#非对称密钥加密" class="headerlink" title="非对称密钥加密"></a>非对称密钥加密</h1><p>在非对称密钥加密中，不同的密钥用于加密和解密消息。最有用的非对称密钥算法是那些不能从另一个密钥推导出密钥的算法。在这种情况下，一个密钥可以公开，而另一个密钥则保持安全。这种安排通常称为公钥密码术，并且与对称加密相比具有一些明显的优势：消除了向大量用户分发密钥的必要性，并且该算法可用于身份验证以及加密。</p>
+<p>第一个广泛使用的公钥算法由 Ron Rivest、Adi Shamir 和 Len Adleman 于 1977 年描述，被称为 RSA 加密，源自其缩写。尽管此后又创建了其他公钥算法，但 RSA 仍然是最常用的。该方法的数学原理超出了本文档的范围，可以在互联网和许多密码学书籍中找到。该算法基于两个大素数及其乘积的数学运算。人们认为它的强度与分解非常大的数的难度有关。以现代数字计算机当前和可预见的速度，在生成 RSA 密钥时选择足够长的素数应该可以使该算法无限期地安全。然而，这一观点尚未得到数学证明，并且快速分解算法或完全不同的破解 RSA 加密的方法是有可能的。此外，如果实用的量子计算机被开发出来，分解大数将不再是一个棘手的问题。</p>
+<p>其他公钥算法基于与 RSA 具有同等复杂性的不同数学，包括 ElGamal 加密和椭圆曲线加密。它们的使用类似于 RSA 加密（尽管它们背后的数学原理不同），并且本文档不会进一步讨论它们。</p>
+<h2 id="RSA-算法"><a href="#RSA-算法" class="headerlink" title="RSA 算法"></a>RSA 算法</h2><p>1977 年三位麻省理工学院的数学家 罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）一起设计了一种算法，可以实现非对称加密。这个算法用他们三个人的名字命名，叫做 RSA 算法。</p>
+<h3 id="RSA-密钥生成过程"><a href="#RSA-密钥生成过程" class="headerlink" title="RSA 密钥生成过程"></a>RSA 密钥生成过程</h3><p>在 RSA 算法中，首先选择两个大质数 p 和 q，然后计算他们的乘积 n &#x3D; p * q。接下来，计算欧拉函数 φ(n) &#x3D; (p-1)(q-1)。在选择公钥 e 时，需要确保 e 和 φ(n) 互质。<br>然后找到一个整数 d，使得（e * d）mod φ(n) &#x3D; 1。这个 d 就是私钥。</p>
+<h3 id="RSA-加密和解密"><a href="#RSA-加密和解密" class="headerlink" title="RSA 加密和解密"></a>RSA 加密和解密</h3><p>在 RSA 加密过程中，明文 m 经过公钥 e 进行加密得到密文 c ，计算公式为 c &#x3D; m<sup>e</sup> % n。在 RSA 解密过程中，密文 c 经过私钥 d 进行解密得到明文 m，计算公式为 m &#x3D; c<sup>d</sup> % n。</p>
+<blockquote>
+<p>一个问题？在 RSA 算法中，为什么 e 和 φ(n) 互质，d 是 e 的模反元素，就可以保证 M<sup>e * d</sup> % n &#x3D; M 呢？我听过某讲师说是基于欧拉定理，但是欧拉定理的推导中是要求 m 和 n 互质的，但是刚刚 RSA 密钥生成过程中并没有要求 m 和 n 互质，只需要 m 小于 n 就够了。</p>
+</blockquote>
+<h3 id="RSA-算法的终端练习"><a href="#RSA-算法的终端练习" class="headerlink" title="RSA 算法的终端练习"></a>RSA 算法的终端练习</h3><p>使用 openssl 生成 RSA 私钥的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out private_key.pem 2048</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会生成一个 2048 位长度的 RSA 私钥，并将其保存在名为 private_key.pem 的文件中。</p>
+<p>将私钥转换成对应的公钥，可以使用以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -pubout -<span class="keyword">in</span> private_key.pem -out public_key.pem</span><br></pre></td></tr></table></figure>
+
+<p>现在在当前目录下就会存在两个文件，一个是公钥 <em>public_key.pem</em>，一个是私钥 <em>private_key.pem</em> 。</p>
+<p>接下来我们使用这对密钥进行加密解密的演示，先创建一个文件 original.txt 存放明文数据，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;密码是123456&quot;</span> &gt; original.txt</span><br></pre></td></tr></table></figure>
+
+<p>使用公钥对 original.txt 文件进行加密并生成一个 encrypted.txt 文件的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkeyutl -encrypt -<span class="keyword">in</span> original.txt -out encrypted.txt -pubin -inkey public_key.pem</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>cat encrypted.txt </code> 查看加密后的结果，发现是一堆乱码，啥也看不懂。。。接下来使用私钥对 encrypted.txt 文件进行解密并生成一个 decrypted.txt 文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl pkeyutl -decrypt -<span class="keyword">in</span> encrypted.txt -out decrypted.txt -inkey private_key.pem</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>cat decrypted.txt </code> 查看解密后的结果，可以看到跟 original.txt 的内容是一模一样的。</p>
+<!--### RSA 的数学原理
+理解 RSA 的密钥生成过程和加密解密需要一定的数学基础，欧拉函数，欧拉定理，模反元素。如果不感兴趣的也可以跳过本节内容。
+
+了解欧拉函数之前，首先需要知道什么是两个数互质，如果两个正整数，除了 1 以外，没有其他公因数，那么这两个数就是互质的。
+
+#### 欧拉函数
+
+欧拉函数也称为欧拉 φ 函数（phi函数），通常用符号 φ(n) 表示，是一个与正整数 n 相关的算术函数。它表示小于或等于 n 的正整数中与 n 互质的数的个数。
+
+欧拉函数的性质：
+
+* 如果 n 为质数，那么 φ(n) = n - 1
+* 如果 n 是两个互质的整数 a，b 之积，那么 φ(n) = φ(a) * φ(b)
+
+结合上面两点可以得到以下结论，如果 n 是两个质数 p1，p2 之积，那么
+
+φ(n) = φ(p1) * φ(p2) = (p1 - 1) * (p2 - 1)
+
+#### 欧拉定理
+
+如果两个正整数 m 和 n 互质，那么 m 的 φ(n) 次方减去 1，可以被 n 整除。即：
+
+m<sup>φ(n)</sup> mod n = 1
+
+这个是已经证明的数学定理，不需要怀疑它的正确性。将上式两边同时加上 k 次方可以得到
+
+m<sup>k * φ(n)</sup> mod n = 1
+
+再将两边同时乘以 m 可以得到：
+
+m<sup>k * φ(n) + 1</sup> mod n = m
+
+#### 模反元素-->
+
+<h3 id="iOS-中使用非对称加密算法"><a href="#iOS-中使用非对称加密算法" class="headerlink" title="iOS 中使用非对称加密算法"></a>iOS 中使用非对称加密算法</h3><p>iOS 提供了 Security.framework 框架用于帮助开发者实现各种安全相关的功能。这个框架包含了处理加密、密钥管理、证书、信任策略和安全通信的基本功能。通过使用 Security 框架，开发者可以确保应用程序的数据保护、安全传输和用户身份验证等功能。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;ViewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;Security/Security.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span></span><br><span class="line"><span class="comment">// 生成密钥对</span></span><br><span class="line">- (<span class="built_in">NSDictionary</span> *)generateKeyPair &#123;</span><br><span class="line">    <span class="built_in">NSDictionary</span> *parameters = @&#123;</span><br><span class="line">        (__bridge <span class="type">id</span>)kSecAttrKeyType : (__bridge <span class="type">id</span>)kSecAttrKeyTypeRSA,</span><br><span class="line">        (__bridge <span class="type">id</span>)kSecAttrKeySizeInBits : @<span class="number">2048</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">CFErrorRef</span> createError = <span class="literal">NULL</span>;</span><br><span class="line">    SecKeyRef privateKeyRef = SecKeyCreateRandomKey((__bridge <span class="built_in">CFDictionaryRef</span>)parameters, &amp;createError);</span><br><span class="line">    SecKeyRef publicKeyRef  = SecKeyCopyPublicKey(privateKeyRef);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (privateKeyRef &amp;&amp; publicKeyRef &amp;&amp; createError == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *publicKeyData = (__bridge_transfer <span class="built_in">NSData</span> *)SecKeyCopyExternalRepresentation(publicKeyRef, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">NSData</span> *privateKeyData = (__bridge_transfer <span class="built_in">NSData</span> *)SecKeyCopyExternalRepresentation(privateKeyRef, <span class="literal">NULL</span>);</span><br><span class="line">        <span class="built_in">CFRelease</span>(privateKeyRef); <span class="comment">// 释放 privateKeyRef</span></span><br><span class="line">        <span class="built_in">CFRelease</span>(publicKeyRef); <span class="comment">// 释放 publicKeyRef</span></span><br><span class="line">        <span class="keyword">return</span> @&#123;</span><br><span class="line">            <span class="string">@&quot;publicKey&quot;</span>: publicKeyData,</span><br><span class="line">            <span class="string">@&quot;privateKey&quot;</span>: privateKeyData</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Failed to generate key pair: %@&quot;</span>, (__bridge <span class="built_in">NSError</span> *)createError);</span><br><span class="line">        <span class="keyword">if</span> (createError) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(createError); <span class="comment">// 释放错误对象</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (privateKeyRef) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(privateKeyRef); <span class="comment">// 释放 privateKeyRef</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (publicKeyRef) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(publicKeyRef); <span class="comment">// 释放 publicKeyRef</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用公钥加密数据</span></span><br><span class="line">- (<span class="built_in">NSData</span> *)encryptDataWithPublicKey:(SecKeyRef)publicKey data:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="built_in">CFErrorRef</span> error = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="built_in">CFDataRef</span> encryptedData = SecKeyCreateEncryptedData(publicKey, kSecKeyAlgorithmRSAEncryptionPKCS1, (__bridge <span class="built_in">CFDataRef</span>)data, &amp;error);</span><br><span class="line">    <span class="keyword">if</span> (encryptedData &amp;&amp; error == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *result = (__bridge_transfer <span class="built_in">NSData</span> *)encryptedData;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Encryption failed with error: %@&quot;</span>, (__bridge <span class="built_in">NSError</span> *)error);</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(error);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (encryptedData) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(encryptedData);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用私钥解密数据</span></span><br><span class="line">- (<span class="built_in">NSData</span> *)decryptDataWithPrivateKey:(SecKeyRef)privateKey data:(<span class="built_in">NSData</span> *)data &#123;</span><br><span class="line">    <span class="built_in">CFErrorRef</span> error = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="built_in">CFDataRef</span> decryptedData = SecKeyCreateDecryptedData(privateKey, kSecKeyAlgorithmRSAEncryptionPKCS1, (__bridge <span class="built_in">CFDataRef</span>)data, &amp;error);</span><br><span class="line">    <span class="keyword">if</span> (error == <span class="literal">NULL</span> &amp;&amp; decryptedData) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *data = (__bridge <span class="built_in">NSData</span> *)decryptedData;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Decryption failed with error: %@&quot;</span>, (__bridge <span class="built_in">NSError</span> *)error);</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(error);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (decryptedData) &#123;</span><br><span class="line">            <span class="built_in">CFRelease</span>(decryptedData);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    <span class="built_in">NSDictionary</span> *keyPair = [<span class="keyword">self</span> generateKeyPair];</span><br><span class="line">    <span class="built_in">NSData</span> *publicKeyData = keyPair[<span class="string">@&quot;publicKey&quot;</span>];</span><br><span class="line">    <span class="built_in">NSData</span> *privateKeyData = keyPair[<span class="string">@&quot;privateKey&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span> (publicKeyData &amp;&amp; privateKeyData) &#123;</span><br><span class="line">        <span class="built_in">NSMutableDictionary</span> *attributes = @&#123;</span><br><span class="line">            (__bridge <span class="type">id</span>)kSecAttrKeyType : (__bridge <span class="type">id</span>)kSecAttrKeyTypeRSA,</span><br><span class="line">            (__bridge <span class="type">id</span>)kSecAttrKeyClass : (__bridge <span class="type">id</span>)kSecAttrKeyClassPublic</span><br><span class="line">        &#125;.mutableCopy;</span><br><span class="line">        SecKeyRef publicKeyRef = SecKeyCreateWithData((__bridge <span class="built_in">CFDataRef</span>)publicKeyData, (__bridge <span class="built_in">CFDictionaryRef</span>)attributes, <span class="literal">NULL</span>);</span><br><span class="line">        attributes[(__bridge <span class="type">id</span>)kSecAttrKeyClass] = (__bridge <span class="type">id</span>)kSecAttrKeyClassPrivate;</span><br><span class="line">        SecKeyRef privateKeyRef = SecKeyCreateWithData((__bridge <span class="built_in">CFDataRef</span>)privateKeyData, (__bridge <span class="built_in">CFDictionaryRef</span>)attributes, <span class="literal">NULL</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">NSString</span> *originalString = <span class="string">@&quot;Hello, World!&quot;</span>;</span><br><span class="line">        <span class="built_in">NSData</span> *originalData = [originalString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"></span><br><span class="line">        <span class="built_in">NSData</span> *encryptedData = [<span class="keyword">self</span> encryptDataWithPublicKey:publicKeyRef data:originalData];</span><br><span class="line">        <span class="keyword">if</span> (encryptedData) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;Encrypted Data: %@&quot;</span>, [encryptedData base64EncodedStringWithOptions:<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">            <span class="built_in">NSData</span> *decryptedData = [<span class="keyword">self</span> decryptDataWithPrivateKey:privateKeyRef data:encryptedData];</span><br><span class="line">            <span class="keyword">if</span> (decryptedData) &#123;</span><br><span class="line">                <span class="built_in">NSString</span> *decryptedString = [[<span class="built_in">NSString</span> alloc] initWithData:decryptedData encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;Decrypted String: %@&quot;</span>, decryptedString);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Hash-函数"><a href="#Hash-函数" class="headerlink" title="Hash 函数"></a>Hash 函数</h1><p>Hash，一般翻译做“散列”，也有直接音译为“哈希”的。哈希函数是一种将任意大小的输入数据转换为固定长度散列值的算法。哈希函数的主要作用是验证数据的完整性和唯一性，可以简单的理解为二进制数据的身份证或者指纹。常见的哈希函数包括 MD5、SHA-1 和 SHA-256 等。</p>
+<p>哈希函数的特点：</p>
+<ul>
+<li>计算速度快</li>
+<li>将任意长度的数据计算出固定长度的哈希值</li>
+<li>对相同数据计算得到的结果是不变的</li>
+<li>具备单向性，无法逆运算</li>
+</ul>
+<h2 id="MD5"><a href="#MD5" class="headerlink" title="MD5"></a>MD5</h2><p>即 Message Digest 5 的缩写，产生 128 位的哈希值。也就是 32 位 16 进制数。Mac 电脑终端一般自带 md5 命令，可以用于一些简单的计算。例如计算 “12345” 的 md5 值：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">md5 -s 12345</span><br><span class="line">MD5 (<span class="string">&quot;12345&quot;</span>) = 827ccb0eea8a706c4c34a16891f84e7b</span><br></pre></td></tr></table></figure>
+
+<p>假设你有两份同名的文件，但是不确定内容是否是一样的。就可以使用 md5 查看两个文件的哈希值。</p>
+<p>注意 md5 由于长度较短，目前已经不太安全，因为可以对明文和它的 md5 哈希值建立一个字典，比如 “12345” 的 md5 值是 827ccb0eea8a706c4c34a16891f84e7b 。目前某些解密网站已经建立了这样的字典，如 <a target="_blank" rel="noopener" href="https://www.cmd5.com/">https://www.cmd5.com/</a> 所以如果你的需求对安全性要求较高的话，不推荐使用了。但如果是平时用来验证文件的唯一性倒也没什么太大问题。</p>
+<h2 id="SHA"><a href="#SHA" class="headerlink" title="SHA"></a>SHA</h2><p>SHA 代表安全散列算法（Secure Hash Algorithm），是一种广泛使用的密码学哈希函数，用于生成数据的哈希值。哈希函数将输入数据转换为固定长度的数据串，通常是一串数字和字母的组合，该串称为哈希值或消息摘要。SHA 算法的哈希值长度可以根据具体的 SHA 版本而变化，比如 SHA-1 生成 160 位的哈希值，而 SHA-256 生成 256 位的哈希值。目前主流的 SHA 版本主要是 SHA-256 和 SHA-3。这两个版本都是较新的，并且在安全性和性能方面都得到了广泛认可。</p>
+<h3 id="SHA-1"><a href="#SHA-1" class="headerlink" title="SHA-1"></a>SHA-1</h3><p>产生 160 位的散列值，目前已经不安全</p>
+<h3 id="SHA-2"><a href="#SHA-2" class="headerlink" title="SHA-2"></a>SHA-2</h3><p>SHA-256，SHA-384，SHA-512，散列值长度分别是 256 位，384 位，512 位</p>
+<h3 id="SHA-3"><a href="#SHA-3" class="headerlink" title="SHA-3"></a>SHA-3</h3><p>SHA-3 是 NIST 选定的一种新的哈希算法标准，也称为 Keccak。它是在 SHA-2 之后发布的，与 SHA-2 系列不同，SHA-3 提供了与之前版本不同的设计和性能特性。SHA-3 的最常见变体是 SHA-3-256，生成 256 位的哈希值。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>HMAC（Hash-based Message Authentication Code）是一种用于验证消息完整性和真实性的加密方案。</li>
+<li>拆词搜索</li>
+<li>版权</li>
+<li>数字签名</li>
+</ul>
+<h1 id="base64-编码"><a href="#base64-编码" class="headerlink" title="base64 编码"></a>base64 编码</h1><p>Base64 编码是一种将二进制数据转换成文本数据的编码方式。在 Base64 编码中，每个字符由 64 个字符中的一个表示，因此得名。Base64 编码常用于在网络传输中表示二进制数据，比如在电子邮件中传输附件、在网页中嵌入图片等场景。</p>
+<p>Base64 编码的原理是将二进制数据每 6 位转换成一个字符，所以每 3 个字节（24 位）的二进制数据转换成 4 个 Base64 字符。如果原始数据长度不是 3 的倍数，则在末尾补上相应数量的 0，并用 “&#x3D;” 字符填充以保持长度是 4 的倍数。所以以后看到字符串的末尾是 “&#x3D;” 字符的时候，它有可能就是 Base64 编码后的字符串。</p>
+<p>Base64 编码使用了 64 个字符，通常是大小写字母 a-z、A-Z、数字 0-9，以及两个额外的字符（通常是”+”和”&#x2F;“）作为基本字符集，不同的实现中有时候会用不同的字符集。</p>
+<p>Base64 编码并不是加密算法，因为它可以轻松地被解码还原成原始数据。它的主要作用是在不支持二进制传输的环境中，将二进制数据表示为文本，便于传输和处理。</p>
+<h1 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h1><p>数字签名是一种用于验证数据完整性和身份验证的技术。它使用非对称加密技术，结合了哈希函数和公钥加密算法，以确保数据的完整性、真实性和不可否认性。</p>
+<p>数字签名通常由以下步骤组成：</p>
+<ol>
+<li>创建消息摘要：发送方使用哈希函数（如 SHA-256）生成消息的摘要或哈希值。这个摘要是一个固定长度的字符串，用于代表原始数据的内容。</li>
+<li>使用私钥签名：发送方使用自己的私钥对消息摘要进行加密，形成数字签名。私钥只有发送方知道，因此只有发送方能够使用私钥进行签名。</li>
+<li>传输数据：发送方将原始数据与数字签名一起发送给接收方。</li>
+<li>验证签名：接收方收到数据后，使用发送方的公钥对数字签名进行解密，得到消息摘要。然后，接收方使用相同的哈希函数生成接收到的原始数据的摘要。如果两个摘要匹配，则表明数据未被篡改，签名有效；否则，数据可能已被篡改或签名无效。</li>
+</ol>
+<p>数字签名的主要目的是确保数据的完整性和真实性，同时提供身份验证和不可否认性，即发送方不能否认其曾经签署过数据。这使得数字签名在许多领域，如电子商务、数字文档、软件分发等方面发挥了重要作用。</p>
+<p>简单的一句话概括，数字签名就是使用私钥对数据的哈希值进行加密。</p>
+<h1 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h1><p>数字证书是一种用于加密和认证网络通信的安全工具。它是由一个权威的数字证书颁发机构（Certificate Authority，CA）签发的一种电子文档，用于确认特定实体的身份信息。数字证书包含了一些重要的信息，包括：</p>
+<p>一个数字证书通常包含以下信息：</p>
+<ul>
+<li>主体信息：证书的主体是该证书所代表的实体，通常是一个个人、组织或网络设备。主体信息通常包括名称、电子邮件地址等。</li>
+<li>公钥：证书包含了主体的公钥，用于加密和验证数字签名。这个公钥与主体的私钥配对，用于加密和解密通信数据。</li>
+<li>证书序列号：每个证书都有一个唯一的序列号，用于标识该证书。</li>
+<li>有效期：证书有一个有效期限，指定了证书的生效时间和到期时间。过期的证书不再可信。</li>
+<li>数字签名：证书被 CA 用其私钥签名，以确保证书的真实性和完整性。客户端可以使用 CA 的公钥来验证数字签名。</li>
+<li>颁发者信息：指定了颁发该证书的 CA 的信息。</li>
+<li>扩展信息：可能包含一些其他信息，例如用途、策略等。</li>
+</ul>
+<p>数字证书在网络通信中广泛用于安全连接的建立，例如 HTTPS（安全的HTTP）、SSL&#x2F;TLS等。通过验证数字证书的真实性，可以确保与远程服务器之间的通信是安全的，并且可以防止中间人攻击等安全威胁。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://masterking.github.io">franky</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://masterking.github.io/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/">https://masterking.github.io/2024/04/24/密码学概述/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS%EF%BC%8C%E5%AF%86%E7%A0%81%E5%AD%A6%EF%BC%8Chash%EF%BC%8CRSA%EF%BC%8CDES%EF%BC%8CAES/">iOS，密码学，hash，RSA，DES，AES</a></div><div class="post_share"><div class="social-share" data-image="/img/WechatIMG1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2023/10/19/2023-10-19-2023%E5%B9%B410%E6%9C%88%E4%BA%86%E9%BB%91%E8%8B%B9%E6%9E%9C%E8%BF%98%E9%A6%99%E5%90%97%EF%BC%9F%E6%80%A7%E4%BB%B7%E6%AF%94%E8%B6%85%E9%AB%98%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%8F%B0%E5%BC%8F%E6%9C%BA%E6%90%AD%E9%85%8D-%E9%BB%91%E8%8B%B9%E6%9E%9C%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous</div><div class="prev_info">2023年10月了黑苹果还香吗？性价比超高黑苹果台式机搭配&amp;黑苹果安装教程</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-text">对称密钥加密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DES"><span class="toc-text">DES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3DES"><span class="toc-text">3DES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AES"><span class="toc-text">AES</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F"><span class="toc-text">加密模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%9A%84%E7%BB%88%E7%AB%AF%E7%BB%83%E4%B9%A0"><span class="toc-text">对称加密的终端练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS-%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86"><span class="toc-text">iOS 中使用对称加密</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="toc-text">非对称密钥加密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RSA-%E7%AE%97%E6%B3%95"><span class="toc-text">RSA 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90%E8%BF%87%E7%A8%8B"><span class="toc-text">RSA 密钥生成过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86"><span class="toc-text">RSA 加密和解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA-%E7%AE%97%E6%B3%95%E7%9A%84%E7%BB%88%E7%AB%AF%E7%BB%83%E4%B9%A0"><span class="toc-text">RSA 算法的终端练习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS-%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-text">iOS 中使用非对称加密算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hash-%E5%87%BD%E6%95%B0"><span class="toc-text">Hash 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MD5"><span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SHA"><span class="toc-text">SHA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-1"><span class="toc-text">SHA-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-2"><span class="toc-text">SHA-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SHA-3"><span class="toc-text">SHA-3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#base64-%E7%BC%96%E7%A0%81"><span class="toc-text">base64 编码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-text">数字签名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-text">数字证书</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By franky</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
