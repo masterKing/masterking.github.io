@@ -325,25 +325,6 @@
       </tags>
   </entry>
   <entry>
-    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
-    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
-    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
-<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
-<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
-<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
-<ul>
-<li>取消修改控制器的view为UICollectionView</li>
-<li>将UICollectionView作为控制器的view的子视图</li>
-<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
-</ul>
-<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
-<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
     <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
@@ -366,6 +347,25 @@
 <p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
 <p>OK，到此这次的主题已得到完美解决。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
+    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
+    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
+<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
+<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
+<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
+<ul>
+<li>取消修改控制器的view为UICollectionView</li>
+<li>将UICollectionView作为控制器的view的子视图</li>
+<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
+</ul>
+<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
+<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>密码学概述</title>
@@ -616,27 +616,6 @@ m<sup>k * φ(n) + 1</sup> mod n = m
 </tbody></table>
 <p>下面的流程图总结了<strong>更新周期</strong>和<strong>事件循环</strong>之间的交互,并指出了上文提到的方法在<strong>运行循环</strong>期间的位置;你可以在运行循环中的任意一点直接的调用<code>layoutIfNeeded</code>或者<code>updateConstraintsIfNeeded</code>,需要记住,这开销会很大;在循环的主运行循环的后面是更新周期,如果视图被设置特定的”需要更新约束”,”需要更新布局”或者”需要更新显示”的标记,在这个节点会进行更新约束,更新布局以及更新显示内容;一旦这些更新结束,主运行循环会重新开始;</p>
 <p><img src="http://tech.gc.com/images/demystifying-ios-layout/update_cycle.png" alt="Update Cycle"><em><a href="https://i.stack.imgur.com/i9YuN.png">https://i.stack.imgur.com/i9YuN.png</a></em></p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记录一个pod install失败的解决方法</title>
-    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
-<p>项目的Podfile如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
-<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
-<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>再次运行<code>pod install</code>完美</p>
-<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
 ]]></content>
       <tags>
         <tag>iOS</tag>
@@ -1066,6 +1045,27 @@ m<sup>k * φ(n) + 1</sup> mod n = m
 ]]></content>
       <tags>
         <tag>iOS 逆向 微信 插件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记录一个pod install失败的解决方法</title>
+    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
+<p>项目的Podfile如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
+<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
+<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>再次运行<code>pod install</code>完美</p>
+<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
 </search>
