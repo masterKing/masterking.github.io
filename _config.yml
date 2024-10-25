@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: franky的个人博客
+title: masterKing 的个人博客
 subtitle: ""
 description: ""
 keywords:
-author: franky
+author: masterKing
 language: zh-Hans
 timezone: ''
 
@@ -113,3 +113,6 @@ search:
   format: html
   limit: 10000
   content: true
+  
+server:
+  port: 5000
