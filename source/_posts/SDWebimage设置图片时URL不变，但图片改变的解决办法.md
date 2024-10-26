@@ -2,6 +2,8 @@
 title: SDWebimage设置图片时URL不变，但图片改变的解决办法
 date: 2018-07-17 12:06:25
 tags:
+	- bug
+description: 本篇文章转载自[SDWebImage支持URL不变时更新图片内容](https://blog.csdn.net/xumugui007/article/details/51605546)基于这一现象，我们来进行分析。客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。
 ---
 
 本篇文章转载自[SDWebImage支持URL不变时更新图片内容](https://blog.csdn.net/xumugui007/article/details/51605546)
