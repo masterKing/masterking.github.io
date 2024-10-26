@@ -1,0 +1,9 @@
+Origin: MasterKing's Repo
+Label: MasterKing's Repo
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm iphoneos-arm64
+Components: main
+Description: MasterKing's Sileo Repo
+Icon: CydiaIcon.png
