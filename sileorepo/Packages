@@ -41,32 +41,32 @@ Depiction: https://cydia.akemi.ai/?page/ai.akemi.appsyncunified
 Name: AppSync Unified
 
 Package: com.masterking.lookinloader2
-Version: 0.0.1
-Architecture: iphoneos-arm
+Version: 0.0.2
+Architecture: iphoneos-arm64
 Maintainer: masterKing <masterking1012@gmail.com>
-Installed-Size: 1696
+Installed-Size: 1632
 Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
-Filename: debs/com.masterking.lookinloader2_0.0.1_iphoneos-arm.deb
-Size: 243002
-MD5sum: efdc9f152911f7c7bb365cbe13cc5c40
-SHA1: 8020754c5792638ee44ac980742da346b110edfb
-SHA256: 362e88d2ad46ffb9f1e0d21d7bc7de6fe68d7b2d2f27d010136be4b7db2f7bea
+Filename: debs/com.masterking.lookinloader2_0.0.2_iphoneos-arm64.deb
+Size: 238374
+MD5sum: 39752269bb4a175dd8a975fbbc155f1d
+SHA1: 586f529c7a7160f7a81066cf1f8ed1ca350959e9
+SHA256: 013aa196b4df72f00de4cf1c8836c3f21d8fb4469bb4f77fd8ebb1e349ea1adf
 Section: Tweaks
 Description: Dynamically loads LookinServer.framework into iOS applications.
 Author: masterKing <masterking1012@gmail.com>
 Name: LookinLoader2
 
 Package: com.masterking.lookinloader2
-Version: 0.0.1
-Architecture: iphoneos-arm64
+Version: 0.0.2
+Architecture: iphoneos-arm
 Maintainer: masterKing <masterking1012@gmail.com>
-Installed-Size: 1632
+Installed-Size: 1696
 Depends: mobilesubstrate (>= 0.9.5000), com.opa334.altlist, preferenceloader
-Filename: debs/com.masterking.lookinloader2_0.0.1_iphoneos-arm64.deb
-Size: 238480
-MD5sum: 2886cff9a2506479983c2982663bf284
-SHA1: 653a87491fd30d3a8c3c4893291ef11fc28c8820
-SHA256: 7c9607cc93682c456f6f98751d82df9edcdc1862f6cec91c65ed3cf82115b828
+Filename: debs/com.masterking.lookinloader2_0.0.2_iphoneos-arm.deb
+Size: 243550
+MD5sum: e050a5df1e63451f19b8901beaf081bf
+SHA1: 7aa1b6a515e2d5d2177572a7b1c9cccae4d6abd5
+SHA256: 0beb2fcd2672bc6e4c44270bfb4ae754f7f077f2ac3ca9f9e26d50ec456b3a60
 Section: Tweaks
 Description: Dynamically loads LookinServer.framework into iOS applications.
 Author: masterKing <masterking1012@gmail.com>
