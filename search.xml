@@ -330,33 +330,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
-    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
-
-<p>基于这一现象，我们来进行分析。</p>
-<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
-<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
-<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
-<p>关于服务器的比较逻辑，需要强调一下。</p>
-<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
-<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
-
-<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
-<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
-<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
-<p>OK，到此这次的主题已得到完美解决。</p>
-]]></content>
-      <tags>
-        <tag>bug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Cycript</title>
     <url>/2024/10/27/Cycript/</url>
     <content><![CDATA[<h1 id="什么是-Cycript"><a href="#什么是-Cycript" class="headerlink" title="什么是 Cycript"></a>什么是 Cycript</h1><p>Cycript 是一种用于 iOS 操作系统的脚本语言，同时也是该语言的解释器（一般来说不需要编译的脚本语言都会提供它对应的解释器，比如 Python、JavaScript、Ruby、PHP 等），Cycript 是 JavaScript，Objective-C++ 等语言的混合物这意味着它能理解 JavaScript，Objective-C++ 甚至是 Objective-C 语法，但是需要注意的是 Cycript 主要支持 JavaScript 的语法，对前端开发人员比较友好，而由于 Swift 吸收了 JavaScript 等其他各种语言的优点，所以 Cycript 中也能看到 Swift 的影子，Cycript 对 Objective-C 语法并不是完全支持，比如 Objective-C 创建一个 UIView 的代码是</p>
@@ -516,22 +489,30 @@
       </categories>
   </entry>
   <entry>
-    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
-    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
-    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
-<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
-<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
-<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
-<ul>
-<li>取消修改控制器的view为UICollectionView</li>
-<li>将UICollectionView作为控制器的view的子视图</li>
-<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
-</ul>
-<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
-<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
+    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
+    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
+
+<p>基于这一现象，我们来进行分析。</p>
+<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
+<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
+<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
+<p>关于服务器的比较逻辑，需要强调一下。</p>
+<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
+<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
+
+<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
+<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
+<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
+<p>OK，到此这次的主题已得到完美解决。</p>
 ]]></content>
       <tags>
-        <tag>iOS</tag>
+        <tag>bug</tag>
       </tags>
   </entry>
   <entry>
@@ -596,6 +577,25 @@
       <categories>
         <category>iOS 逆向与安全</category>
       </categories>
+  </entry>
+  <entry>
+    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
+    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
+    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
+<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
+<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
+<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
+<ul>
+<li>取消修改控制器的view为UICollectionView</li>
+<li>将UICollectionView作为控制器的view的子视图</li>
+<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
+</ul>
+<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
+<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>OpenSSH</title>
@@ -738,6 +738,39 @@
       <categories>
         <category>iOS 逆向与安全</category>
       </categories>
+  </entry>
+  <entry>
+    <title>解决git clone速度慢的问题</title>
+    <url>/2018/10/26/%E8%A7%A3%E5%86%B3git-clone%E9%80%9F%E5%BA%A6%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>之前一直以为是公司对网络的封锁,导致git clone速度慢,后来网上查找这个问题的时候得知不能怪公司,是因为咱们在这个局域网内…<br>扯多了,回到正题,解决问题,由于我的是Mac电脑,我说的只针对Mac电脑</p>
+<h5 id="1-进入终端命令行模式-输入"><a href="#1-进入终端命令行模式-输入" class="headerlink" title="1. 进入终端命令行模式,输入"></a>1. 进入终端命令行模式,输入</h5><p><code>sudo vim /etc/hosts</code></p>
+<h5 id="2-输入i进入编辑模式-移动到最后一行准备输入"><a href="#2-输入i进入编辑模式-移动到最后一行准备输入" class="headerlink" title="2. 输入i进入编辑模式,移动到最后一行准备输入"></a>2. 输入i进入编辑模式,移动到最后一行准备输入</h5><h5 id="3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址"><a href="#3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址" class="headerlink" title="3. 用浏览器访问 http://tool.chinaz.com 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址"></a>3. 用浏览器访问 <a href="http://tool.chinaz.com/">http://tool.chinaz.com</a> 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址</h5><h5 id="4-回到第2步中按如下格式输入"><a href="#4-回到第2步中按如下格式输入" class="headerlink" title="4. 回到第2步中按如下格式输入:"></a>4. 回到第2步中按如下格式输入:</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">192.30.253.112 github.com</span><br><span class="line">151.101.44.249 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
+<h5 id="5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束"><a href="#5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束" class="headerlink" title="5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束"></a>5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束</h5><h5 id="6-更新DNS缓存-输入"><a href="#6-更新DNS缓存-输入" class="headerlink" title="6. 更新DNS缓存,输入"></a>6. 更新DNS缓存,输入</h5><p><code>sudo dscacheutil -flushcache </code></p>
+]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记录一个pod install失败的解决方法</title>
+    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
+<p>项目的Podfile如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
+<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
+<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>再次运行<code>pod install</code>完美</p>
+<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>密码学概述</title>
@@ -922,6 +955,61 @@ m<sup>k * φ(n) + 1</sup> mod n = m
       </tags>
   </entry>
   <entry>
+    <title>iOS逆向与安全开篇介绍</title>
+    <url>/2024/03/27/iOS%E9%80%86%E5%90%91%E4%B8%8E%E5%AE%89%E5%85%A8%E5%BC%80%E7%AF%87%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="学习-iOS-逆向开发的前提"><a href="#学习-iOS-逆向开发的前提" class="headerlink" title="学习 iOS 逆向开发的前提"></a>学习 iOS 逆向开发的前提</h1><ul>
+<li>有一定的正向开发经验（最起码对 iOS 系统的 UIKit 框架有一定的了解）</li>
+<li>一台越狱的 iOS 设备（推荐至少是 64 位架构，iPhone 是从 iPhone 5s 开始，iPad 是从 iPad Air 和 iPad mini 2 开始）</li>
+<li>一台 Mac 电脑，理论上来说 Linux 或 Windows 也可以（实际上作者没有实践过）</li>
+<li>时间和恒心</li>
+</ul>
+<h1 id="什么是-iOS-逆向开发"><a href="#什么是-iOS-逆向开发" class="headerlink" title="什么是 iOS 逆向开发"></a>什么是 iOS 逆向开发</h1><p>很多 iOS 开发者可能都不是科班出身的程序员，所以对于逆向开发可能没有任何概念。实不相瞒，作者本人就是如此。工作多年后才慢慢接触并了解了逆向开发，逆向工程等相关的知识。</p>
+<p>逆向开发（Reverse Engineering）是一种通过分析和研究已有软件或系统的内部结构、逻辑和功能，以理解其实现方式的技术。在软件开发中，逆向开发通常涉及反编译、反汇编或动态调试，以揭示目标程序的代码逻辑和功能。</p>
+<p>iOS 逆向开发是指通过分析已有的 iOS 应用程序或 iOS 系统来理解其内部结构、行为以及工作原理的过程。与常规开发（从源代码构建应用程序）相反，逆向开发是在没有源代码的情况下，逆向分析编译后的二进制文件，研究应用的工作机制。</p>
+<h1 id="学习-iOS-逆向开发有什么用"><a href="#学习-iOS-逆向开发有什么用" class="headerlink" title="学习 iOS 逆向开发有什么用"></a>学习 iOS 逆向开发有什么用</h1><ul>
+<li><p><strong>应用分析与调试：</strong>使用工具来调试和分析应用程序，理解其功能实现。研究员常用 LLDB、Hopper、Ghidra 等工具来反汇编和反编译 iOS 应用，以了解代码的工作方式。</p>
+</li>
+<li><p><strong>破解和去除限制：</strong>通过逆向手段绕过某些应用的限制，如应用内购买、付费功能等。虽然这属于非法行为，但仍是逆向开发中不可忽视的一部分。</p>
+</li>
+<li><p><strong>安全性研究与漏洞发现：</strong>逆向开发在 iOS 安全研究中非常重要。通过逆向工程，安全研究人员可以分析应用的加密算法、安全协议等，寻找漏洞并提出防御措施。</p>
+</li>
+<li><p><strong>学习与模仿：</strong>开发者通过逆向分析成熟的应用来学习优秀的开发技巧，或者模仿某些功能。</p>
+</li>
+</ul>
+<p>玩过 LOL 的老玩家应该还记得多年前某些辅助工具可以实现自己使用任意皮肤，这也是通过逆向开发做到的，属于 window 逆向方向的，而 iOS 平台的有移除 App 内的广告，绕过打卡类 App 的 Wi-Fi 限制，GPS 检测实现任意打卡，微信自动抢红包，还有游戏的外挂辅助软件也都是通过逆向开发实现的。。。这些都是正向开发做不到，或者不可能提供的。这些也正是逆向开发的用武之地。当然，学会了如何破解别人的 APP，自然也知道了该如何去防护自己的 APP，提高安全性，不会进攻谈什么安全防护呢。</p>
+<p>以上这些功能，如果你听到了就感觉到很兴奋，那么恭喜你来对了地方！通过本门课程的学习，以上案例都有可能可以实现。不过还是需要提醒一下大家，一般来说逆向开发的难度相较于正向开发会更加困难，想要掌握逆向开发并不是一件容易的事情，需要持之以恒的学习。</p>
+<h1 id="关于-iOS-开发人员的概念解释"><a href="#关于-iOS-开发人员的概念解释" class="headerlink" title="关于 iOS 开发人员的概念解释"></a>关于 iOS 开发人员的概念解释</h1><ol>
+<li><p><strong>iOS 应用开发人员</strong></p>
+<p> iOS 应用开发人员通常是指那些为 iOS 系统开发应用程序的人。他们主要使用苹果的开发工具和框架，比如 Xcode、Swift、Objective-C 等，目标是创建可以在苹果的 App Store 上发布的应用程序。这类开发人员的主要工作是围绕用户体验、界面设计、功能实现和优化应用性能。</p>
+<p> 他们的主要任务包括：</p>
+<ul>
+<li>开发和维护 iPhone、iPad 上运行的应用程序</li>
+<li>使用 iOS SDK（软件开发工具包）和相关的 API（如 UIKit、Core Data、ARKit 等）</li>
+<li>与后端服务交互（通常使用 RESTful API 或 GraphQL）</li>
+<li>解决与应用程序相关的性能和安全问题</li>
+<li>测试和调试应用程序 <br></li>
+</ul>
+</li>
+<li><p><strong>iOS 系统开发人员（越狱插件、底层开发等）</strong></p>
+<p> 真正意义上的 iOS 开发人员更适合用于描述那些进行 iOS 系统级开发的人。这些开发人员深入到 iOS 系统的底层，做与操作系统本身相关的开发工作，比如修改系统行为、开发越狱插件、研究内核安全性或进行硬件驱动开发。</p>
+<p> 他们的主要任务包括：</p>
+<ul>
+<li>研究 iOS 系统的底层结构和安全机制</li>
+<li>开发越狱工具、插件（比如 Cydia 插件）</li>
+<li>修改系统设置或行为，允许用户做出官方系统不允许的操作</li>
+<li>逆向工程或研究系统漏洞</li>
+<li>优化或修改内核（kernel）层的功能</li>
+</ul>
+</li>
+</ol>
+<p>市场上面招聘的 iOS 开发人员基本上都是指 iOS 应用开发人员。iOS 系统开发人员的岗位较少。但如果 iOS 应用开发人员具备逆向分析开发的能力则是一项优势。</p>
+<h1 id="本书如何学习"><a href="#本书如何学习" class="headerlink" title="本书如何学习"></a>本书如何学习</h1><p>作者将以微信抢红包的实战项目出发，从 0 到 1 演示如何实现微信抢红包插件，实现插件过程中涉及到的技术和理论知识都会在后续的章节中详细介绍，对 iOS 逆向开发感兴趣的同学通过这个项目，可以迅速的建立对 iOS 逆向开发的整体认知。</p>
+]]></content>
+      <categories>
+        <category>iOS 逆向与安全</category>
+      </categories>
+  </entry>
+  <entry>
     <title>揭开神秘的iOS布局</title>
     <url>/2018/03/26/%E6%8F%AD%E7%A7%98iOS%E5%B8%83%E5%B1%80/</url>
     <content><![CDATA[<p>翻译自: <a href="http://tech.gc.com/demystifying-ios-layout/">Demystifying iOS Layout</a></p>
@@ -1004,101 +1092,13 @@ m<sup>k * φ(n) + 1</sup> mod n = m
       </tags>
   </entry>
   <entry>
-    <title>解决git clone速度慢的问题</title>
-    <url>/2018/10/26/%E8%A7%A3%E5%86%B3git-clone%E9%80%9F%E5%BA%A6%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>之前一直以为是公司对网络的封锁,导致git clone速度慢,后来网上查找这个问题的时候得知不能怪公司,是因为咱们在这个局域网内…<br>扯多了,回到正题,解决问题,由于我的是Mac电脑,我说的只针对Mac电脑</p>
-<h5 id="1-进入终端命令行模式-输入"><a href="#1-进入终端命令行模式-输入" class="headerlink" title="1. 进入终端命令行模式,输入"></a>1. 进入终端命令行模式,输入</h5><p><code>sudo vim /etc/hosts</code></p>
-<h5 id="2-输入i进入编辑模式-移动到最后一行准备输入"><a href="#2-输入i进入编辑模式-移动到最后一行准备输入" class="headerlink" title="2. 输入i进入编辑模式,移动到最后一行准备输入"></a>2. 输入i进入编辑模式,移动到最后一行准备输入</h5><h5 id="3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址"><a href="#3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址" class="headerlink" title="3. 用浏览器访问 http://tool.chinaz.com 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址"></a>3. 用浏览器访问 <a href="http://tool.chinaz.com/">http://tool.chinaz.com</a> 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址</h5><h5 id="4-回到第2步中按如下格式输入"><a href="#4-回到第2步中按如下格式输入" class="headerlink" title="4. 回到第2步中按如下格式输入:"></a>4. 回到第2步中按如下格式输入:</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">192.30.253.112 github.com</span><br><span class="line">151.101.44.249 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
-<h5 id="5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束"><a href="#5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束" class="headerlink" title="5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束"></a>5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束</h5><h5 id="6-更新DNS缓存-输入"><a href="#6-更新DNS缓存-输入" class="headerlink" title="6. 更新DNS缓存,输入"></a>6. 更新DNS缓存,输入</h5><p><code>sudo dscacheutil -flushcache </code></p>
-]]></content>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记录一个pod install失败的解决方法</title>
-    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
-<p>项目的Podfile如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
-<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
-<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>再次运行<code>pod install</code>完美</p>
-<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS逆向与安全开篇介绍</title>
-    <url>/2024/03/27/iOS%E9%80%86%E5%90%91%E4%B8%8E%E5%AE%89%E5%85%A8%E5%BC%80%E7%AF%87%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<h1 id="学习-iOS-逆向开发的前提"><a href="#学习-iOS-逆向开发的前提" class="headerlink" title="学习 iOS 逆向开发的前提"></a>学习 iOS 逆向开发的前提</h1><ul>
-<li>有一定的正向开发经验（最起码对 iOS 系统的 UIKit 框架有一定的了解）</li>
-<li>一台越狱的 iOS 设备（推荐至少是 64 位架构，iPhone 是从 iPhone 5s 开始，iPad 是从 iPad Air 和 iPad mini 2 开始）</li>
-<li>一台 Mac 电脑，理论上来说 Linux 或 Windows 也可以（实际上作者没有实践过）</li>
-<li>时间和恒心</li>
-</ul>
-<h1 id="什么是-iOS-逆向开发"><a href="#什么是-iOS-逆向开发" class="headerlink" title="什么是 iOS 逆向开发"></a>什么是 iOS 逆向开发</h1><p>很多 iOS 开发者可能都不是科班出身的程序员，所以对于逆向开发可能没有任何概念。实不相瞒，作者本人就是如此。工作多年后才慢慢接触并了解了逆向开发，逆向工程等相关的知识。</p>
-<p>逆向开发（Reverse Engineering）是一种通过分析和研究已有软件或系统的内部结构、逻辑和功能，以理解其实现方式的技术。在软件开发中，逆向开发通常涉及反编译、反汇编或动态调试，以揭示目标程序的代码逻辑和功能。</p>
-<p>iOS 逆向开发是指通过分析已有的 iOS 应用程序或 iOS 系统来理解其内部结构、行为以及工作原理的过程。与常规开发（从源代码构建应用程序）相反，逆向开发是在没有源代码的情况下，逆向分析编译后的二进制文件，研究应用的工作机制。</p>
-<h1 id="学习-iOS-逆向开发有什么用"><a href="#学习-iOS-逆向开发有什么用" class="headerlink" title="学习 iOS 逆向开发有什么用"></a>学习 iOS 逆向开发有什么用</h1><ul>
-<li><p><strong>应用分析与调试：</strong>使用工具来调试和分析应用程序，理解其功能实现。研究员常用 LLDB、Hopper、Ghidra 等工具来反汇编和反编译 iOS 应用，以了解代码的工作方式。</p>
-</li>
-<li><p><strong>破解和去除限制：</strong>通过逆向手段绕过某些应用的限制，如应用内购买、付费功能等。虽然这属于非法行为，但仍是逆向开发中不可忽视的一部分。</p>
-</li>
-<li><p><strong>安全性研究与漏洞发现：</strong>逆向开发在 iOS 安全研究中非常重要。通过逆向工程，安全研究人员可以分析应用的加密算法、安全协议等，寻找漏洞并提出防御措施。</p>
-</li>
-<li><p><strong>学习与模仿：</strong>开发者通过逆向分析成熟的应用来学习优秀的开发技巧，或者模仿某些功能。</p>
-</li>
-</ul>
-<p>玩过 LOL 的老玩家应该还记得多年前某些辅助工具可以实现自己使用任意皮肤，这也是通过逆向开发做到的，属于 window 逆向方向的，而 iOS 平台的有移除 App 内的广告，绕过打卡类 App 的 Wi-Fi 限制，GPS 检测实现任意打卡，微信自动抢红包，还有游戏的外挂辅助软件也都是通过逆向开发实现的。。。这些都是正向开发做不到，或者不可能提供的。这些也正是逆向开发的用武之地。当然，学会了如何破解别人的 APP，自然也知道了该如何去防护自己的 APP，提高安全性，不会进攻谈什么安全防护呢。</p>
-<p>以上这些功能，如果你听到了就感觉到很兴奋，那么恭喜你来对了地方！通过本门课程的学习，以上案例都有可能可以实现。不过还是需要提醒一下大家，一般来说逆向开发的难度相较于正向开发会更加困难，想要掌握逆向开发并不是一件容易的事情，需要持之以恒的学习。</p>
-<h1 id="关于-iOS-开发人员的概念解释"><a href="#关于-iOS-开发人员的概念解释" class="headerlink" title="关于 iOS 开发人员的概念解释"></a>关于 iOS 开发人员的概念解释</h1><ol>
-<li><p><strong>iOS 应用开发人员</strong></p>
-<p> iOS 应用开发人员通常是指那些为 iOS 系统开发应用程序的人。他们主要使用苹果的开发工具和框架，比如 Xcode、Swift、Objective-C 等，目标是创建可以在苹果的 App Store 上发布的应用程序。这类开发人员的主要工作是围绕用户体验、界面设计、功能实现和优化应用性能。</p>
-<p> 他们的主要任务包括：</p>
-<ul>
-<li>开发和维护 iPhone、iPad 上运行的应用程序</li>
-<li>使用 iOS SDK（软件开发工具包）和相关的 API（如 UIKit、Core Data、ARKit 等）</li>
-<li>与后端服务交互（通常使用 RESTful API 或 GraphQL）</li>
-<li>解决与应用程序相关的性能和安全问题</li>
-<li>测试和调试应用程序 <br></li>
-</ul>
-</li>
-<li><p><strong>iOS 系统开发人员（越狱插件、底层开发等）</strong></p>
-<p> 真正意义上的 iOS 开发人员更适合用于描述那些进行 iOS 系统级开发的人。这些开发人员深入到 iOS 系统的底层，做与操作系统本身相关的开发工作，比如修改系统行为、开发越狱插件、研究内核安全性或进行硬件驱动开发。</p>
-<p> 他们的主要任务包括：</p>
-<ul>
-<li>研究 iOS 系统的底层结构和安全机制</li>
-<li>开发越狱工具、插件（比如 Cydia 插件）</li>
-<li>修改系统设置或行为，允许用户做出官方系统不允许的操作</li>
-<li>逆向工程或研究系统漏洞</li>
-<li>优化或修改内核（kernel）层的功能</li>
-</ul>
-</li>
-</ol>
-<p>市场上面招聘的 iOS 开发人员基本上都是指 iOS 应用开发人员。iOS 系统开发人员的岗位较少。但如果 iOS 应用开发人员具备逆向分析开发的能力则是一项优势。</p>
-<h1 id="本书如何学习"><a href="#本书如何学习" class="headerlink" title="本书如何学习"></a>本书如何学习</h1><p>作者将以微信抢红包的实战项目出发，从 0 到 1 演示如何实现微信抢红包插件，实现插件过程中涉及到的技术和理论知识都会在后续的章节中详细介绍，对 iOS 逆向开发感兴趣的同学通过这个项目，可以迅速的建立对 iOS 逆向开发的整体认知。</p>
-]]></content>
-      <categories>
-        <category>iOS 逆向与安全</category>
-      </categories>
-  </entry>
-  <entry>
     <title>微信抢红包插件</title>
     <url>/2024/04/10/%E5%BE%AE%E4%BF%A1%E6%8A%A2%E7%BA%A2%E5%8C%85%E6%8F%92%E4%BB%B6/</url>
     <content><![CDATA[<p>本篇文章将介绍如何从 0 到 1 一步步实现微信抢红包插件功能，需要用到</p>
 <ul>
 <li><p>一部能越狱的 iPhone，作者使用的 iOS12.5.7 的 5s。</p>
 <p>   推荐使用 iOS15 之前的设备，因为 iOS15 <a href="https://theapplewiki.com/wiki/Signed_System_Volume">SSV</a> 的出现诞生了一种新的越狱方案 <a href="https://theapplewiki.com/wiki/Rootless">rootless</a>。导致很多以前能运行的越狱插件，工具都无法在 iOS15 及后续的系统上正常运行。因为这些工具大多都还没有针对 rootless 进行适配。使用 iOS15 之前的设备能够更完美的进行教学，和拥有更好的体验。当你学有所成的时候，可以尝试对那些暂时没有适配的越狱插件，工具自己进行适配了。这里特别说明一下，rootless 越狱并不是指越狱后没有 root 权限，而是 iOS15 SSV 的出现导致即使是 root 用户也无法往系统目录（如&#x2F;System和&#x2F;usr）写入文件，类似于 macOS 上的 SIP，所以诞生了 rootless 解决方案。</p>
-<p>   如果你是 iOS15 及以上的设备，那么越狱也推荐选择 rootful 越狱而不是 rootless，同样还是因为 rootless 很多工具无法使用的原因。</p>
+<p>   如果你是 iOS15 及以上的设备，那么越狱也推荐选择 rootful 越狱而不是 rootless，同样还是因为 rootless 很多工具无法使用的原因，比如砸壳工具 frida-ios-dump 在 rootless 越狱设备下大部分 App 都无法砸壳成功。作为普通用户，你可以选择 rootless 越狱，但如果你是想进行逆向学习，还是更推荐使用 rootful 越狱。</p>
 </li>
 <li><p>一台 Mac 电脑，作者使用的系统是 14.5。</p>
 <p>  理论上来说 Linux 或 Windows 也可以，因为 Theos 支持，但是作者没有亲自实践过。</p>
