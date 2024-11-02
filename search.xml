@@ -35,23 +35,6 @@
       </tags>
   </entry>
   <entry>
-    <title>OC与iOS混编</title>
-    <url>/2019/04/12/2019-04-12-OC%E4%B8%8EiOS%E6%B7%B7%E7%BC%96/</url>
-    <content><![CDATA[<h1 id="记录一下-OC和Swift混编的问题"><a href="#记录一下-OC和Swift混编的问题" class="headerlink" title="记录一下,OC和Swift混编的问题"></a>记录一下,OC和Swift混编的问题</h1><p>在OC项目中,需要使用Swift的时候,一般情况下,在你的OC项目中新建一个Swift文件的时候,系统会自动提示你是否需要配置一个Objective-C桥接头文件,如下图:<img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_4.png?raw=true"><br>点击最右侧的创建桥接头文件,系统就会帮你配置创建并配置好一个桥接头文件…这个桥接头文件的作用是,让你可以在Swift代码中使用OC中的类;只需要将你需要在Swift代码中使用的类的头文件在桥接头文件中导入一下就可以使用了;如果一不小心点击了Don’t Create按钮,那就需要你自己再手动创建一个头文件,将它配置成桥接头文件,才可以使用.配置步骤如下:</p>
-<ol>
-<li>创建一个头文件<br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_5.png?raw=true"><br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_6.png?raw=true"></li>
-<li>配置成为OC桥接头文件<br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_7.png?raw=true"><br>在里面导入OC的头文件,就可以在Swift代码中使用了</li>
-</ol>
-<p>如果是想要在OC的代码中使用Swift的类的话,这个就更加简单了,只需要导入一个系统自动生成的头文件就可以访问了,这个头文件在项目目录中看不到;但是在上图标记③的框框下面你可以看到它的名字,直接导入这个头文件就可以使用了,需要注意的是系统并不会自动补全这个头文件…没有提示,需要你自己一个一个字母敲进去</p>
-<hr>
-
-<p>再来说一下,在Swift项目中,想要使用OC代码;跟上面的步骤是一样的,第一次在Swift项目中创建OC类的时候,系统就会提示你是否创建Objective-C桥接头文件;这个头文件的作用跟上是一样的,让你可以在Swift代码中使用OC的类,只需在这个头文件导入OC类就行了…在OC代码中想要使用Swift类也跟上面一样,导入系统自动生成的那个头文件就可以使用了</p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记录一个报错</title>
     <url>/2019/04/25/2019-04-25-%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AA%E6%8A%A5%E9%94%99/</url>
     <content><![CDATA[<h1 id="Undefined-symbols-for-architecture-arm64"><a href="#Undefined-symbols-for-architecture-arm64" class="headerlink" title="Undefined symbols for architecture arm64"></a>Undefined symbols for architecture arm64</h1><p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20190425_23.png">上面这个报错经常会遇到…但是一直不知道是为啥出现的…今天碰巧知道了出现的原因</p>
@@ -72,6 +55,23 @@
 </ul>
 <p>但此时在viewController.m中的代码还没有移除掉;再次编译运行的时候就会报<br>Undefined symbols for architecture arm64:<br>“_OBJC_CLASS_$_Director”, referenced from:<br>objc-class-ref in ViewController.o<br>知道了错误产生的原因之后,再解决问题就很容易了…去viewController.m文件中把相关的代码全删了就好了…<br>只是有点儿疑惑为什么xcode不报找不到头文件Director或ConcreteBuild错误,而报这个Undefined symbols for architecture arm64:错误…一脸懵</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>OC与iOS混编</title>
+    <url>/2019/04/12/2019-04-12-OC%E4%B8%8EiOS%E6%B7%B7%E7%BC%96/</url>
+    <content><![CDATA[<h1 id="记录一下-OC和Swift混编的问题"><a href="#记录一下-OC和Swift混编的问题" class="headerlink" title="记录一下,OC和Swift混编的问题"></a>记录一下,OC和Swift混编的问题</h1><p>在OC项目中,需要使用Swift的时候,一般情况下,在你的OC项目中新建一个Swift文件的时候,系统会自动提示你是否需要配置一个Objective-C桥接头文件,如下图:<img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_4.png?raw=true"><br>点击最右侧的创建桥接头文件,系统就会帮你配置创建并配置好一个桥接头文件…这个桥接头文件的作用是,让你可以在Swift代码中使用OC中的类;只需要将你需要在Swift代码中使用的类的头文件在桥接头文件中导入一下就可以使用了;如果一不小心点击了Don’t Create按钮,那就需要你自己再手动创建一个头文件,将它配置成桥接头文件,才可以使用.配置步骤如下:</p>
+<ol>
+<li>创建一个头文件<br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_5.png?raw=true"><br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_6.png?raw=true"></li>
+<li>配置成为OC桥接头文件<br> <img src="https://github.com/masterKing/markDownPictures/blob/master/Snip20190412_7.png?raw=true"><br>在里面导入OC的头文件,就可以在Swift代码中使用了</li>
+</ol>
+<p>如果是想要在OC的代码中使用Swift的类的话,这个就更加简单了,只需要导入一个系统自动生成的头文件就可以访问了,这个头文件在项目目录中看不到;但是在上图标记③的框框下面你可以看到它的名字,直接导入这个头文件就可以使用了,需要注意的是系统并不会自动补全这个头文件…没有提示,需要你自己一个一个字母敲进去</p>
+<hr>
+
+<p>再来说一下,在Swift项目中,想要使用OC代码;跟上面的步骤是一样的,第一次在Swift项目中创建OC类的时候,系统就会提示你是否创建Objective-C桥接头文件;这个头文件的作用跟上是一样的,让你可以在Swift代码中使用OC的类,只需在这个头文件导入OC类就行了…在OC代码中想要使用Swift类也跟上面一样,导入系统自动生成的那个头文件就可以使用了</p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
   </entry>
   <entry>
     <title>MBProgressHUD源码解析</title>
@@ -473,6 +473,92 @@
       </tags>
   </entry>
   <entry>
+    <title>8天让iOS开发者上手Flutter之三</title>
+    <url>/2021/07/22/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%89/</url>
+    <content><![CDATA[<h1 id="搭建项目主框架"><a href="#搭建项目主框架" class="headerlink" title="搭建项目主框架"></a>搭建项目主框架</h1><h2 id="新建微信聊天，通讯录，发现，我的四个文件"><a href="#新建微信聊天，通讯录，发现，我的四个文件" class="headerlink" title="新建微信聊天，通讯录，发现，我的四个文件"></a>新建微信聊天，通讯录，发现，我的四个文件</h2><p>上一篇文章最后我们已经将 APP 的 TabBar 和四个对应的子视图搭建好了，但是每一个子视图里面肯定会有大量的代码，全部放到 rootPage 文件里面肯定是不合理的。所以我们为每个子视图创建单独的文件，并将代码分散到每个文件中。</p>
+<p><img src="c5a720ed438344788169ab80fb409938~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>比如聊天页面，返回自己的 Scaffold：</p>
+<p><img src="618e714770d24d4facaee7b437ac7fc8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>现在我们点击切换一下 tabBar 的 item，发现会有一些高亮的颜色，以及一个水波纹效果，这些都是 MaterialApp 类的 theme 提供的。如果想去掉这些效果，要来到 main.dart 文件，设置以下两个属性：</p>
+<p><img src="b1260254db7f4ab686c8c79d65a0382b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>仔细查看点击 item 的时候，文字被放大了。这个是 bottomNavigationBar 的属性 <code>selectedFontSize</code> 决定的，将它设置为 12.0 之后，就不会变大了，在 rootPage.dart 文件里面：</p>
+<p><img src="9717b7c335fa4065ab4e4fc9e20bfd48~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="本地资源文件"><a href="#本地资源文件" class="headerlink" title="本地资源文件"></a>本地资源文件</h1><h2 id="配置-Android-的启动图和应用图标"><a href="#配置-Android-的启动图和应用图标" class="headerlink" title="配置 Android 的启动图和应用图标"></a>配置 Android 的启动图和应用图标</h2><p>Android 和 iOS 的资源文件，比如 APP 的图标，启动图，需要到相应的项目文件里面去配置。我们大家都是 iOS 开发者了，这里就只说一下 Android 的图标和启动图如何配置。有需要图片资源的同学可以前往 <a href="https://github.com/masterKing/wechatDemo">下载</a></p>
+<p><img src="77f7870a53b74d518e85e699e8907c46~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在安卓模拟器上运行起来之后，会发现安卓的标题不是在中间</p>
+<p><img src="89e269268c514376849e3342fcdee59d~tplv-k3u1fbpfcp-watermark.png" alt="Screenshot_1626706998.png"></p>
+<p>这里可以通过 AppBar 的一个属性，来调整让它变成中间显示</p>
+<p><img src="2d6097f5de8b4cbd841253298032542a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="配置公共的资源"><a href="#配置公共的资源" class="headerlink" title="配置公共的资源"></a>配置公共的资源</h2><p>如果是两端都需要的资源，比如我们 APP 的微信，通讯录，发现和我的图标。需要在当前 flutter 项目中配置了。</p>
+<p><img src="5ff5a0d3eacd4063a2b0cca656e65d89~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>pubspec.yaml 文件是我们 flutter 项目的配置文件。文件内 assets 和下面的几行表示需要的图片路径，可以在 flutter 项目的根目录下创建一个 images 的目录，里面存放所有当前 flutter 需要用的图片。然后还需要手动导入一张一张图片…这点就比较恶心人了…更恶心人的是，这个 yaml 文件的格式，包括位置都不能错，比如刚刚放开注释的时候，如果你使用的是 command + &#x2F; 快捷键，那么你就得好好挪动下位置了，位置不对编译不通过。</p>
+<p><img src="5a076f973f1641b7a93f4a03fbf8d67c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现发现页"><a href="#实现发现页" class="headerlink" title="实现发现页"></a>实现发现页</h1><div align="center">
+<img src="6c5ef89f17244d2c8d2403d8bf74e9c5~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="设置APP启动默认展示发现页面"><a href="#设置APP启动默认展示发现页面" class="headerlink" title="设置APP启动默认展示发现页面"></a>设置APP启动默认展示发现页面</h2><p>这个方便我们开发调试这个发现页面，我们开发原生 APP 的时候也经常会这么干。直接将 rootPage.dart 里的 _currentIndex 设置为 2 就 OK 了，这个不用多说</p>
+<p><img src="60a72f30b2d148278ab955c188675989~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="配置导航条"><a href="#配置导航条" class="headerlink" title="配置导航条"></a>配置导航条</h2><p>微信的导航条颜色是灰色的。然后在安卓上这个导航条标题默认在左侧，这里也需要设置一下在中间。然后标题的颜色也不是白色，改为黑色。然后导航条和下面的 body 有一条黑线，可以通过设置 <code>elevation</code> 的值来控制。</p>
+<p><img src="7baba8c474044957b85468f0542ea7fd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="84d5ab21e4944283bdcd5087c173c1b1~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="自定义发现-cell"><a href="#自定义发现-cell" class="headerlink" title="自定义发现 cell"></a>自定义发现 cell</h2><p>新建一个 pages 文件，将所有页面文件都放到里面。然后在新建一个 discover_cell 准备实现自定义的 cell。按道理来说一个 cell 应该是需要更新UI的所以应该是有状态的，但是现在我们是练手过程，可以先用一个无状态的 cell。 </p>
+<p><img src="e86442ff86fa425dacb5e072a958928a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>接下来就是实现这个自定义 cell（discover_cell）的代码了；首先观察微信的发现页的 cell，左侧有一个图标，和一个标题，这两个是必须要有的，不然无法构成一个完整的 cell，然后是右侧有些 cell 会有子图标和子标题，还有一个右箭头，这个是每个 cell 都存在的。根据以上这些信息，我们就可以定义出 discover_cell 应该要有的一些属性了。如下：<br></p>
+<ul>
+<li><code>title</code> 左侧的标题，必传参数<br></li>
+<li><code>imageName</code> 左侧的图标，必传参数<br></li>
+<li><code>subTitle</code> 右侧的标题，非必传参数，也叫可选参数<br></li>
+<li><code>subImageName</code> 右侧的图标，可选参数<br></li>
+</ul>
+<p><img src="343b247159da4bf79641790d5aaf811c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如图所示，声明了这四个属性之后，给出了红色的报错，可以将光标移到报错的红色字母任意处，按住 option + 回车 就可以弹出右侧的选择菜单，第一个选项应该是新版本加的，俺也不是很清楚如何使用，网上资料很少，推荐去查询官方文档了。我这里就懒的去查了，因为我们要选择的是第二个选线 <code>Create constructor for final fields</code> 创建构造方法。细心的同学会发现 <code>subTitle</code>,<code>subImageName</code> 的类型是 <code>String?</code> 这个类型后面跟了个问号，就是代表可选参数的意思，这里跟 iOS 的 Swift 倒是十分相似。</p>
+<p>选择创建构造方法之后，系统会自动生成一行代码，但是这一行代码很长而且它不换行，非常难看。这里有个小技巧，在生成的代码最后一个属性后面加上一个,号然后再按 option + command + L 重新格式化代码，就会自动换行了。</p>
+<p><img src="6dea5bcdc29e496f8e4eb2bdbbe2b486~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>换行之后发现，两个必传参数报错，还是老办法，光标移动到报错的地方，按住 option + 回车 就会给出提示，意思我们要给必传参数加上 <code>required</code> 关键字。这样属性的定义就算完成了。</p>
+<p><img src="8bf3d583b85e4553a2d146bd9d887562~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>属性定义完了之后就是实现 build 方法搭建界面了。布局界面的方式有很多，可以使用 Row 来布局，也可以使用 Stack 加 Positioned 布局，不管什么方式能实现界面效果都可以。我这使用 Row 布局。代码如下：</p>
+<p><img src="7792f9602b8c415da1cc7a104894d2bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>最外层使用一个 Container 包装一个 Row，然后 Row 里面再包含两个 Container 包着的 Row 分别代表左右两边子视图。这样看上去应该还算蛮清晰明了的。左侧部分的图标和标题是必传参数，没啥好说的。</p>
+<p>右侧由于子标题和子图标都不一定存在，所以需要做一些处理，Text 控件如果没有子标题可以显示空字符串‘’，这个比较好解决。而子图标不能说给一张空图片，所以需要根据 subImageName 是否为空来显示不同的控件，如果有就显示 Image，如果没有就显示一个 Container 占位。最右侧的箭头图标是每个 cell 都存在的就没啥好说的了。自定义 discover_cell 的代码就算完成了，下一步完善我们的发现页面</p>
+<h2 id="完善发现页面"><a href="#完善发现页面" class="headerlink" title="完善发现页面"></a>完善发现页面</h2><p>cell 写好之后，完善发现页面就简单多了。这里使用最简单的方式来实现，就是直接拼接每个子 cell 的方式。</p>
+<p><img src="bb9c501966b64ea89b16224243716420~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>flutter 里面的 ListView 并不像 iOS 中的 UITableView 那样分组和行。ListView 只有行，自行合并几个行组成一组，组与组之间使用一个 SizedBox 隔开，行与行之间使用 Row(因为分割线左侧是白色的，右侧是灰色的，所以需要组合两个 Container)隔开。</p>
+<p>其中购物哪一行 cell 右侧的子标题和子图标没有设置字体大小和图标大小，所以显示可能会有点问题，回到 cell 里面设置一下就好了。</p>
+<p><img src="e792b6ca4c2a476eae4ebed34f16b6d4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现点击cell切换到新页面"><a href="#实现点击cell切换到新页面" class="headerlink" title="实现点击cell切换到新页面"></a>实现点击cell切换到新页面</h1><h2 id="让cell能够响应点击事件GestureDetector"><a href="#让cell能够响应点击事件GestureDetector" class="headerlink" title="让cell能够响应点击事件GestureDetector"></a>让cell能够响应点击事件<code>GestureDetector</code></h2><p>flutter 提供了一个 <code>GestureDetector</code> 类用来检测手势，它有一个 child 属性，可以放我们的UI代码。它还能响应各种手势，在不同的属性里面处理，比如我们点击 cell 就是 onTap 属性。除了 onTap 之外，还有 onTapDown,onTapCancel。其中 onTapCancel 是触摸之后离开了，onTapDown 是按下就会被调用，onTap 按下去并松开之后调用。实现如下代码之后，自己试试就能明白其中差别了。</p>
+<p><img src="b507b1093e6a4361a9e8f14e840b3b1f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现页面之间跳转"><a href="#实现页面之间跳转" class="headerlink" title="实现页面之间跳转"></a>实现页面之间跳转</h2><p>点击发现 cell 之后，需要跳转它对应的详情页面，就需要一个详情页。可以新建一个 discover_child_page.dart 文件，再去补充里面的页面代码。也可以从现有的一些空白文件中复制一份，比如 mine_page.dart 文件，它里面就只有基本的我的页面代码,只需少量修改代码就可以使用。不论使用哪种方式，新建 discover_child_page.dart 完成后，页面代码如下：</p>
+<p><img src="5bcbe870debf4fc39d84a72d6c47f429~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个详情页的一些属性，应该是需要从外面传入的，比如 title。于是定义一个 title属性。</p>
+<p><img src="433df2447dad40ff9866d7847f57e1e0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后在当前页面展示我们的 title，之前都是在 StatelessWidget 里面使用我们的属性，那在 StatefulWidget 里面我们怎么使用属性呢？属性前面加上 widget.</p>
+<p><img src="39f5610e04f049959d75933a5ed05ea2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里发现详情页就算差不多完成了。</p>
+<p>回到 cell 里面的点击方法，实现点击跳转。这里和 iOS 有点类似的地方就是同样是使用一个导航控制器类。flutter 也是使用一个名字叫导航的类 <code>Navigator</code>。调用以下方法。</p>
+<figure class="highlight plaintext"><figcaption><span>dart</span></figcaption><table><tr><td class="code"><pre><span class="line">Navigator.of(context).push(）</span><br></pre></td></tr></table></figure>
+
+<p>push() 的参数需要一个 Route 类型，这里使用 <code>MaterialPageRoute</code> 类，<code>MaterialPageRoute</code> 的构造方法返回一个 Widget，这个返回的 Widget 就是我们需要跳转到的页面。代码如下：</p>
+<p><img src="4986f78b3e6a42919b2ef7b3cd75e947~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>前面讲过的，在 flutter 中，如果函数体的代码只有一句的话，可以使用 &#x3D;&gt; 的形式，于是上面可以简写成这样：</p>
+<p><img src="1ad80766d4c4410db13e6dbc1be75f97~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现有状态的-discover-cell"><a href="#实现有状态的-discover-cell" class="headerlink" title="实现有状态的 discover_cell"></a>实现有状态的 discover_cell</h1><h2 id="修改-discover-cell-为-StatefulWidget"><a href="#修改-discover-cell-为-StatefulWidget" class="headerlink" title="修改 discover_cell 为 StatefulWidget"></a>修改 discover_cell 为 StatefulWidget</h2><p>原生的微信 APP 在点击 cell 的时候，会有一个灰色的背景，在松开的时候会变回最初的颜色。现在来实现这个效果。所以我们的 discover_cell 需要从 StatelessWidget 改为 StatefulWidget。先将 build 方法缩起来，快捷键 command 加 - 号，0 右边那个减号。</p>
+<p><img src="9f0eaa6f32594407a3b329b56d8bd12b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后先将 bulid 方法覆盖，再将属性和构造方法覆盖。最后删除原有的 StatelessWidget 类。这时候 build 方法里面会爆一个错误，原因是<code>_DiscoverCellState</code> 类里面拿不到 <code>DiscoverCell</code> 的属性，所以我们在属性前面加上 <code>widget.</code> 就好了。</p>
+<h2 id="实现点击变灰需求"><a href="#实现点击变灰需求" class="headerlink" title="实现点击变灰需求"></a>实现点击变灰需求</h2><p>我们前面说过了 onTap 方法，onTapDown 方法，onTapCancel 方法的调用时机。实现这个需求就在这三个方法里面更新状态就好了。代码如下：</p>
+<p><img src="989f099de0f342a99860d199f4c16330~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>8天让iOS开发者上手Flutter之七</title>
     <url>/2021/08/19/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%83/</url>
     <content><![CDATA[<p>上一篇文章我们已经完成首页聊天页面的导航条和列表展示，今天的任务是完成搜索 cell 的展示和点击之后的搜索页面的功能。</p>
@@ -555,83 +641,83 @@
       </tags>
   </entry>
   <entry>
-    <title>8天让iOS开发者上手Flutter之三</title>
-    <url>/2021/07/22/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%89/</url>
-    <content><![CDATA[<h1 id="搭建项目主框架"><a href="#搭建项目主框架" class="headerlink" title="搭建项目主框架"></a>搭建项目主框架</h1><h2 id="新建微信聊天，通讯录，发现，我的四个文件"><a href="#新建微信聊天，通讯录，发现，我的四个文件" class="headerlink" title="新建微信聊天，通讯录，发现，我的四个文件"></a>新建微信聊天，通讯录，发现，我的四个文件</h2><p>上一篇文章最后我们已经将 APP 的 TabBar 和四个对应的子视图搭建好了，但是每一个子视图里面肯定会有大量的代码，全部放到 rootPage 文件里面肯定是不合理的。所以我们为每个子视图创建单独的文件，并将代码分散到每个文件中。</p>
-<p><img src="c5a720ed438344788169ab80fb409938~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>比如聊天页面，返回自己的 Scaffold：</p>
-<p><img src="618e714770d24d4facaee7b437ac7fc8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>现在我们点击切换一下 tabBar 的 item，发现会有一些高亮的颜色，以及一个水波纹效果，这些都是 MaterialApp 类的 theme 提供的。如果想去掉这些效果，要来到 main.dart 文件，设置以下两个属性：</p>
-<p><img src="b1260254db7f4ab686c8c79d65a0382b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>仔细查看点击 item 的时候，文字被放大了。这个是 bottomNavigationBar 的属性 <code>selectedFontSize</code> 决定的，将它设置为 12.0 之后，就不会变大了，在 rootPage.dart 文件里面：</p>
-<p><img src="9717b7c335fa4065ab4e4fc9e20bfd48~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="本地资源文件"><a href="#本地资源文件" class="headerlink" title="本地资源文件"></a>本地资源文件</h1><h2 id="配置-Android-的启动图和应用图标"><a href="#配置-Android-的启动图和应用图标" class="headerlink" title="配置 Android 的启动图和应用图标"></a>配置 Android 的启动图和应用图标</h2><p>Android 和 iOS 的资源文件，比如 APP 的图标，启动图，需要到相应的项目文件里面去配置。我们大家都是 iOS 开发者了，这里就只说一下 Android 的图标和启动图如何配置。有需要图片资源的同学可以前往 <a href="https://github.com/masterKing/wechatDemo">下载</a></p>
-<p><img src="77f7870a53b74d518e85e699e8907c46~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>在安卓模拟器上运行起来之后，会发现安卓的标题不是在中间</p>
-<p><img src="89e269268c514376849e3342fcdee59d~tplv-k3u1fbpfcp-watermark.png" alt="Screenshot_1626706998.png"></p>
-<p>这里可以通过 AppBar 的一个属性，来调整让它变成中间显示</p>
-<p><img src="2d6097f5de8b4cbd841253298032542a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h2 id="配置公共的资源"><a href="#配置公共的资源" class="headerlink" title="配置公共的资源"></a>配置公共的资源</h2><p>如果是两端都需要的资源，比如我们 APP 的微信，通讯录，发现和我的图标。需要在当前 flutter 项目中配置了。</p>
-<p><img src="5ff5a0d3eacd4063a2b0cca656e65d89~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>pubspec.yaml 文件是我们 flutter 项目的配置文件。文件内 assets 和下面的几行表示需要的图片路径，可以在 flutter 项目的根目录下创建一个 images 的目录，里面存放所有当前 flutter 需要用的图片。然后还需要手动导入一张一张图片…这点就比较恶心人了…更恶心人的是，这个 yaml 文件的格式，包括位置都不能错，比如刚刚放开注释的时候，如果你使用的是 command + &#x2F; 快捷键，那么你就得好好挪动下位置了，位置不对编译不通过。</p>
-<p><img src="5a076f973f1641b7a93f4a03fbf8d67c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="实现发现页"><a href="#实现发现页" class="headerlink" title="实现发现页"></a>实现发现页</h1><div align="center">
-<img src="6c5ef89f17244d2c8d2403d8bf74e9c5~tplv-k3u1fbpfcp-watermark.png">
-</div>
-
-<h2 id="设置APP启动默认展示发现页面"><a href="#设置APP启动默认展示发现页面" class="headerlink" title="设置APP启动默认展示发现页面"></a>设置APP启动默认展示发现页面</h2><p>这个方便我们开发调试这个发现页面，我们开发原生 APP 的时候也经常会这么干。直接将 rootPage.dart 里的 _currentIndex 设置为 2 就 OK 了，这个不用多说</p>
-<p><img src="60a72f30b2d148278ab955c188675989~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h2 id="配置导航条"><a href="#配置导航条" class="headerlink" title="配置导航条"></a>配置导航条</h2><p>微信的导航条颜色是灰色的。然后在安卓上这个导航条标题默认在左侧，这里也需要设置一下在中间。然后标题的颜色也不是白色，改为黑色。然后导航条和下面的 body 有一条黑线，可以通过设置 <code>elevation</code> 的值来控制。</p>
-<p><img src="7baba8c474044957b85468f0542ea7fd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+    <title>8天让iOS开发者上手Flutter之五</title>
+    <url>/2021/08/01/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%BA%94/</url>
+    <content><![CDATA[<p>上篇文章，我们已经完成了通讯录的列表。这篇文章介绍完成通讯录右侧的索引条的功能。</p>
+<h1 id="显示索引条"><a href="#显示索引条" class="headerlink" title="显示索引条"></a>显示索引条</h1><p>之前我们已经做过了我的页面的布局，我的页面上有一个列表和一个拍照按钮，和我们今天要实现的索引条布局十分类似。我的页面的布局如下：</p>
+<p><img src="81053ec975144322af3bc1ef5f9e08e4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>通讯录界面的布局，和我的页面的布局都是使用一个 Stack 包含列表和其他子视图来实现。索引条是紧贴屏幕右侧，然后里面的子视图是由上至下的。所以自然的会想到使用一个 Positioned 包含 Column 来实现。Positioned 和 Stack 的组合我们之前讲过，这两个组合起来使用，就和我们 iOS 的约束布局类似，可以设置上左宽高等等。Column 就更不用多说，我们已经使用过很多次了。所以代码如下图所示：</p>
+<p><img src="3b62754a2a31422a9416c79e94759829~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
 <div align="center">
-<img src="84d5ab21e4944283bdcd5087c173c1b1~tplv-k3u1fbpfcp-watermark.png">
+<img src="be45a58d597a4a35b0d5ec97d96c445f~tplv-k3u1fbpfcp-watermark.png">
 </div>
 
-<h2 id="自定义发现-cell"><a href="#自定义发现-cell" class="headerlink" title="自定义发现 cell"></a>自定义发现 cell</h2><p>新建一个 pages 文件，将所有页面文件都放到里面。然后在新建一个 discover_cell 准备实现自定义的 cell。按道理来说一个 cell 应该是需要更新UI的所以应该是有状态的，但是现在我们是练手过程，可以先用一个无状态的 cell。 </p>
-<p><img src="e86442ff86fa425dacb5e072a958928a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>接下来就是实现这个自定义 cell（discover_cell）的代码了；首先观察微信的发现页的 cell，左侧有一个图标，和一个标题，这两个是必须要有的，不然无法构成一个完整的 cell，然后是右侧有些 cell 会有子图标和子标题，还有一个右箭头，这个是每个 cell 都存在的。根据以上这些信息，我们就可以定义出 discover_cell 应该要有的一些属性了。如下：<br></p>
-<ul>
-<li><code>title</code> 左侧的标题，必传参数<br></li>
-<li><code>imageName</code> 左侧的图标，必传参数<br></li>
-<li><code>subTitle</code> 右侧的标题，非必传参数，也叫可选参数<br></li>
-<li><code>subImageName</code> 右侧的图标，可选参数<br></li>
-</ul>
-<p><img src="343b247159da4bf79641790d5aaf811c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>如图所示，声明了这四个属性之后，给出了红色的报错，可以将光标移到报错的红色字母任意处，按住 option + 回车 就可以弹出右侧的选择菜单，第一个选项应该是新版本加的，俺也不是很清楚如何使用，网上资料很少，推荐去查询官方文档了。我这里就懒的去查了，因为我们要选择的是第二个选线 <code>Create constructor for final fields</code> 创建构造方法。细心的同学会发现 <code>subTitle</code>,<code>subImageName</code> 的类型是 <code>String?</code> 这个类型后面跟了个问号，就是代表可选参数的意思，这里跟 iOS 的 Swift 倒是十分相似。</p>
-<p>选择创建构造方法之后，系统会自动生成一行代码，但是这一行代码很长而且它不换行，非常难看。这里有个小技巧，在生成的代码最后一个属性后面加上一个,号然后再按 option + command + L 重新格式化代码，就会自动换行了。</p>
-<p><img src="6dea5bcdc29e496f8e4eb2bdbbe2b486~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>换行之后发现，两个必传参数报错，还是老办法，光标移动到报错的地方，按住 option + 回车 就会给出提示，意思我们要给必传参数加上 <code>required</code> 关键字。这样属性的定义就算完成了。</p>
-<p><img src="8bf3d583b85e4553a2d146bd9d887562~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>属性定义完了之后就是实现 build 方法搭建界面了。布局界面的方式有很多，可以使用 Row 来布局，也可以使用 Stack 加 Positioned 布局，不管什么方式能实现界面效果都可以。我这使用 Row 布局。代码如下：</p>
-<p><img src="7792f9602b8c415da1cc7a104894d2bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>最外层使用一个 Container 包装一个 Row，然后 Row 里面再包含两个 Container 包着的 Row 分别代表左右两边子视图。这样看上去应该还算蛮清晰明了的。左侧部分的图标和标题是必传参数，没啥好说的。</p>
-<p>右侧由于子标题和子图标都不一定存在，所以需要做一些处理，Text 控件如果没有子标题可以显示空字符串‘’，这个比较好解决。而子图标不能说给一张空图片，所以需要根据 subImageName 是否为空来显示不同的控件，如果有就显示 Image，如果没有就显示一个 Container 占位。最右侧的箭头图标是每个 cell 都存在的就没啥好说的了。自定义 discover_cell 的代码就算完成了，下一步完善我们的发现页面</p>
-<h2 id="完善发现页面"><a href="#完善发现页面" class="headerlink" title="完善发现页面"></a>完善发现页面</h2><p>cell 写好之后，完善发现页面就简单多了。这里使用最简单的方式来实现，就是直接拼接每个子 cell 的方式。</p>
-<p><img src="bb9c501966b64ea89b16224243716420~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>flutter 里面的 ListView 并不像 iOS 中的 UITableView 那样分组和行。ListView 只有行，自行合并几个行组成一组，组与组之间使用一个 SizedBox 隔开，行与行之间使用 Row(因为分割线左侧是白色的，右侧是灰色的，所以需要组合两个 Container)隔开。</p>
-<p>其中购物哪一行 cell 右侧的子标题和子图标没有设置字体大小和图标大小，所以显示可能会有点问题，回到 cell 里面设置一下就好了。</p>
-<p><img src="e792b6ca4c2a476eae4ebed34f16b6d4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="实现点击cell切换到新页面"><a href="#实现点击cell切换到新页面" class="headerlink" title="实现点击cell切换到新页面"></a>实现点击cell切换到新页面</h1><h2 id="让cell能够响应点击事件GestureDetector"><a href="#让cell能够响应点击事件GestureDetector" class="headerlink" title="让cell能够响应点击事件GestureDetector"></a>让cell能够响应点击事件<code>GestureDetector</code></h2><p>flutter 提供了一个 <code>GestureDetector</code> 类用来检测手势，它有一个 child 属性，可以放我们的UI代码。它还能响应各种手势，在不同的属性里面处理，比如我们点击 cell 就是 onTap 属性。除了 onTap 之外，还有 onTapDown,onTapCancel。其中 onTapCancel 是触摸之后离开了，onTapDown 是按下就会被调用，onTap 按下去并松开之后调用。实现如下代码之后，自己试试就能明白其中差别了。</p>
-<p><img src="b507b1093e6a4361a9e8f14e840b3b1f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h2 id="实现页面之间跳转"><a href="#实现页面之间跳转" class="headerlink" title="实现页面之间跳转"></a>实现页面之间跳转</h2><p>点击发现 cell 之后，需要跳转它对应的详情页面，就需要一个详情页。可以新建一个 discover_child_page.dart 文件，再去补充里面的页面代码。也可以从现有的一些空白文件中复制一份，比如 mine_page.dart 文件，它里面就只有基本的我的页面代码,只需少量修改代码就可以使用。不论使用哪种方式，新建 discover_child_page.dart 完成后，页面代码如下：</p>
-<p><img src="5bcbe870debf4fc39d84a72d6c47f429~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这个详情页的一些属性，应该是需要从外面传入的，比如 title。于是定义一个 title属性。</p>
-<p><img src="433df2447dad40ff9866d7847f57e1e0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>然后在当前页面展示我们的 title，之前都是在 StatelessWidget 里面使用我们的属性，那在 StatefulWidget 里面我们怎么使用属性呢？属性前面加上 widget.</p>
-<p><img src="39f5610e04f049959d75933a5ed05ea2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>到这里发现详情页就算差不多完成了。</p>
-<p>回到 cell 里面的点击方法，实现点击跳转。这里和 iOS 有点类似的地方就是同样是使用一个导航控制器类。flutter 也是使用一个名字叫导航的类 <code>Navigator</code>。调用以下方法。</p>
-<figure class="highlight plaintext"><figcaption><span>dart</span></figcaption><table><tr><td class="code"><pre><span class="line">Navigator.of(context).push(）</span><br></pre></td></tr></table></figure>
+<p>然后优化一下索引条的位置，高度我们设置为屏幕高度的一半，那么上下的间距就不能设置为 0 了，设置距离上间距为屏幕的 1&#x2F;8 看起来比较合适。</p>
+<p><img src="d72de44cc3ed45c4b43280c52b1a59ee~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="7351193b625b4e5195471735a66581fa~tplv-k3u1fbpfcp-watermark.png">
+</div>
 
-<p>push() 的参数需要一个 Route 类型，这里使用 <code>MaterialPageRoute</code> 类，<code>MaterialPageRoute</code> 的构造方法返回一个 Widget，这个返回的 Widget 就是我们需要跳转到的页面。代码如下：</p>
-<p><img src="4986f78b3e6a42919b2ef7b3cd75e947~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>前面讲过的，在 flutter 中，如果函数体的代码只有一句的话，可以使用 &#x3D;&gt; 的形式，于是上面可以简写成这样：</p>
-<p><img src="1ad80766d4c4410db13e6dbc1be75f97~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="实现有状态的-discover-cell"><a href="#实现有状态的-discover-cell" class="headerlink" title="实现有状态的 discover_cell"></a>实现有状态的 discover_cell</h1><h2 id="修改-discover-cell-为-StatefulWidget"><a href="#修改-discover-cell-为-StatefulWidget" class="headerlink" title="修改 discover_cell 为 StatefulWidget"></a>修改 discover_cell 为 StatefulWidget</h2><p>原生的微信 APP 在点击 cell 的时候，会有一个灰色的背景，在松开的时候会变回最初的颜色。现在来实现这个效果。所以我们的 discover_cell 需要从 StatelessWidget 改为 StatefulWidget。先将 build 方法缩起来，快捷键 command 加 - 号，0 右边那个减号。</p>
-<p><img src="9f0eaa6f32594407a3b329b56d8bd12b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>然后先将 bulid 方法覆盖，再将属性和构造方法覆盖。最后删除原有的 StatelessWidget 类。这时候 build 方法里面会爆一个错误，原因是<code>_DiscoverCellState</code> 类里面拿不到 <code>DiscoverCell</code> 的属性，所以我们在属性前面加上 <code>widget.</code> 就好了。</p>
-<h2 id="实现点击变灰需求"><a href="#实现点击变灰需求" class="headerlink" title="实现点击变灰需求"></a>实现点击变灰需求</h2><p>我们前面说过了 onTap 方法，onTapDown 方法，onTapCancel 方法的调用时机。实现这个需求就在这三个方法里面更新状态就好了。代码如下：</p>
-<p><img src="989f099de0f342a99860d199f4c16330~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="抽取-IndexBar"><a href="#抽取-IndexBar" class="headerlink" title="抽取 IndexBar"></a>抽取 IndexBar</h1><p>写到这里我们会发现，这个索引条还有很多的功能需要我们来实现，还是有点复杂的，如果代码都写在 friends_page.dart 里会有点冗余，我们完全可以将这个索引条作为一个独立的 Widget 来实现。新建 index_bar.dart 文件，代码如下：</p>
+<p><img src="fe9068395cd1451fa340e6dace011a17~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现-IndexBar-的点击切换状态"><a href="#实现-IndexBar-的点击切换状态" class="headerlink" title="实现 IndexBar 的点击切换状态"></a>实现 IndexBar 的点击切换状态</h1><p>当没有触摸到 IndexBar 的时候，默认是不展示背景色的，文字也是黑色的。当我们开始点击 IndexBar 的时候，显示出背景色，然后文字也变成了白色。</p>
+<p>实现这个功能，主要是要对 <code>GestureDetector</code> 的两个方法有所了解。<code>onVerticalDragDown</code> 方法会在手指触摸 IndexBar 的时候就会被调用，<code>onVerticalDragEnd</code> 会在手指松开屏幕的时候调用。利用这两个方法就可以实现需求。代码如下：</p>
+<p><img src="133c4a566110476b8405e347c313840d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>因为要对文字的颜色进行修改，所以初始化 Text 的时候，就需要使用变量 _textColor;</p>
+<p><img src="beaa4c3ca6ee489892a049625fe25a99~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="获取当前选中的下标"><a href="#获取当前选中的下标" class="headerlink" title="获取当前选中的下标"></a>获取当前选中的下标</h1><p>同样是对 <code>GestureDetector</code> 的一个手势方法的使用，<code>onVerticalDragUpdate</code> 这个方法的调用时机，在手指移动的时候会不停的调用这个方法。这个方法有一个 <code>DragUpdateDetails</code> 参数，它包含了手指所在的坐标信息。不过是相对于整个屏幕的坐标，可以将它转化为相对于 IndexBar 的坐标，然后通过计算可以得到我们当前选中的是哪个下标。代码如下：</p>
+<p><img src="c1faac2e10e9496396883d1cba5a80b8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>方法中的 ~&#x2F; 是 flutter 特有的运算符，意思是除后取整。而 clamp() 是对边界情况的处理，意思调用该函数的结果在它的两个参数之间。</p>
+<h1 id="回调选中的下标"><a href="#回调选中的下标" class="headerlink" title="回调选中的下标"></a>回调选中的下标</h1><p>这里的回调，和 OC 里面的 block，Swift 里面的闭包都是一个意思。flutter 里面带有下划线的变量是私有的，外部无法访问的。所以对外暴露的参数，不能写在 <code>_IndexBarState</code> 类里面，需要写在 IndexBar 类里面。声明一个闭包(或者叫 block)属性,作为必传参数在初始化的时候传入。</p>
+<p><img src="55fdb39036574be89074b99011841ad8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样，在 <code>friends_page.dart</code> 文件中初始化 <code>IndexBar</code> 的时候，就需要传入一个闭包。然后 <code>IndexBar</code> 内部在 <code>onVerticalDragUpdate</code> 的时候，调用这个闭包，就可以将当前选中的下标回调给外部了。</p>
+<p><img src="922919210c40483a945f4d0944f05ce0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="634b70d14d9c4b81b022321f39ed69cb~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个时候，会发现一个小问题，就是点击 IndexBar 的时候，回调没有执行，只有在点击并手指挪动的时候才会执行。所以需要在 <code>onVerticalDragDown</code> 方法里面也调用一次闭包。这时候如果直接将 <code>onVerticalDragUpdate</code> 方法里面的代码复制到 <code>onVerticalDragDown</code> 方法里面确实没有问题，但是会明显的看到重复的代码太多了。</p>
+<p><img src="ae4eaba1a6884716969cfe2105ad5033~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>所以可以抽取一个方法，将重复的代码放到一块。</p>
+<p><img src="f935783fe0b24caab0e4d75cde2f5f05~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后调用的时候就简单多了。</p>
+<p><img src="e1f72d6a90154eb38166c935be8e34dd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="优化回调执行的频率"><a href="#优化回调执行的频率" class="headerlink" title="优化回调执行的频率"></a>优化回调执行的频率</h1><p>已经成功的实现了回调，但是从打印的结果来看，会发现同样一个下标会被回调许多次。这样我们滚动好友列表的时候会造成不必要的性能消耗。明明只需要滚动一次，结果却滚动了无数次到同一个位置。所以这里我们需要优化一下，一个很自然的想法就是记录一个 <code>_currentIndexLetter</code>，每次执行回调的时候，判断回调的首字母是否和 <code>_currentIndexLetter</code> 是否不同，如果是一样的就没有必要回调了，只有不同的时候，才执行回调。</p>
+<p><img src="eb0ec5918762440885e3bc19d5023c29~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>代码如下：</p>
+<p><img src="a6d2588d71ee4c8680b4bc2116ea8e61~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="493df27362e642b49c63fcad4be40d12~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样回调的频率就正常了。</p>
+<h1 id="滚动好友列表-ListView"><a href="#滚动好友列表-ListView" class="headerlink" title="滚动好友列表 ListView"></a>滚动好友列表 ListView</h1><p>可滚动的 widget 都有一个 controller 属性，用于控制滚动条的行为。controller 属性是一个 <code>ScrollController</code> 对象。可以使用它来实现指定滚动到某个位置，实现回到顶部等功能。</p>
+<p>滚动好友列表需要一个新的对象 <code>ScrollController</code> 实例，将它设置给 ListView 的 <code>controller</code> 属性，然后就可以通过使用 <code>ScrollController</code> 实例来操作 ListView 的滚动。</p>
+<p><img src="d6867385dc2d4dda98559f16f69f40a2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="87bb89f0fc6d41ac9bfdc63a78aaebce~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里暂时先将滚动的偏移设置为固定值 250，试试看效果。可以看到当我们点击 IndexBar 的时候，ListView 就会滚动到偏移为 250 的地方。接下来就是处理滚动的实际偏移值了。</p>
+<p>滚动的实际偏移，是根据我们的数据源来计算的。因为我们的 cell 的高度是确定的，不显示组头的 cell 高度是 54，有组头的 cell 高度是 54 + 30 &#x3D; 84。使用首字母作为 key，计算出对应的偏移为 offset，然后使用 Map(类似 iOS 中字典)记录下来。由于第一个是不是字母，而是搜索符号，而它对应的偏移也是固定的 0。所以可以在初始化 Map 的时候就指定好。而其他的高度我们在 initState 方法中计算。代码如下：</p>
+<p><img src="a1486026da394231ae187a6eb56f462f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>有了这个 Map 之后，我们在 IndexBar 的回调方法中，就可以根据 IndexBar 回调给我们的首字母得到对应的偏移值了。代码如下：</p>
+<p><img src="1a12df0544684482ad25772040aa4c27~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里，我们的 IndexBar 基本上就实现了滚动 ListView 的功能。但是滚动几次之后就会发现一个小问题。。。滚动到底部的几个组头的时候，会出现 ListView 先将组头滚动到指定位置，然后又滚回底部的情况。原因很好理解，后面的组头内容不够显示一整个屏幕了。所以我们这里需要做下处理。这里主要是对 ListView 的滚动的监听，如果是在 iOS 中我们会想去获取滚动视图的 contentSize 然后减去 UITableView 的高度，就是 UITableView 的最大的滚动范围。而在 Flutter 中，这些都不需要我们计算了。</p>
+<p>如果需要获取到 ListView 的一些滚动相关的信息，可以将它包裹在 <code>NotificationListener</code> 里面，它有一个 <code>onNotification</code> 属性，是一个闭包，可以回调给我们一些滚动的相关信息。包含在闭包参数 <code>ScrollNotification note</code> 里面。准确来讲滚动相关的信息包含在 <code>ScrollNotification</code> 的属性 <code>metrics</code> 里面。它包含当前滚动偏移值，能滚动的最大范围(这就是我们 iOS 中 contentSize 的高减去 UITableView 的高)等等信息。完整代码如下：</p>
+<p><img src="150c3f3be83546c1b47a17038928298e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>将 <code>_maxScrollExtent</code> 定义为一个属性就好了。需要注意的是并不能给初始值为 0，否则没有滚动 ListView 之前，使用 IndexBar 就无法滚动 ListView 了。</p>
+<p><img src="f77a46cc161b4f6297011476a258d27a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>至此，IndexBar 滚动 ListView 的功能就实现了。</p>
+<h1 id="显示指示器"><a href="#显示指示器" class="headerlink" title="显示指示器"></a>显示指示器</h1><p>终于来到了最后一步，显示我们 IndexBar 的指示器。首先考虑的就是布局。最初的 IndexBar 只有右侧的下标一列。现在我们左侧需要一块容器用来显示我们的指示器，所以 IndexBar 的根视图应该考虑改为 Row。指示器背景的不规则图形可以使用一张图片展示，图片已经准备好了。中间的文字，使用 Text 就够了。先看下大概布局代码：</p>
+<p><img src="a2c4ca445a8a4024a1b85f47e888bd1d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="83d6f7a7ffeb4010bd9f134a42b4c358~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>如果觉得位置不是很合适，可以修改一下各自的宽度。然后是对指示器的显示与隐藏做控制，指示器的显示与隐藏的控制，应该说跟背景色的显示隐藏是类似的。都是在手势的那两个方法里面实现控制。使用一个 bool 变量来控制指示器的显示与隐藏，在手势的触摸方法和离开方法里面操作这个 bool 变量，然后 setState() 就可以实现了指示器的显示与隐藏了。</p>
+<p>然后是关于指示器的显示文本的。这个文本就是我们的 <code>_currentIndexLetter</code>，直接使用就好了。最后是关于如何控制整个 IndexBar 的上下位移的。通过对 Alignment 的使用，发现可以控制 IndexBar 的上下位移。通过不断的修改 Alignment 的 y 值会找到一个合适的 y 值指向第一个放大镜，那么 -y 就指向最后一个字母 Z。我这里试了几次发现 y&#x3D;-1.13 的时候，指示器刚刚好指向第一个放大镜的位置。那么现在的问题就是将 1.13 * 2 &#x3D; 2.26 分成<code>_index_words.length - 1</code>份，然后根据选择的下标，取得对应的Alignment 的 y 值。当我们选择第一个的时候下标为 0，y 值应该为 -1.13,当我们选择最后一个的时候下标为 <code>_index_words.length - 1</code>,y 值应该为 1.13。根据这些信息就可以找到计算 y 值的公式。最终的代码如下：<br></p>
+<p>新增两个变量<code>_showIndicator</code>和<code>_indicatorAlignmentY</code>。</p>
+<p><img src="353987e4193a4460984edca74d16588b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>使用这两个变量还有<code>_currentIndexLetter</code></p>
+<p><img src="6fd8c7c981f64b62b76c35b4592ac324~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里，我们就终于实现了通讯录的 IndexBar 的封装。下一节会介绍一些网络请求了…</p>
+<div align="center">
+<img src="ca2cca992d764871abe3a7e8163c2d85~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+
 ]]></content>
       <categories>
         <category>flutter</category>
@@ -762,176 +848,6 @@
       </tags>
   </entry>
   <entry>
-    <title>8天让iOS开发者上手Flutter之五</title>
-    <url>/2021/08/01/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%BA%94/</url>
-    <content><![CDATA[<p>上篇文章，我们已经完成了通讯录的列表。这篇文章介绍完成通讯录右侧的索引条的功能。</p>
-<h1 id="显示索引条"><a href="#显示索引条" class="headerlink" title="显示索引条"></a>显示索引条</h1><p>之前我们已经做过了我的页面的布局，我的页面上有一个列表和一个拍照按钮，和我们今天要实现的索引条布局十分类似。我的页面的布局如下：</p>
-<p><img src="81053ec975144322af3bc1ef5f9e08e4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>通讯录界面的布局，和我的页面的布局都是使用一个 Stack 包含列表和其他子视图来实现。索引条是紧贴屏幕右侧，然后里面的子视图是由上至下的。所以自然的会想到使用一个 Positioned 包含 Column 来实现。Positioned 和 Stack 的组合我们之前讲过，这两个组合起来使用，就和我们 iOS 的约束布局类似，可以设置上左宽高等等。Column 就更不用多说，我们已经使用过很多次了。所以代码如下图所示：</p>
-<p><img src="3b62754a2a31422a9416c79e94759829~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<div align="center">
-<img src="be45a58d597a4a35b0d5ec97d96c445f~tplv-k3u1fbpfcp-watermark.png">
-</div>
-
-<p>然后优化一下索引条的位置，高度我们设置为屏幕高度的一半，那么上下的间距就不能设置为 0 了，设置距离上间距为屏幕的 1&#x2F;8 看起来比较合适。</p>
-<p><img src="d72de44cc3ed45c4b43280c52b1a59ee~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<div align="center">
-<img src="7351193b625b4e5195471735a66581fa~tplv-k3u1fbpfcp-watermark.png">
-</div>
-
-<h1 id="抽取-IndexBar"><a href="#抽取-IndexBar" class="headerlink" title="抽取 IndexBar"></a>抽取 IndexBar</h1><p>写到这里我们会发现，这个索引条还有很多的功能需要我们来实现，还是有点复杂的，如果代码都写在 friends_page.dart 里会有点冗余，我们完全可以将这个索引条作为一个独立的 Widget 来实现。新建 index_bar.dart 文件，代码如下：</p>
-<p><img src="fe9068395cd1451fa340e6dace011a17~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="实现-IndexBar-的点击切换状态"><a href="#实现-IndexBar-的点击切换状态" class="headerlink" title="实现 IndexBar 的点击切换状态"></a>实现 IndexBar 的点击切换状态</h1><p>当没有触摸到 IndexBar 的时候，默认是不展示背景色的，文字也是黑色的。当我们开始点击 IndexBar 的时候，显示出背景色，然后文字也变成了白色。</p>
-<p>实现这个功能，主要是要对 <code>GestureDetector</code> 的两个方法有所了解。<code>onVerticalDragDown</code> 方法会在手指触摸 IndexBar 的时候就会被调用，<code>onVerticalDragEnd</code> 会在手指松开屏幕的时候调用。利用这两个方法就可以实现需求。代码如下：</p>
-<p><img src="133c4a566110476b8405e347c313840d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>因为要对文字的颜色进行修改，所以初始化 Text 的时候，就需要使用变量 _textColor;</p>
-<p><img src="beaa4c3ca6ee489892a049625fe25a99~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="获取当前选中的下标"><a href="#获取当前选中的下标" class="headerlink" title="获取当前选中的下标"></a>获取当前选中的下标</h1><p>同样是对 <code>GestureDetector</code> 的一个手势方法的使用，<code>onVerticalDragUpdate</code> 这个方法的调用时机，在手指移动的时候会不停的调用这个方法。这个方法有一个 <code>DragUpdateDetails</code> 参数，它包含了手指所在的坐标信息。不过是相对于整个屏幕的坐标，可以将它转化为相对于 IndexBar 的坐标，然后通过计算可以得到我们当前选中的是哪个下标。代码如下：</p>
-<p><img src="c1faac2e10e9496396883d1cba5a80b8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>方法中的 ~&#x2F; 是 flutter 特有的运算符，意思是除后取整。而 clamp() 是对边界情况的处理，意思调用该函数的结果在它的两个参数之间。</p>
-<h1 id="回调选中的下标"><a href="#回调选中的下标" class="headerlink" title="回调选中的下标"></a>回调选中的下标</h1><p>这里的回调，和 OC 里面的 block，Swift 里面的闭包都是一个意思。flutter 里面带有下划线的变量是私有的，外部无法访问的。所以对外暴露的参数，不能写在 <code>_IndexBarState</code> 类里面，需要写在 IndexBar 类里面。声明一个闭包(或者叫 block)属性,作为必传参数在初始化的时候传入。</p>
-<p><img src="55fdb39036574be89074b99011841ad8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这样，在 <code>friends_page.dart</code> 文件中初始化 <code>IndexBar</code> 的时候，就需要传入一个闭包。然后 <code>IndexBar</code> 内部在 <code>onVerticalDragUpdate</code> 的时候，调用这个闭包，就可以将当前选中的下标回调给外部了。</p>
-<p><img src="922919210c40483a945f4d0944f05ce0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p><img src="634b70d14d9c4b81b022321f39ed69cb~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这个时候，会发现一个小问题，就是点击 IndexBar 的时候，回调没有执行，只有在点击并手指挪动的时候才会执行。所以需要在 <code>onVerticalDragDown</code> 方法里面也调用一次闭包。这时候如果直接将 <code>onVerticalDragUpdate</code> 方法里面的代码复制到 <code>onVerticalDragDown</code> 方法里面确实没有问题，但是会明显的看到重复的代码太多了。</p>
-<p><img src="ae4eaba1a6884716969cfe2105ad5033~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>所以可以抽取一个方法，将重复的代码放到一块。</p>
-<p><img src="f935783fe0b24caab0e4d75cde2f5f05~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>然后调用的时候就简单多了。</p>
-<p><img src="e1f72d6a90154eb38166c935be8e34dd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="优化回调执行的频率"><a href="#优化回调执行的频率" class="headerlink" title="优化回调执行的频率"></a>优化回调执行的频率</h1><p>已经成功的实现了回调，但是从打印的结果来看，会发现同样一个下标会被回调许多次。这样我们滚动好友列表的时候会造成不必要的性能消耗。明明只需要滚动一次，结果却滚动了无数次到同一个位置。所以这里我们需要优化一下，一个很自然的想法就是记录一个 <code>_currentIndexLetter</code>，每次执行回调的时候，判断回调的首字母是否和 <code>_currentIndexLetter</code> 是否不同，如果是一样的就没有必要回调了，只有不同的时候，才执行回调。</p>
-<p><img src="eb0ec5918762440885e3bc19d5023c29~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>代码如下：</p>
-<p><img src="a6d2588d71ee4c8680b4bc2116ea8e61~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p><img src="493df27362e642b49c63fcad4be40d12~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这样回调的频率就正常了。</p>
-<h1 id="滚动好友列表-ListView"><a href="#滚动好友列表-ListView" class="headerlink" title="滚动好友列表 ListView"></a>滚动好友列表 ListView</h1><p>可滚动的 widget 都有一个 controller 属性，用于控制滚动条的行为。controller 属性是一个 <code>ScrollController</code> 对象。可以使用它来实现指定滚动到某个位置，实现回到顶部等功能。</p>
-<p>滚动好友列表需要一个新的对象 <code>ScrollController</code> 实例，将它设置给 ListView 的 <code>controller</code> 属性，然后就可以通过使用 <code>ScrollController</code> 实例来操作 ListView 的滚动。</p>
-<p><img src="d6867385dc2d4dda98559f16f69f40a2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p><img src="87bb89f0fc6d41ac9bfdc63a78aaebce~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这里暂时先将滚动的偏移设置为固定值 250，试试看效果。可以看到当我们点击 IndexBar 的时候，ListView 就会滚动到偏移为 250 的地方。接下来就是处理滚动的实际偏移值了。</p>
-<p>滚动的实际偏移，是根据我们的数据源来计算的。因为我们的 cell 的高度是确定的，不显示组头的 cell 高度是 54，有组头的 cell 高度是 54 + 30 &#x3D; 84。使用首字母作为 key，计算出对应的偏移为 offset，然后使用 Map(类似 iOS 中字典)记录下来。由于第一个是不是字母，而是搜索符号，而它对应的偏移也是固定的 0。所以可以在初始化 Map 的时候就指定好。而其他的高度我们在 initState 方法中计算。代码如下：</p>
-<p><img src="a1486026da394231ae187a6eb56f462f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>有了这个 Map 之后，我们在 IndexBar 的回调方法中，就可以根据 IndexBar 回调给我们的首字母得到对应的偏移值了。代码如下：</p>
-<p><img src="1a12df0544684482ad25772040aa4c27~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>到这里，我们的 IndexBar 基本上就实现了滚动 ListView 的功能。但是滚动几次之后就会发现一个小问题。。。滚动到底部的几个组头的时候，会出现 ListView 先将组头滚动到指定位置，然后又滚回底部的情况。原因很好理解，后面的组头内容不够显示一整个屏幕了。所以我们这里需要做下处理。这里主要是对 ListView 的滚动的监听，如果是在 iOS 中我们会想去获取滚动视图的 contentSize 然后减去 UITableView 的高度，就是 UITableView 的最大的滚动范围。而在 Flutter 中，这些都不需要我们计算了。</p>
-<p>如果需要获取到 ListView 的一些滚动相关的信息，可以将它包裹在 <code>NotificationListener</code> 里面，它有一个 <code>onNotification</code> 属性，是一个闭包，可以回调给我们一些滚动的相关信息。包含在闭包参数 <code>ScrollNotification note</code> 里面。准确来讲滚动相关的信息包含在 <code>ScrollNotification</code> 的属性 <code>metrics</code> 里面。它包含当前滚动偏移值，能滚动的最大范围(这就是我们 iOS 中 contentSize 的高减去 UITableView 的高)等等信息。完整代码如下：</p>
-<p><img src="150c3f3be83546c1b47a17038928298e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>将 <code>_maxScrollExtent</code> 定义为一个属性就好了。需要注意的是并不能给初始值为 0，否则没有滚动 ListView 之前，使用 IndexBar 就无法滚动 ListView 了。</p>
-<p><img src="f77a46cc161b4f6297011476a258d27a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>至此，IndexBar 滚动 ListView 的功能就实现了。</p>
-<h1 id="显示指示器"><a href="#显示指示器" class="headerlink" title="显示指示器"></a>显示指示器</h1><p>终于来到了最后一步，显示我们 IndexBar 的指示器。首先考虑的就是布局。最初的 IndexBar 只有右侧的下标一列。现在我们左侧需要一块容器用来显示我们的指示器，所以 IndexBar 的根视图应该考虑改为 Row。指示器背景的不规则图形可以使用一张图片展示，图片已经准备好了。中间的文字，使用 Text 就够了。先看下大概布局代码：</p>
-<p><img src="a2c4ca445a8a4024a1b85f47e888bd1d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<div align="center">
-<img src="83d6f7a7ffeb4010bd9f134a42b4c358~tplv-k3u1fbpfcp-watermark.png">
-</div>
-
-<p>如果觉得位置不是很合适，可以修改一下各自的宽度。然后是对指示器的显示与隐藏做控制，指示器的显示与隐藏的控制，应该说跟背景色的显示隐藏是类似的。都是在手势的那两个方法里面实现控制。使用一个 bool 变量来控制指示器的显示与隐藏，在手势的触摸方法和离开方法里面操作这个 bool 变量，然后 setState() 就可以实现了指示器的显示与隐藏了。</p>
-<p>然后是关于指示器的显示文本的。这个文本就是我们的 <code>_currentIndexLetter</code>，直接使用就好了。最后是关于如何控制整个 IndexBar 的上下位移的。通过对 Alignment 的使用，发现可以控制 IndexBar 的上下位移。通过不断的修改 Alignment 的 y 值会找到一个合适的 y 值指向第一个放大镜，那么 -y 就指向最后一个字母 Z。我这里试了几次发现 y&#x3D;-1.13 的时候，指示器刚刚好指向第一个放大镜的位置。那么现在的问题就是将 1.13 * 2 &#x3D; 2.26 分成<code>_index_words.length - 1</code>份，然后根据选择的下标，取得对应的Alignment 的 y 值。当我们选择第一个的时候下标为 0，y 值应该为 -1.13,当我们选择最后一个的时候下标为 <code>_index_words.length - 1</code>,y 值应该为 1.13。根据这些信息就可以找到计算 y 值的公式。最终的代码如下：<br></p>
-<p>新增两个变量<code>_showIndicator</code>和<code>_indicatorAlignmentY</code>。</p>
-<p><img src="353987e4193a4460984edca74d16588b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>使用这两个变量还有<code>_currentIndexLetter</code></p>
-<p><img src="6fd8c7c981f64b62b76c35b4592ac324~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>到这里，我们就终于实现了通讯录的 IndexBar 的封装。下一节会介绍一些网络请求了…</p>
-<div align="center">
-<img src="ca2cca992d764871abe3a7e8163c2d85~tplv-k3u1fbpfcp-watermark.png">
-</div>
-
-
-]]></content>
-      <categories>
-        <category>flutter</category>
-      </categories>
-      <tags>
-        <tag>flutter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>8天让iOS开发者上手Flutter之六</title>
-    <url>/2021/08/17/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%85%AD/</url>
-    <content><![CDATA[<p>发现了一个宝藏网址，这里讲解的 <a href="https://book.flutterchina.club/">flutter实战</a> 比我写的靠谱多了。</p>
-<h1 id="准备网络数据"><a href="#准备网络数据" class="headerlink" title="准备网络数据"></a>准备网络数据</h1><p>这一步不是很重要，提供一些假数据而已，不是重点嫌麻烦的可以跳过。</p>
-<p>先介绍一个网址：<a href="http://rap2.taobao.org/account/login">http://rap2.taobao.org/account/login</a> 这个网址用来搭建我们需要的网络数据，注册账号非常简单，这里就不多说了。</p>
-<p>注册完成之后，新建一个仓库，简简单单取个名字就够了：</p>
-<p><img src="4a3c12fb3b244575ac6b794168d93675~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_10.png"></p>
-<p>之后点击进入仓库，可以看到下图：</p>
-<p><img src="dfd2860cb5c64f4b947d45551aba9d93~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_11.png"></p>
-<p>会默认生成以一个示例接口，可以看一看示例接口的生成规则。看不懂也没关系，我们直接直接上手自己新建一个接口，如图所示：</p>
-<p><img src="0af92d6af9b14eae865b69d5beb874c4~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_12.png"></p>
-<p>点击右上角的编辑按钮进入编辑模式，新建一个响应 chatlist，类型为 Array。然后生成 chatlist 的数据，imageUrl 表示每条聊天数据的用户头像。其中用户头像的初始值里面有一段 @natural(20,99)，这个是 Mock.js 代码。这里是相关介绍 <a href="http://mockjs.com/">http://mockjs.com/</a></p>
-<p><img src="4b21769272134c4ea316f9289a9d945d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_14.png"></p>
-<p>每条聊天数据，除了 imageUrl 还需要有用户名 name 和消息的内容 message。@cname 用来生成随机的中文名，@cparagraph 用来生成随机的中文段落来表示聊天内容。我们这里只是简单的构造一下这个聊天列表所需要的数据，真正的聊天列表的数据肯定是不会这么简单的。。。</p>
-<p><img src="c1a42755454d455d9d2be30c80fd6e62~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_15.png"></p>
-<p>编辑的差不多的时候，记得点击保存,保存之后点击红圈中的图标就可以获取到数据</p>
-<p><img src="3a1db20c16414845bc45ce901e244a66~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="聊天页面导航条"><a href="#聊天页面导航条" class="headerlink" title="聊天页面导航条"></a>聊天页面导航条</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>默认展示页面改为 <code>_currentIndex</code> 改为 0,新建 chat 目录，将相关文件放在这里。</p>
-<p><img src="0213b262930d4066b6f26e34993011cc~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_17.png"></p>
-<h2 id="添加加号按钮"><a href="#添加加号按钮" class="headerlink" title="添加加号按钮"></a>添加加号按钮</h2><p>加号按钮这个东西，我们之前已经添加过类似的了，appBar 的 actions 就是我们需要添加代码的地方。</p>
-<p><img src="336b5de10dc2451bbb989516bd66049c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>如果我们按照这个思路写下去的话，就需要自己再去实现一个弹出菜单的类。其实 flutter 提供了我们一些现成的类可以做到类似的效果。</p>
-<h2 id="PopupMenuButton"><a href="#PopupMenuButton" class="headerlink" title="PopupMenuButton"></a><code>PopupMenuButton</code></h2><p><code>PopupMenuButton</code> 类用来弹出一个菜单，必传参数为 <code>itemBuilder</code>，用来实现它需要展示的内容。<code>PopupMenuItem</code> 就是用来展示内容的类。这里有一个细节说一下，<code>PopupMenuButton</code> 有一个 <code>onSelected</code> 属性，这个属性是个闭包，意思是选中某个 <code>PopupMenuItem</code> 的时候，会调用这个闭包。但是有一个前提就是每个 <code>PopupMenuItem</code> 的 <code>value</code> 必须不为 null 的时候，才会执行 <code>onSelected</code> 闭包，我在这里卡了半天，网上找了半天资料也没有明确讲到这里。其他就没什么好讲的了，都比较简单。</p>
-<p><img src="4b9d82deec2e46e881aa084e25d9bb7d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210812_19.png"></p>
-<p>其中 <code>_buildMenuItem</code> 的实现如下，注意 <code>value</code> 要赋值就好了，不为空就行，不然 <code>PopupMenuButton</code> 的 <code>onSelected</code> 不执行：</p>
-<p><img src="9f6f5da2ff794264afbf256c95e307a6~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>还有一个小细节，如何设置 <code>PopupMenuButton</code> 的颜色，可以直接设置它的颜色</p>
-<p><img src="0548c31d2ba248e9b8bdeb375031c487~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>还可以设置APP的主题的 <code>cardColor</code>，不过这个优先级没有直接设置 <code>PopupMenuButton</code> 颜色高。</p>
-<p><img src="9c19742492944488ba13249b31db685b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="请求网络数据"><a href="#请求网络数据" class="headerlink" title="请求网络数据"></a>请求网络数据</h1><h2 id="https-pub-flutter-io-cn"><a href="#https-pub-flutter-io-cn" class="headerlink" title="https://pub.flutter-io.cn/"></a><a href="https://pub.flutter-io.cn/">https://pub.flutter-io.cn/</a></h2><p><img src="04224929590b47528f1a1ea05dbe8ab9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这个网站可以搜索 flutter 使用的包 packages。我们使用 http 这个包来请求我们的网络数据。这个包是 flutter 官方提供的。实际项目开发的时候可能并不会使用 http 这个包，大部分是使用 dio 来请求网络数据。这里只介绍官方的 http 包如何使用。</p>
-<h2 id="导入http包"><a href="#导入http包" class="headerlink" title="导入http包"></a>导入http包</h2><p><img src="32044f0faafd4673bc0a0e5cc22ae858~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p><img src="1dfb3991238d4f77927c2728ef210d6e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>粘贴完成之后需要更新一下，就是获取一下包对应的代码。可以通过上方的 <code>Pub get</code>,也可以在终端中输入 <code>flutter packages get</code> </p>
-<p><img src="dfeb775cd3ae4e96ba22440e706d33d3~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>命令执行完之后，就可以使用这个包了。</p>
-<h2 id="导入-http-头文件并取别名"><a href="#导入-http-头文件并取别名" class="headerlink" title="导入 http 头文件并取别名"></a>导入 http 头文件并取别名</h2><p><img src="9539435380ef4dd38aa8af4eaa119b38~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><p><img src="df206f11e0b1474e8086c80ff222d5cf~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>请求的发送写在 <code>initState</code> 里面。<code>getData()</code> 后面跟了一个 async 表示的是异步执行。async 需要搭配 await 使用，await 后面跟着的是耗时的代码。所以上面的程序会先打印来了，然后再输出请求的状态码；</p>
-<p><img src="a9e9b0f789c4471492caccb982daa03d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>点击其他的页面，再次回到当前页面会发现 initState 方法重新走了一遍，这是因为我们还没有保存住状态，后面会讲到如何保持 Widget 的状态。</p>
-<h2 id="处理返回的数据"><a href="#处理返回的数据" class="headerlink" title="处理返回的数据"></a>处理返回的数据</h2><p>首先介绍一下，在 flutter 中如何将请求返回的 JSON 数据转为 Map，在我们 iOS 开发中是转为字典，而 flutter 中没有字典这个类型，对应的类型是 Map。以及如果将 Map 转为 JSON。在 iOS 中我们知道会使用一个 <code>NSJSONSerialization</code> 的类用来处理JSON数据。同样的，在 flutter 中也会有一个专门的类 <code>JsonCodec</code> 来处理。</p>
-<h3 id="JSON-和-Map-互相转"><a href="#JSON-和-Map-互相转" class="headerlink" title="JSON 和 Map 互相转"></a>JSON 和 Map 互相转</h3><p><img src="cd897b4dbfd54af1941972b4360d3159~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>其中的 json 就是 <code>JsonCodec</code> 的实例。需要导入 <code>&#39;dart:convert&#39;</code> 头文件。flutter 中还可以通过 <code>is</code> 来判断是不是某个类型。</p>
-<h3 id="新建聊天模型"><a href="#新建聊天模型" class="headerlink" title="新建聊天模型"></a>新建聊天模型</h3><p><img src="3017a15c3cbe4d3ab67d82bafdb385f2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"> </p>
-<p>除了红框内的方法之外，其他没什么新鲜事物。红框内的方法应该说是一个工厂方法，是设计模式的一种，用来初始化对象的。除了默认的初始化方法，还可以使用这个工厂方法来实例化一个 Chat 对象。模型建立好了之后就可以处理响应的数据了</p>
-<h3 id="处理响应的数据"><a href="#处理响应的数据" class="headerlink" title="处理响应的数据"></a>处理响应的数据</h3><p><img src="5bf33bb810d64e51873ad84fb15bf76d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>这里用到了 Future，关于 Future 的讲解可以看官方文档 <a href="https://dart.cn/tutorials/language/futures">https://dart.cn/tutorials/language/futures</a></p>
-<h1 id="使用-FutureBuilder-显示界面"><a href="#使用-FutureBuilder-显示界面" class="headerlink" title="使用 FutureBuilder 显示界面"></a>使用 FutureBuilder 显示界面</h1><p>很多时候我们会依赖一些异步数据来动态更新 UI，比如在打开一个页面时我们需要先从互联网上获取数据，在获取数据的过程中我们显示一个加载框，等获取到数据时我们再渲染页面；当然，通过 StatefulWidget 我们完全可以实现上述这些功能。</p>
-<p>但由于在实际开发中依赖异步数据更新UI的这种场景非常常见，因此 Flutter 专门提供了 <code>FutureBuilder</code> 来快速实现这种功能。<code>FutureBuilder</code> 会依赖一个 <code>future</code>，它会根据所依赖的 <code>future</code> 的状态来动态构建自身。这个 <code>future</code> 我们刚刚已经准备好了。关于 <code>FutureBuilder</code> 的介绍 <a href="https://book.flutterchina.club/chapter7/futurebuilder_and_streambuilder.html#_7-5-1-futurebuilder">这篇文章</a> 讲解的很详细。<br>最后完整代码如下：</p>
-<p><img src="320e21f3548744db88a59b289094e80b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="不使用-FutureBuilder-的方式"><a href="#不使用-FutureBuilder-的方式" class="headerlink" title="不使用 FutureBuilder 的方式"></a>不使用 FutureBuilder 的方式</h1><p>刚刚说了，我们可以使用 FutureBuilder 来快速实现展示异步网络数据，也可以自己实现，现在我们自己实现一下。使用一个私有变量 _chatList 记录请求下来的数据，再根据 _chatList 的值来展示不同的页面。代码如下：</p>
-<p><img src="57600afd73aa4a3c8178bc07be97a375~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p><img src="22da31c383294f85ae5af4ad182b2ab1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>因为 getData 的返回值是 Future 的原因，getData() 后面可以跟 <code>then</code> 方法，还可以跟错误捕获 <code>catchError</code>,完成时的回调 <code>whenComplete</code>，超时设置 <code>timeOut</code> 等等，这种写法挺有意思，一路点下去就完了…</p>
-<h2 id="实现超时取消刷新功能"><a href="#实现超时取消刷新功能" class="headerlink" title="实现超时取消刷新功能"></a>实现超时取消刷新功能</h2><p><img src="b865f3d6e0434e74a1e1a3324da786f4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>在每次请求的时候，重置 <code>_cancelConnect</code> 的值。</p>
-<p><img src="07c8ba9d07b446f9a6684241fc5f31bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h1 id="保持-Widget-的状态"><a href="#保持-Widget-的状态" class="headerlink" title="保持 Widget 的状态"></a>保持 Widget 的状态</h1><p>我们来回点击通讯录页面和聊天页面，会发现每次点击进入当前的页面，都会重新的载入，<code>initState()</code> 会被重新调用。将通讯录页面滑动到底部，再次点击进入会发现又默认回到了顶部。为什么会出现这样的问题。正是因为我们的Widget的状态没有保持，每次展示都重新创建了。</p>
-<p>Dart 语言中有一个 Mixins 的概念：<a href="https://dart.cn/samples#mixins">官方的解释是这样</a>，可以给类 A Mixins 一个 B，那么 A 就拥有了 B 的属性和方法。有点像 OC 的类扩展的意思。保持 Widget 的状态就需要用到这个语言特性。一共有三个步骤：</p>
-<ol>
-<li>Mixins 类<code>AutomaticKeepAliveClientMixin</code></li>
-<li>重写<code>wantKeepAlive</code>方法</li>
-<li>调用父类Builder方法</li>
-</ol>
-<p><img src="d3d29b34ea3746b9a9cc7ec0ca19a9d9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>同样把通讯录页面也实现上面的步骤。然后再次来回点击发现还是没有保持住状态？？？这里有一个最大的问题就是我们的根 Widget 都没有保持住状态，那还谈什么保持子 Widget 的状态呢。。。</p>
-<h2 id="使用-PageView"><a href="#使用-PageView" class="headerlink" title="使用 PageView"></a>使用 PageView</h2><p>来到 rootPage.dart 文件，我们会看到 body 里面直接取了数组的某个元素作为根 Widget 展示。这样是无法保持住状态的，使用 PageView 才可以保持住状态。</p>
-<p><img src="275398750bb34835b5fa1a593e30bbc4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>使用 PageView，代码如下：</p>
-<p><img src="adc5cc5e8c1046909d27097107c9f590~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<p>点击跳转到其他页面就可以直接通过 _pageController 来完成。使用了 PageView 之后会发现，不同的页面之间可以直接通过手势左右滑到就能切换了。这样的效果我们一般是不需要的，可以设置直接关闭。如果需要的话，在滑动的方法里面重新设置底部导航条的正确位置也是没有问题的。</p>
-<h3 id="使用滑动切换，解决-bug"><a href="#使用滑动切换，解决-bug" class="headerlink" title="使用滑动切换，解决 bug"></a>使用滑动切换，解决 bug</h3><p><img src="44cb9bc186724397b471136abbcc44ea~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-<h3 id="禁用滑动切换"><a href="#禁用滑动切换" class="headerlink" title="禁用滑动切换"></a>禁用滑动切换</h3><p><img src="e9d533514d734781bd6a13e6c43e738a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
-]]></content>
-      <categories>
-        <category>flutter</category>
-      </categories>
-      <tags>
-        <tag>flutter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>8天让iOS开发者上手Flutter之八</title>
     <url>/2021/08/29/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%85%AB/</url>
     <content><![CDATA[<h1 id="介绍四种-Flutter-Project"><a href="#介绍四种-Flutter-Project" class="headerlink" title="介绍四种 Flutter Project"></a>介绍四种 Flutter Project</h1><p>先介绍一下这四个的差别和使用的场景。</p>
@@ -1028,6 +944,90 @@
       </tags>
   </entry>
   <entry>
+    <title>8天让iOS开发者上手Flutter之六</title>
+    <url>/2021/08/17/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%85%AD/</url>
+    <content><![CDATA[<p>发现了一个宝藏网址，这里讲解的 <a href="https://book.flutterchina.club/">flutter实战</a> 比我写的靠谱多了。</p>
+<h1 id="准备网络数据"><a href="#准备网络数据" class="headerlink" title="准备网络数据"></a>准备网络数据</h1><p>这一步不是很重要，提供一些假数据而已，不是重点嫌麻烦的可以跳过。</p>
+<p>先介绍一个网址：<a href="http://rap2.taobao.org/account/login">http://rap2.taobao.org/account/login</a> 这个网址用来搭建我们需要的网络数据，注册账号非常简单，这里就不多说了。</p>
+<p>注册完成之后，新建一个仓库，简简单单取个名字就够了：</p>
+<p><img src="4a3c12fb3b244575ac6b794168d93675~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_10.png"></p>
+<p>之后点击进入仓库，可以看到下图：</p>
+<p><img src="dfd2860cb5c64f4b947d45551aba9d93~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_11.png"></p>
+<p>会默认生成以一个示例接口，可以看一看示例接口的生成规则。看不懂也没关系，我们直接直接上手自己新建一个接口，如图所示：</p>
+<p><img src="0af92d6af9b14eae865b69d5beb874c4~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_12.png"></p>
+<p>点击右上角的编辑按钮进入编辑模式，新建一个响应 chatlist，类型为 Array。然后生成 chatlist 的数据，imageUrl 表示每条聊天数据的用户头像。其中用户头像的初始值里面有一段 @natural(20,99)，这个是 Mock.js 代码。这里是相关介绍 <a href="http://mockjs.com/">http://mockjs.com/</a></p>
+<p><img src="4b21769272134c4ea316f9289a9d945d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_14.png"></p>
+<p>每条聊天数据，除了 imageUrl 还需要有用户名 name 和消息的内容 message。@cname 用来生成随机的中文名，@cparagraph 用来生成随机的中文段落来表示聊天内容。我们这里只是简单的构造一下这个聊天列表所需要的数据，真正的聊天列表的数据肯定是不会这么简单的。。。</p>
+<p><img src="c1a42755454d455d9d2be30c80fd6e62~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_15.png"></p>
+<p>编辑的差不多的时候，记得点击保存,保存之后点击红圈中的图标就可以获取到数据</p>
+<p><img src="3a1db20c16414845bc45ce901e244a66~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="聊天页面导航条"><a href="#聊天页面导航条" class="headerlink" title="聊天页面导航条"></a>聊天页面导航条</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>默认展示页面改为 <code>_currentIndex</code> 改为 0,新建 chat 目录，将相关文件放在这里。</p>
+<p><img src="0213b262930d4066b6f26e34993011cc~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_17.png"></p>
+<h2 id="添加加号按钮"><a href="#添加加号按钮" class="headerlink" title="添加加号按钮"></a>添加加号按钮</h2><p>加号按钮这个东西，我们之前已经添加过类似的了，appBar 的 actions 就是我们需要添加代码的地方。</p>
+<p><img src="336b5de10dc2451bbb989516bd66049c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如果我们按照这个思路写下去的话，就需要自己再去实现一个弹出菜单的类。其实 flutter 提供了我们一些现成的类可以做到类似的效果。</p>
+<h2 id="PopupMenuButton"><a href="#PopupMenuButton" class="headerlink" title="PopupMenuButton"></a><code>PopupMenuButton</code></h2><p><code>PopupMenuButton</code> 类用来弹出一个菜单，必传参数为 <code>itemBuilder</code>，用来实现它需要展示的内容。<code>PopupMenuItem</code> 就是用来展示内容的类。这里有一个细节说一下，<code>PopupMenuButton</code> 有一个 <code>onSelected</code> 属性，这个属性是个闭包，意思是选中某个 <code>PopupMenuItem</code> 的时候，会调用这个闭包。但是有一个前提就是每个 <code>PopupMenuItem</code> 的 <code>value</code> 必须不为 null 的时候，才会执行 <code>onSelected</code> 闭包，我在这里卡了半天，网上找了半天资料也没有明确讲到这里。其他就没什么好讲的了，都比较简单。</p>
+<p><img src="4b9d82deec2e46e881aa084e25d9bb7d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210812_19.png"></p>
+<p>其中 <code>_buildMenuItem</code> 的实现如下，注意 <code>value</code> 要赋值就好了，不为空就行，不然 <code>PopupMenuButton</code> 的 <code>onSelected</code> 不执行：</p>
+<p><img src="9f6f5da2ff794264afbf256c95e307a6~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>还有一个小细节，如何设置 <code>PopupMenuButton</code> 的颜色，可以直接设置它的颜色</p>
+<p><img src="0548c31d2ba248e9b8bdeb375031c487~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>还可以设置APP的主题的 <code>cardColor</code>，不过这个优先级没有直接设置 <code>PopupMenuButton</code> 颜色高。</p>
+<p><img src="9c19742492944488ba13249b31db685b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="请求网络数据"><a href="#请求网络数据" class="headerlink" title="请求网络数据"></a>请求网络数据</h1><h2 id="https-pub-flutter-io-cn"><a href="#https-pub-flutter-io-cn" class="headerlink" title="https://pub.flutter-io.cn/"></a><a href="https://pub.flutter-io.cn/">https://pub.flutter-io.cn/</a></h2><p><img src="04224929590b47528f1a1ea05dbe8ab9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个网站可以搜索 flutter 使用的包 packages。我们使用 http 这个包来请求我们的网络数据。这个包是 flutter 官方提供的。实际项目开发的时候可能并不会使用 http 这个包，大部分是使用 dio 来请求网络数据。这里只介绍官方的 http 包如何使用。</p>
+<h2 id="导入http包"><a href="#导入http包" class="headerlink" title="导入http包"></a>导入http包</h2><p><img src="32044f0faafd4673bc0a0e5cc22ae858~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="1dfb3991238d4f77927c2728ef210d6e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>粘贴完成之后需要更新一下，就是获取一下包对应的代码。可以通过上方的 <code>Pub get</code>,也可以在终端中输入 <code>flutter packages get</code> </p>
+<p><img src="dfeb775cd3ae4e96ba22440e706d33d3~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>命令执行完之后，就可以使用这个包了。</p>
+<h2 id="导入-http-头文件并取别名"><a href="#导入-http-头文件并取别名" class="headerlink" title="导入 http 头文件并取别名"></a>导入 http 头文件并取别名</h2><p><img src="9539435380ef4dd38aa8af4eaa119b38~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><p><img src="df206f11e0b1474e8086c80ff222d5cf~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>请求的发送写在 <code>initState</code> 里面。<code>getData()</code> 后面跟了一个 async 表示的是异步执行。async 需要搭配 await 使用，await 后面跟着的是耗时的代码。所以上面的程序会先打印来了，然后再输出请求的状态码；</p>
+<p><img src="a9e9b0f789c4471492caccb982daa03d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击其他的页面，再次回到当前页面会发现 initState 方法重新走了一遍，这是因为我们还没有保存住状态，后面会讲到如何保持 Widget 的状态。</p>
+<h2 id="处理返回的数据"><a href="#处理返回的数据" class="headerlink" title="处理返回的数据"></a>处理返回的数据</h2><p>首先介绍一下，在 flutter 中如何将请求返回的 JSON 数据转为 Map，在我们 iOS 开发中是转为字典，而 flutter 中没有字典这个类型，对应的类型是 Map。以及如果将 Map 转为 JSON。在 iOS 中我们知道会使用一个 <code>NSJSONSerialization</code> 的类用来处理JSON数据。同样的，在 flutter 中也会有一个专门的类 <code>JsonCodec</code> 来处理。</p>
+<h3 id="JSON-和-Map-互相转"><a href="#JSON-和-Map-互相转" class="headerlink" title="JSON 和 Map 互相转"></a>JSON 和 Map 互相转</h3><p><img src="cd897b4dbfd54af1941972b4360d3159~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>其中的 json 就是 <code>JsonCodec</code> 的实例。需要导入 <code>&#39;dart:convert&#39;</code> 头文件。flutter 中还可以通过 <code>is</code> 来判断是不是某个类型。</p>
+<h3 id="新建聊天模型"><a href="#新建聊天模型" class="headerlink" title="新建聊天模型"></a>新建聊天模型</h3><p><img src="3017a15c3cbe4d3ab67d82bafdb385f2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"> </p>
+<p>除了红框内的方法之外，其他没什么新鲜事物。红框内的方法应该说是一个工厂方法，是设计模式的一种，用来初始化对象的。除了默认的初始化方法，还可以使用这个工厂方法来实例化一个 Chat 对象。模型建立好了之后就可以处理响应的数据了</p>
+<h3 id="处理响应的数据"><a href="#处理响应的数据" class="headerlink" title="处理响应的数据"></a>处理响应的数据</h3><p><img src="5bf33bb810d64e51873ad84fb15bf76d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里用到了 Future，关于 Future 的讲解可以看官方文档 <a href="https://dart.cn/tutorials/language/futures">https://dart.cn/tutorials/language/futures</a></p>
+<h1 id="使用-FutureBuilder-显示界面"><a href="#使用-FutureBuilder-显示界面" class="headerlink" title="使用 FutureBuilder 显示界面"></a>使用 FutureBuilder 显示界面</h1><p>很多时候我们会依赖一些异步数据来动态更新 UI，比如在打开一个页面时我们需要先从互联网上获取数据，在获取数据的过程中我们显示一个加载框，等获取到数据时我们再渲染页面；当然，通过 StatefulWidget 我们完全可以实现上述这些功能。</p>
+<p>但由于在实际开发中依赖异步数据更新UI的这种场景非常常见，因此 Flutter 专门提供了 <code>FutureBuilder</code> 来快速实现这种功能。<code>FutureBuilder</code> 会依赖一个 <code>future</code>，它会根据所依赖的 <code>future</code> 的状态来动态构建自身。这个 <code>future</code> 我们刚刚已经准备好了。关于 <code>FutureBuilder</code> 的介绍 <a href="https://book.flutterchina.club/chapter7/futurebuilder_and_streambuilder.html#_7-5-1-futurebuilder">这篇文章</a> 讲解的很详细。<br>最后完整代码如下：</p>
+<p><img src="320e21f3548744db88a59b289094e80b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="不使用-FutureBuilder-的方式"><a href="#不使用-FutureBuilder-的方式" class="headerlink" title="不使用 FutureBuilder 的方式"></a>不使用 FutureBuilder 的方式</h1><p>刚刚说了，我们可以使用 FutureBuilder 来快速实现展示异步网络数据，也可以自己实现，现在我们自己实现一下。使用一个私有变量 _chatList 记录请求下来的数据，再根据 _chatList 的值来展示不同的页面。代码如下：</p>
+<p><img src="57600afd73aa4a3c8178bc07be97a375~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="22da31c383294f85ae5af4ad182b2ab1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>因为 getData 的返回值是 Future 的原因，getData() 后面可以跟 <code>then</code> 方法，还可以跟错误捕获 <code>catchError</code>,完成时的回调 <code>whenComplete</code>，超时设置 <code>timeOut</code> 等等，这种写法挺有意思，一路点下去就完了…</p>
+<h2 id="实现超时取消刷新功能"><a href="#实现超时取消刷新功能" class="headerlink" title="实现超时取消刷新功能"></a>实现超时取消刷新功能</h2><p><img src="b865f3d6e0434e74a1e1a3324da786f4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在每次请求的时候，重置 <code>_cancelConnect</code> 的值。</p>
+<p><img src="07c8ba9d07b446f9a6684241fc5f31bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="保持-Widget-的状态"><a href="#保持-Widget-的状态" class="headerlink" title="保持 Widget 的状态"></a>保持 Widget 的状态</h1><p>我们来回点击通讯录页面和聊天页面，会发现每次点击进入当前的页面，都会重新的载入，<code>initState()</code> 会被重新调用。将通讯录页面滑动到底部，再次点击进入会发现又默认回到了顶部。为什么会出现这样的问题。正是因为我们的Widget的状态没有保持，每次展示都重新创建了。</p>
+<p>Dart 语言中有一个 Mixins 的概念：<a href="https://dart.cn/samples#mixins">官方的解释是这样</a>，可以给类 A Mixins 一个 B，那么 A 就拥有了 B 的属性和方法。有点像 OC 的类扩展的意思。保持 Widget 的状态就需要用到这个语言特性。一共有三个步骤：</p>
+<ol>
+<li>Mixins 类<code>AutomaticKeepAliveClientMixin</code></li>
+<li>重写<code>wantKeepAlive</code>方法</li>
+<li>调用父类Builder方法</li>
+</ol>
+<p><img src="d3d29b34ea3746b9a9cc7ec0ca19a9d9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>同样把通讯录页面也实现上面的步骤。然后再次来回点击发现还是没有保持住状态？？？这里有一个最大的问题就是我们的根 Widget 都没有保持住状态，那还谈什么保持子 Widget 的状态呢。。。</p>
+<h2 id="使用-PageView"><a href="#使用-PageView" class="headerlink" title="使用 PageView"></a>使用 PageView</h2><p>来到 rootPage.dart 文件，我们会看到 body 里面直接取了数组的某个元素作为根 Widget 展示。这样是无法保持住状态的，使用 PageView 才可以保持住状态。</p>
+<p><img src="275398750bb34835b5fa1a593e30bbc4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>使用 PageView，代码如下：</p>
+<p><img src="adc5cc5e8c1046909d27097107c9f590~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击跳转到其他页面就可以直接通过 _pageController 来完成。使用了 PageView 之后会发现，不同的页面之间可以直接通过手势左右滑到就能切换了。这样的效果我们一般是不需要的，可以设置直接关闭。如果需要的话，在滑动的方法里面重新设置底部导航条的正确位置也是没有问题的。</p>
+<h3 id="使用滑动切换，解决-bug"><a href="#使用滑动切换，解决-bug" class="headerlink" title="使用滑动切换，解决 bug"></a>使用滑动切换，解决 bug</h3><p><img src="44cb9bc186724397b471136abbcc44ea~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="禁用滑动切换"><a href="#禁用滑动切换" class="headerlink" title="禁用滑动切换"></a>禁用滑动切换</h3><p><img src="e9d533514d734781bd6a13e6c43e738a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>8天让iOS开发者上手Flutter之四</title>
     <url>/2021/07/25/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%9B%9B/</url>
     <content><![CDATA[<p>上一篇文章我们已经完成了发现页面的搭建，下一步我们实现微信的我的页面</p>
@@ -1092,163 +1092,6 @@
       <tags>
         <tag>flutter</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Error Domain=NSURLErrorDomain Code=-999 已取消</title>
-    <url>/2018/04/03/Error-Domain-NSURLErrorDomain-Code-999-%E5%B7%B2%E5%8F%96%E6%B6%88/</url>
-    <content><![CDATA[<p>今天遇到这么一个问题,在使用SDWebimage设置UIImageView的图片的时候,发现这个图片<br><code>http://img4.imgtn.bdimg.com/it/u=132600321,3123081067&amp;fm=27&amp;gp=0.jpg</code>怎么也设置不成功,后来调试一看发现<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_4.png">说是什么已取消,我是一脸懵逼啊,谁TM取消了啊???百思不得其解之后网上搜了一下;<br>嘿,还有人写了个总结<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_5.png"></p>
-<p>然而看了上面的总结后发现貌似都没有关系…所以说这个总结也并不全面…后来想想用浏览器打开这个图片试试看,发现浏览器上能正常打开;这下我估计是请求图片的请求头有问题了;于是我将浏览器的请求头和从APP发出的请求头都列出来了;如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_1.png"></p>
-<p><em>浏览器上的请求头</em></p>
-<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_2.png"></p>
-<p><em>使用Charles抓取APP发出的请求头</em></p>
-<p>其实一下子也看不出什么东西出来,那就先从都有的请求头开始试吧,再将APP发出的请求头的User-Agent设置之后发现能够设置成功了…那么问题就可以这么解释了,这个图片所在的服务器会对请求的User-Agent进行判断,具体判断规则是怎样的那我就不得而知了;如果不符合它的规则那么就会请求失败,在上图Charles抓包的响应里面可以看到一段403 Forbidden的html代码,而在APP中,就是报的<code>Error Domain=NSURLErrorDomain Code=-999 &quot;已取消&quot;</code>的错误<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_6.png"></p>
-<p>其实吧,这个问题根本不重要,因为实际我根本不可能使用这个URL;重要的是解决问题的思路,你得学会一套方法去解决问题,而不是学会解决这个问题…</p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OpenSSH</title>
-    <url>/2024/10/27/OpenSSH/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>平时在使用 Mac 的过程中，经常会使用终端输入命令来执行一些操作。在越狱开发的过程中，同样需要在 iOS 系统上输入一些命令来执行一些任务。那么如何才能在 iOS 系统上输入命令呢，在 iOS 上安装一个终端命令行工具，然后在 iPhone 那小小的屏幕上用触摸屏输入命令吗？虽然说理论上和实际上都是可行的，但是通过手指触摸屏幕来输入命令的方式效率比较低，也不是很方便。这里还是推荐在 Mac 上远程登录到 iOS 系统，这样就可以使用 Mac 的键盘输入命令到 iOS 上去执行，更加方便，快捷。</p>
-<h1 id="SSL、openSSL、SSH、openSSH"><a href="#SSL、openSSL、SSH、openSSH" class="headerlink" title="SSL、openSSL、SSH、openSSH"></a>SSL、openSSL、SSH、openSSH</h1><p>SSL（Secure Sockets Layer）是一种用于在计算机网络上进行安全通信的协议。SSL 最初由 Netscape 开发，后来发展为 TLS（Transport Layer Security）。SSL&#x2F;TLS 用于在客户端和服务器之间建立安全的加密连接，以保护敏感数据的传输，例如在网页浏览器和服务器之间的数据传输。</p>
-<p>OpenSSL 是一个强大的、商业级的、功能齐全的开源工具包，它提供了一组库和命令行工具，用于处理 SSL&#x2F;TLS 协议和加密算法，是 SSL 协议的一款开源实现工具。OpenSSL 可以用于创建和管理数字证书、实现安全传输和通信，以及进行加密和解密等操作。它不仅支持 SSL&#x2F;TLS 协议，还支持多种加密算法和密码学功能。</p>
-<p>SSH（Secure Shell）是一种用于安全远程登录和数据传输的网络协议。它为计算机之间的通信提供了加密和身份验证，以确保通信的机密性和完整性。SSH 使用公钥密码体制进行身份验证，并使用加密算法来保护数据的传输。</p>
-<p>OpenSSH 是一个开源的 SSH 实现，它提供了 SSH 客户端和服务器的功能，用于安全远程登录、命令执行和文件传输。它包括客户端 ssh 和服务器 sshd、文件传输实用程序 scp 和 sftp 以及密钥生成工具 (ssh-keygen)、运行时密钥存储 (ssh-agent) 和许多支持程序。它是 Linux 和其他类 Unix 系统中最常见的 SSH 实现，也支持其他操作系统。</p>
-<p>SSL 最早出现于 1994 年，用于 Web 浏览器和服务器之间的安全通信。OpenSSL 和 SSH 都起源于 1995 年，OpenSSL 是一个加密工具包，而 SSH 是用于安全远程登录和数据传输的协议。OpenSSH 是 SSH 协议的开源实现，起源于 1999 年，为 SSH 提供了广泛使用的实现。</p>
-<p>OpenSSH 通常依赖于 OpenSSL。OpenSSH 使用 OpenSSL 库来实现加密和安全功能，包括加密通信、密钥生成、数字证书处理等。OpenSSL 提供了各种加密算法和密码学功能，使 OpenSSH 能够建立安全的 SSH 连接，并保护通信数据的机密性和完整性。在大多数情况下，安装 OpenSSH 时，系统会自动安装或链接到已经安装的 OpenSSL 库。这样，OpenSSH 就能够使用 OpenSSL 的功能来实现加密和安全性，而不必重新实现这些复杂的加密算法和协议。</p>
-<p>因此，可以说 OpenSSH 依赖于 OpenSSL，OpenSSL 提供了 OpenSSH 所需的加密和安全功能，使得 OpenSSH 成为一种安全、可靠的远程登录和数据传输工具。这些安全协议和工具对于保护通信和数据安全至关重要。</p>
-<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><blockquote>
-<p>⚠️注意：这里作者使用的是 checkra1n 越狱的 iOS 12.5.7 iPhone5s。</p>
-</blockquote>
-<p>对以上名词概念有了基本的了解之后，我们可以进行实践操作。如果感觉还是迷迷糊糊也不要紧，实践起来就会感觉简单多了。主要是对 OpenSSH 这个开源库提供的常用命令的使用。Mac 系统自带了这个工具所以不需要进行配置，而 iOS 系统上默认是没有安装这个工具的，包括越狱之后的 iOS 也没有，所以需要先下载安装这个工具。</p>
-<p>安装过程很简单，如下图所示，在 Cydia 上搜索 OpenSSH 下载并按照提示进行安装就好了。</p>
-<img src="32a8afae2fae413d8fa5984d89693e0f~tplv-k3u1fbpfcp-watermark.png" alt="IMG_0001.PNG" width="50%">
-
-<p>安装好之后，就可以在 Mac 上远程登录到越狱 iOS 了。iOS 系统默认提供了两个用户，一个是 root 用户，是 iOS 中最高权限的用户，我们在逆向开发过程中基本都是使用这个用户。还有一个是 mobile 用户，是普通权限用户，iOS 平时进行 APP 安装，卸载基本都是使用这个用户，但是我们在逆向开发中很少或者基本不会使用到这个用户，这里有个了解就够了。</p>
-<p>Cydia 首页有 OpenSSH 访问教程，这个文档详细的记载了如何从 Mac 远程登录到 iOS 设备上，并且也提供了修改默认密码的方法。建议英文不错的同学直接阅读这篇文档，不想看的就看我后面的介绍也可以。文档位置如下图所示</p>
-<img src="41ffb7e4fae849d7846018c90bbbc177~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="IMG_0002.PNG" width="50%">
-
-<h3 id="通过默认账号密码登录到-iPhone"><a href="#通过默认账号密码登录到-iPhone" class="headerlink" title="通过默认账号密码登录到 iPhone"></a>通过默认账号密码登录到 iPhone</h3><p>ssh 提供了两种登录到服务器的方式，第一种是使用账号和密码。第二种是免密码登录。下面先介绍第一种</p>
-<ol>
-<li>越狱 iPhone 在 Cydia 上安装 OpenSSH</li>
-<li>确认 iPhone 和 Mac 电脑在同一个局域网下，在 Mac 打开终端，输入以下命令 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh root@iPhone的IP地址</span><br></pre></td></tr></table></figure>
- 第一次连接会出现 <code>Are you sure you want to continue connecting (yes/no/[fingerprint])?</code> 提示，输入 <code>yes</code> 确认进行连接</li>
-<li>输入默认的初始密码 <code>alpine</code> ,这里终端为了安全并不会显示密码的明文</li>
-<li>之后就会看到终端切换到了 <code>iPhone:~ root#</code> 用户，代表成功登录到远程 iPhone 手机的 root 用户上了。这个时候，你在 Mac 终端输入的指令都会被发送到 iPhone 上，如下图<br> <img src="6b806498309a4589a7e39b35238b1616~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"><br> 如果你觉得还不过瘾，可以输入 <code>reboot</code> 命令，体会一下远程操纵手机的快乐（重启之后，你可能需要重新越狱一下 iPhone 了😶）</li>
-<li>输入 <code>exit</code> 退出登录</li>
-</ol>
-<p>刚刚我们登录的是 <code>root</code> 用户。在 iOS 中，除了 <code>root</code> 用户，还有一个 <code>mobile</code> 用户。其中 <code>root</code> 用户是 iOS 中最高权限的用户。<code>mobile</code> 是普通权限用户，其实平时越狱调试过程中，很少会使用这个 <code>mobile</code> 用户，这里只是介绍一下。</p>
-<p>能够成功登录 iPhone 之后，建议修改一下用户的默认密码，既然做逆向开发了，当然对安全也要注意一点。在登录 root 用户之后，</p>
-<ul>
-<li>输入 <code>passwd</code> 可以修改 root 用户的密码</li>
-<li>输入 <code>passwd mobile</code> 可以修改 mobile 用户的密码。</li>
-</ul>
-<h3 id="通过免密码方式登录到-iPhone"><a href="#通过免密码方式登录到-iPhone" class="headerlink" title="通过免密码方式登录到 iPhone"></a>通过免密码方式登录到 iPhone</h3><p>OpenSSH 除了默认的账号密码登录的方式，还提供了免密码登录的方式。需要进一步完成一些配置才可以实现。服务器（在当前情况下，iPhone是服务器，Mac是客户端）的 ~&#x2F;.ssh 目录下需要添加一个 authorized_keys 文件，里面记录可以免密登录的设备的公钥信息。</p>
-<p>当有客户端（Mac）登录的时候，服务器会查看 ~&#x2F;.ssh&#x2F;authorized_keys 文件中是否记录了当前登录的客户端的公钥信息，如果有就直接登录成功，没有就要求输入密码。所以我们要做的就是将 Mac 设备的公钥信息追加到 iPhone 的 authorized_keys 文件内容的最后面。追加是为了不影响其他的设备。完成这个操作需要先确保我们的 Mac 设备上已经有 ssh 生成的公钥文件。</p>
-<p>打开 Mac 终端，输入 <code>ls ~/.ssh</code> 查看是否已经存在 <code>id_rsa.pub</code> 公钥文件，<code>.pub</code>就是公钥文件的后缀</p>
-<p><img src="7b97ca3f9eee41048514e786d0909eea~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<p>如果没有看到公钥文件，需要使用 <code>ssh-keygen</code> 命令生成该文件。按回车键接受默认选项，或者根据需要输入新的文件名和密码。这将生成一个公钥文件（id_rsa.pub）和一个私钥文件（id_rsa）。</p>
-<p>使用 SSH 复制公钥到远程服务器。使用以下命令将本地计算机（Mac）上的公钥复制到远程服务器（iPhone）。请将<code>user</code>替换为您的远程服务器用户名，以及<code>remote_server</code>替换为服务器的域名或IP地址。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh-copy-id user@remote_server</span><br></pre></td></tr></table></figure>
-
-<p><img src="72e2862e24124ebc9b8bc1d6122e7ff4~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<p>在远程服务器（iPhone）上设置正确的权限。确保远程服务器上的<code>~/.ssh</code>文件夹权限设置为 700，并将<code>~/.ssh/authorized_keys</code>文件的权限设置为 600。这样可以确保SSH可以正确识别公钥并允许免密码登录。如下图所示：</p>
-<p><img src="60c0d90bbd12440b9b15dea392525c10~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<p>.ssh 文件夹前面的 <code>drwx------</code> 是 Linux 和类 Unix 系统中表示文件或目录权限的一种格式。在这个格式中，每一组由10个字符组成，代表文件或目录的不同权限。让我们逐个解释这些字符的含义：</p>
-<ol>
-<li><p>第一个字符：文件类型</p>
-<ul>
-<li><code>d</code> 表示目录（directory）</li>
-<li><code>-</code> 表示普通文件</li>
-<li><code>l</code> 表示符号链接（symlink）</li>
-<li><code>b</code> 表示块设备文件（block device）</li>
-<li><code>c</code> 表示字符设备文件（character device）</li>
-<li><code>s</code> 表示套接字（socket）</li>
-<li><code>p</code> 表示命名管道（named pipe）</li>
-</ul>
-</li>
-<li><p>接下来的三个字符：文件所有者的权限</p>
-<ul>
-<li><code>r</code> 表示读权限（read）</li>
-<li><code>w</code> 表示写权限（write）</li>
-<li><code>x</code> 表示执行权限（execute）</li>
-</ul>
-</li>
-<li><p>接下来的三个字符：文件所有者所在组的权限</p>
-<ul>
-<li><code>r</code> 表示读权限（read）</li>
-<li><code>w</code> 表示写权限（write）</li>
-<li><code>x</code> 表示执行权限（execute）</li>
-</ul>
-</li>
-<li><p>最后三个字符：其他用户的权限</p>
-<ul>
-<li><code>r</code> 表示读权限（read）</li>
-<li><code>w</code> 表示写权限（write）</li>
-<li><code>x</code> 表示执行权限（execute）</li>
-</ul>
-</li>
-</ol>
-<p>所以，<code>drwx------</code> 表示这是一个目录，并且具有以下权限：</p>
-<ul>
-<li>文件所有者具有读、写和执行权限。</li>
-<li>文件所有者所在组没有任何权限。</li>
-<li>其他用户没有任何权限。</li>
-</ul>
-<p>后面 9 个字符分为三组，每组从左至右如果有对应的权限就是<code>421</code>相加起来就是 7 后面都是0。所以 .ssh 文件夹的权限是正确的值 700，如果不是 700 的使用 <code>chmod 700 .ssh</code> 进行提权。authorized_keys 文件的权限是 <code>rw</code> 就是 <code>420</code> 相加起来就是 6 。后面都是 0，所以 authorized_keys 的权限也是正确的值 600。同样如果不是 600，使用 <code>chmod 600 authorized_keys</code> 命令修改权限。</p>
-<p>配置完成后，您现在可以使用 SSH 免密码登录到远程服务器（iPhone）。在 Mac 上，使用以下命令连接到远程服务器：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh root@10.10.20.155</span><br></pre></td></tr></table></figure>
-
-<p>这将直接连接到远程服务器，而无需输入密码。</p>
-<p><img src="866ac19a922d485083538ac1d4fbff8c~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<h3 id="通过-USB-有线的方式登录到-iPhone"><a href="#通过-USB-有线的方式登录到-iPhone" class="headerlink" title="通过 USB 有线的方式登录到 iPhone"></a>通过 USB 有线的方式登录到 iPhone</h3><p>配置为免密码登录之后，还可以进一步使用 USB 有线连接的方式登录到手机。如果你经常使用 WiFi 这种方式远程登录调试就会发现偶尔会碰到指令输入，响应卡顿，反应慢的情况，这样的体验显然让人感到不爽。所以，在大部分情况下，更推荐使用 USB 有线连接登录到 iPhone 上，这样使用的过程中，就像在本地输入命令操作一样流畅。</p>
-<p><code>iproxy</code> 是一个用于端口转发的命令行工具。它通常用于在 iOS 设备和计算机之间建立端口映射，从而将 iOS 设备上运行的服务暴露到计算机上。这对于开发者来说非常有用，因为可以通过本地计算机访问 iOS 设备上运行的服务，而无需将服务部署到公共网络上。</p>
-<p><code>iproxy</code> 是 <code>usbmuxd</code> 的一部分，后者是一个用于连接和管理 iOS 设备的 USB 通信的守护进程。<code>usbmuxd</code> 允许通过 USB 连接与 iOS 设备进行通信，并且<code>iproxy</code> 则负责在本地计算机和iOS设备之间建立端口转发。</p>
-<p>通常，您可以在命令行中使用 <code>iproxy</code> 命令来建立端口转发，例如：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iproxy local_port device_port</span><br></pre></td></tr></table></figure>
-
-<p>其中，<code>local_port</code> 是本地计算机上的端口号，<code>device_port</code> 是 iOS 设备上的端口号。执行此命令后，iOS 设备上的服务将通过 <code>device_port</code> 映射到本地计算机上的 <code>local_port</code>。</p>
-<p>请注意，使用 <code>iproxy</code> 需要先安装 <code>libusbmuxd</code> 包。在 macOS 上，您可以使用 Homebrew 来安装 <code>libusbmuxd</code>：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">brew install libusbmuxd</span><br></pre></td></tr></table></figure>
-
-<p>安装好之后，就可以使用 iproxy 命令了，使用 iproxy 将本机 10010 端口和 USB 设备的 22 端口进行映射的命令如下：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iproxy 10010 22</span><br></pre></td></tr></table></figure>
-
-<p><img src="68273210a76642c5b692f47eadb5eeaa~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<p>这里本机的端口 10010 可以设置为你想要的其他端口，但是不能是系统保留的端口（系统保留的端口有哪些，可以看<a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3/103505?fr=ge_ala">百度</a>的介绍）。端口转发设置完成之后，这个终端就不要关闭，也不要管它了，新建另一个终端窗口进行 ssh 登录。此时，需要给 ssh 加上指定端口参数，命令如下：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh -p 10010 root@localhost</span><br></pre></td></tr></table></figure>
-
-<p>同样第一次使用这种方式建立连接会给出提示，输入 <code>yes</code> 确认</p>
-<p><img src="15c962453c7749b7bdb59c531c18f10e~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
-<p>之后，在 iPhone 设备上输入命令调试时，再也不会遇到卡顿，慢，延迟的现象啦。玩得开心~</p>
-<h1 id="ssh-常见问题"><a href="#ssh-常见问题" class="headerlink" title="ssh 常见问题"></a>ssh 常见问题</h1><p>有时候我们会对 iOS 设备重新越狱，重新越狱后的设备信息发生了变化，继续使用 ssh 登录是无法成功的。会给出如下信息：</p>
-<p><img src="Xnip2024-09-15_04-35-31.jpg" alt="image.png"></p>
-<p>在这种情况下，我们知道并不是发生了中间人攻击，而是 IP 地址跟设备不匹配了。所以可以使用 <code>ssh-keygen -R IP地址</code> 移除指定 IP 的设备信息。</p>
-<p><img src="Xnip2024-09-15_04-39-25.jpg" alt="image.jpg"></p>
-<p>再次使用 ssh 进行远程连接，就回到第一次远程登录那样了。</p>
-<p><img src="Xnip2024-09-15_04-41-23.jpg" alt="image.jpg"></p>
-<h1 id="在-palera1n-越狱的-iOS16-7-10-iPhone8plus-上使用-OpenSSH-遇到的问题"><a href="#在-palera1n-越狱的-iOS16-7-10-iPhone8plus-上使用-OpenSSH-遇到的问题" class="headerlink" title="在 palera1n 越狱的 iOS16.7.10 iPhone8plus 上使用 OpenSSH 遇到的问题"></a>在 palera1n 越狱的 iOS16.7.10 iPhone8plus 上使用 OpenSSH 遇到的问题</h1><p>使用 palera1n 越狱的时候，在安装 Sileo 的时候会提示设置一个终端密码，意味着默认的密码不再是 alpine 了。安装好 Sileo 之后，默认的软件源中已经有 openssh 了，所以直接在搜索框中搜索就好了。如下图所示：</p>
-<img src="IMG_0005.PNG" alt="IMG_0003.PNG" width="50%">
-
-<p>原本以为安装好 openssh 之后，可以像 iOS 12.5.7 那样顺利的远程连接。实际发现无法使用 root 用户登录，即使密码输入的是正确的。如下图：</p>
-<p><img src="Xnip2024-09-15_05-02-16.jpg"></p>
-<p>在 iOS 16 系统上，使用 palera1n 或者 dopamine 越狱成功之后，使用 ssh 的时候，默认的 root 用户出于安全考虑是禁用的，需要执行一次 <code>sudo passwd root</code> 修改 root 用户密码之后才可以使用，即使你修改的密码是一样的。 所以解决的方法有两种</p>
-<ol>
-<li>先用 mobile 用户登录，再执行 <code>sudo passwd root</code> 修改 root 密码之后，再次使用 root 用户登录。</li>
-<li>在 iPhone 上下载终端应用程序，然后输入 <code>sudo passwd root</code> 修改 root 密码，之后再使用 root 用户登录。</li>
-</ol>
-<p>这里第一种方法我就不演示了，肯定没问题的。第 2 种方法需要用到 iOS 端的 Terminal App。我试过一些其他的终端程序无法成功运行。但是 <a href="https://mtac.app/repo/">MTAC’s Repo</a> 的 MTerminal 是可以成功在 iOS 16.7.10 上正常运行的。</p>
-<p>在 iPhone 上运行 MTerminal 进行修改 root 用户密码操作如下图：</p>
-<img src="IMG_0006.PNG" alt="IMG_0003.PNG" width="80%">
-
-<p>修改成功后，再次使用 root 用户进行 ssh 远程连接到 iPhone 就和之前一模一样了，可以愉快的玩耍了。</p>
-<p><img src="Xnip2024-09-15_05-17-44.jpg"></p>
-]]></content>
-      <categories>
-        <category>iOS 逆向与安全</category>
-      </categories>
   </entry>
   <entry>
     <title>Mach-O</title>
@@ -1397,33 +1240,6 @@
       <categories>
         <category>iOS 逆向与安全</category>
       </categories>
-  </entry>
-  <entry>
-    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
-    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
-
-<p>基于这一现象，我们来进行分析。</p>
-<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
-<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
-<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
-<p>关于服务器的比较逻辑，需要强调一下。</p>
-<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
-<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
-
-<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
-<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
-<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
-<p>OK，到此这次的主题已得到完美解决。</p>
-]]></content>
-      <tags>
-        <tag>bug</tag>
-      </tags>
   </entry>
   <entry>
     <title>Cycript</title>
@@ -1585,6 +1401,163 @@
       </categories>
   </entry>
   <entry>
+    <title>Error Domain=NSURLErrorDomain Code=-999 已取消</title>
+    <url>/2018/04/03/Error-Domain-NSURLErrorDomain-Code-999-%E5%B7%B2%E5%8F%96%E6%B6%88/</url>
+    <content><![CDATA[<p>今天遇到这么一个问题,在使用SDWebimage设置UIImageView的图片的时候,发现这个图片<br><code>http://img4.imgtn.bdimg.com/it/u=132600321,3123081067&amp;fm=27&amp;gp=0.jpg</code>怎么也设置不成功,后来调试一看发现<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_4.png">说是什么已取消,我是一脸懵逼啊,谁TM取消了啊???百思不得其解之后网上搜了一下;<br>嘿,还有人写了个总结<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_5.png"></p>
+<p>然而看了上面的总结后发现貌似都没有关系…所以说这个总结也并不全面…后来想想用浏览器打开这个图片试试看,发现浏览器上能正常打开;这下我估计是请求图片的请求头有问题了;于是我将浏览器的请求头和从APP发出的请求头都列出来了;如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_1.png"></p>
+<p><em>浏览器上的请求头</em></p>
+<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_2.png"></p>
+<p><em>使用Charles抓取APP发出的请求头</em></p>
+<p>其实一下子也看不出什么东西出来,那就先从都有的请求头开始试吧,再将APP发出的请求头的User-Agent设置之后发现能够设置成功了…那么问题就可以这么解释了,这个图片所在的服务器会对请求的User-Agent进行判断,具体判断规则是怎样的那我就不得而知了;如果不符合它的规则那么就会请求失败,在上图Charles抓包的响应里面可以看到一段403 Forbidden的html代码,而在APP中,就是报的<code>Error Domain=NSURLErrorDomain Code=-999 &quot;已取消&quot;</code>的错误<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_6.png"></p>
+<p>其实吧,这个问题根本不重要,因为实际我根本不可能使用这个URL;重要的是解决问题的思路,你得学会一套方法去解决问题,而不是学会解决这个问题…</p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenSSH</title>
+    <url>/2024/10/27/OpenSSH/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>平时在使用 Mac 的过程中，经常会使用终端输入命令来执行一些操作。在越狱开发的过程中，同样需要在 iOS 系统上输入一些命令来执行一些任务。那么如何才能在 iOS 系统上输入命令呢，在 iOS 上安装一个终端命令行工具，然后在 iPhone 那小小的屏幕上用触摸屏输入命令吗？虽然说理论上和实际上都是可行的，但是通过手指触摸屏幕来输入命令的方式效率比较低，也不是很方便。这里还是推荐在 Mac 上远程登录到 iOS 系统，这样就可以使用 Mac 的键盘输入命令到 iOS 上去执行，更加方便，快捷。</p>
+<h1 id="SSL、openSSL、SSH、openSSH"><a href="#SSL、openSSL、SSH、openSSH" class="headerlink" title="SSL、openSSL、SSH、openSSH"></a>SSL、openSSL、SSH、openSSH</h1><p>SSL（Secure Sockets Layer）是一种用于在计算机网络上进行安全通信的协议。SSL 最初由 Netscape 开发，后来发展为 TLS（Transport Layer Security）。SSL&#x2F;TLS 用于在客户端和服务器之间建立安全的加密连接，以保护敏感数据的传输，例如在网页浏览器和服务器之间的数据传输。</p>
+<p>OpenSSL 是一个强大的、商业级的、功能齐全的开源工具包，它提供了一组库和命令行工具，用于处理 SSL&#x2F;TLS 协议和加密算法，是 SSL 协议的一款开源实现工具。OpenSSL 可以用于创建和管理数字证书、实现安全传输和通信，以及进行加密和解密等操作。它不仅支持 SSL&#x2F;TLS 协议，还支持多种加密算法和密码学功能。</p>
+<p>SSH（Secure Shell）是一种用于安全远程登录和数据传输的网络协议。它为计算机之间的通信提供了加密和身份验证，以确保通信的机密性和完整性。SSH 使用公钥密码体制进行身份验证，并使用加密算法来保护数据的传输。</p>
+<p>OpenSSH 是一个开源的 SSH 实现，它提供了 SSH 客户端和服务器的功能，用于安全远程登录、命令执行和文件传输。它包括客户端 ssh 和服务器 sshd、文件传输实用程序 scp 和 sftp 以及密钥生成工具 (ssh-keygen)、运行时密钥存储 (ssh-agent) 和许多支持程序。它是 Linux 和其他类 Unix 系统中最常见的 SSH 实现，也支持其他操作系统。</p>
+<p>SSL 最早出现于 1994 年，用于 Web 浏览器和服务器之间的安全通信。OpenSSL 和 SSH 都起源于 1995 年，OpenSSL 是一个加密工具包，而 SSH 是用于安全远程登录和数据传输的协议。OpenSSH 是 SSH 协议的开源实现，起源于 1999 年，为 SSH 提供了广泛使用的实现。</p>
+<p>OpenSSH 通常依赖于 OpenSSL。OpenSSH 使用 OpenSSL 库来实现加密和安全功能，包括加密通信、密钥生成、数字证书处理等。OpenSSL 提供了各种加密算法和密码学功能，使 OpenSSH 能够建立安全的 SSH 连接，并保护通信数据的机密性和完整性。在大多数情况下，安装 OpenSSH 时，系统会自动安装或链接到已经安装的 OpenSSL 库。这样，OpenSSH 就能够使用 OpenSSL 的功能来实现加密和安全性，而不必重新实现这些复杂的加密算法和协议。</p>
+<p>因此，可以说 OpenSSH 依赖于 OpenSSL，OpenSSL 提供了 OpenSSH 所需的加密和安全功能，使得 OpenSSH 成为一种安全、可靠的远程登录和数据传输工具。这些安全协议和工具对于保护通信和数据安全至关重要。</p>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><blockquote>
+<p>⚠️注意：这里作者使用的是 checkra1n 越狱的 iOS 12.5.7 iPhone5s。</p>
+</blockquote>
+<p>对以上名词概念有了基本的了解之后，我们可以进行实践操作。如果感觉还是迷迷糊糊也不要紧，实践起来就会感觉简单多了。主要是对 OpenSSH 这个开源库提供的常用命令的使用。Mac 系统自带了这个工具所以不需要进行配置，而 iOS 系统上默认是没有安装这个工具的，包括越狱之后的 iOS 也没有，所以需要先下载安装这个工具。</p>
+<p>安装过程很简单，如下图所示，在 Cydia 上搜索 OpenSSH 下载并按照提示进行安装就好了。</p>
+<img src="32a8afae2fae413d8fa5984d89693e0f~tplv-k3u1fbpfcp-watermark.png" alt="IMG_0001.PNG" width="50%">
+
+<p>安装好之后，就可以在 Mac 上远程登录到越狱 iOS 了。iOS 系统默认提供了两个用户，一个是 root 用户，是 iOS 中最高权限的用户，我们在逆向开发过程中基本都是使用这个用户。还有一个是 mobile 用户，是普通权限用户，iOS 平时进行 APP 安装，卸载基本都是使用这个用户，但是我们在逆向开发中很少或者基本不会使用到这个用户，这里有个了解就够了。</p>
+<p>Cydia 首页有 OpenSSH 访问教程，这个文档详细的记载了如何从 Mac 远程登录到 iOS 设备上，并且也提供了修改默认密码的方法。建议英文不错的同学直接阅读这篇文档，不想看的就看我后面的介绍也可以。文档位置如下图所示</p>
+<img src="41ffb7e4fae849d7846018c90bbbc177~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="IMG_0002.PNG" width="50%">
+
+<h3 id="通过默认账号密码登录到-iPhone"><a href="#通过默认账号密码登录到-iPhone" class="headerlink" title="通过默认账号密码登录到 iPhone"></a>通过默认账号密码登录到 iPhone</h3><p>ssh 提供了两种登录到服务器的方式，第一种是使用账号和密码。第二种是免密码登录。下面先介绍第一种</p>
+<ol>
+<li>越狱 iPhone 在 Cydia 上安装 OpenSSH</li>
+<li>确认 iPhone 和 Mac 电脑在同一个局域网下，在 Mac 打开终端，输入以下命令 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh root@iPhone的IP地址</span><br></pre></td></tr></table></figure>
+ 第一次连接会出现 <code>Are you sure you want to continue connecting (yes/no/[fingerprint])?</code> 提示，输入 <code>yes</code> 确认进行连接</li>
+<li>输入默认的初始密码 <code>alpine</code> ,这里终端为了安全并不会显示密码的明文</li>
+<li>之后就会看到终端切换到了 <code>iPhone:~ root#</code> 用户，代表成功登录到远程 iPhone 手机的 root 用户上了。这个时候，你在 Mac 终端输入的指令都会被发送到 iPhone 上，如下图<br> <img src="6b806498309a4589a7e39b35238b1616~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"><br> 如果你觉得还不过瘾，可以输入 <code>reboot</code> 命令，体会一下远程操纵手机的快乐（重启之后，你可能需要重新越狱一下 iPhone 了😶）</li>
+<li>输入 <code>exit</code> 退出登录</li>
+</ol>
+<p>刚刚我们登录的是 <code>root</code> 用户。在 iOS 中，除了 <code>root</code> 用户，还有一个 <code>mobile</code> 用户。其中 <code>root</code> 用户是 iOS 中最高权限的用户。<code>mobile</code> 是普通权限用户，其实平时越狱调试过程中，很少会使用这个 <code>mobile</code> 用户，这里只是介绍一下。</p>
+<p>能够成功登录 iPhone 之后，建议修改一下用户的默认密码，既然做逆向开发了，当然对安全也要注意一点。在登录 root 用户之后，</p>
+<ul>
+<li>输入 <code>passwd</code> 可以修改 root 用户的密码</li>
+<li>输入 <code>passwd mobile</code> 可以修改 mobile 用户的密码。</li>
+</ul>
+<h3 id="通过免密码方式登录到-iPhone"><a href="#通过免密码方式登录到-iPhone" class="headerlink" title="通过免密码方式登录到 iPhone"></a>通过免密码方式登录到 iPhone</h3><p>OpenSSH 除了默认的账号密码登录的方式，还提供了免密码登录的方式。需要进一步完成一些配置才可以实现。服务器（在当前情况下，iPhone是服务器，Mac是客户端）的 ~&#x2F;.ssh 目录下需要添加一个 authorized_keys 文件，里面记录可以免密登录的设备的公钥信息。</p>
+<p>当有客户端（Mac）登录的时候，服务器会查看 ~&#x2F;.ssh&#x2F;authorized_keys 文件中是否记录了当前登录的客户端的公钥信息，如果有就直接登录成功，没有就要求输入密码。所以我们要做的就是将 Mac 设备的公钥信息追加到 iPhone 的 authorized_keys 文件内容的最后面。追加是为了不影响其他的设备。完成这个操作需要先确保我们的 Mac 设备上已经有 ssh 生成的公钥文件。</p>
+<p>打开 Mac 终端，输入 <code>ls ~/.ssh</code> 查看是否已经存在 <code>id_rsa.pub</code> 公钥文件，<code>.pub</code>就是公钥文件的后缀</p>
+<p><img src="7b97ca3f9eee41048514e786d0909eea~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>如果没有看到公钥文件，需要使用 <code>ssh-keygen</code> 命令生成该文件。按回车键接受默认选项，或者根据需要输入新的文件名和密码。这将生成一个公钥文件（id_rsa.pub）和一个私钥文件（id_rsa）。</p>
+<p>使用 SSH 复制公钥到远程服务器。使用以下命令将本地计算机（Mac）上的公钥复制到远程服务器（iPhone）。请将<code>user</code>替换为您的远程服务器用户名，以及<code>remote_server</code>替换为服务器的域名或IP地址。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh-copy-id user@remote_server</span><br></pre></td></tr></table></figure>
+
+<p><img src="72e2862e24124ebc9b8bc1d6122e7ff4~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>在远程服务器（iPhone）上设置正确的权限。确保远程服务器上的<code>~/.ssh</code>文件夹权限设置为 700，并将<code>~/.ssh/authorized_keys</code>文件的权限设置为 600。这样可以确保SSH可以正确识别公钥并允许免密码登录。如下图所示：</p>
+<p><img src="60c0d90bbd12440b9b15dea392525c10~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>.ssh 文件夹前面的 <code>drwx------</code> 是 Linux 和类 Unix 系统中表示文件或目录权限的一种格式。在这个格式中，每一组由10个字符组成，代表文件或目录的不同权限。让我们逐个解释这些字符的含义：</p>
+<ol>
+<li><p>第一个字符：文件类型</p>
+<ul>
+<li><code>d</code> 表示目录（directory）</li>
+<li><code>-</code> 表示普通文件</li>
+<li><code>l</code> 表示符号链接（symlink）</li>
+<li><code>b</code> 表示块设备文件（block device）</li>
+<li><code>c</code> 表示字符设备文件（character device）</li>
+<li><code>s</code> 表示套接字（socket）</li>
+<li><code>p</code> 表示命名管道（named pipe）</li>
+</ul>
+</li>
+<li><p>接下来的三个字符：文件所有者的权限</p>
+<ul>
+<li><code>r</code> 表示读权限（read）</li>
+<li><code>w</code> 表示写权限（write）</li>
+<li><code>x</code> 表示执行权限（execute）</li>
+</ul>
+</li>
+<li><p>接下来的三个字符：文件所有者所在组的权限</p>
+<ul>
+<li><code>r</code> 表示读权限（read）</li>
+<li><code>w</code> 表示写权限（write）</li>
+<li><code>x</code> 表示执行权限（execute）</li>
+</ul>
+</li>
+<li><p>最后三个字符：其他用户的权限</p>
+<ul>
+<li><code>r</code> 表示读权限（read）</li>
+<li><code>w</code> 表示写权限（write）</li>
+<li><code>x</code> 表示执行权限（execute）</li>
+</ul>
+</li>
+</ol>
+<p>所以，<code>drwx------</code> 表示这是一个目录，并且具有以下权限：</p>
+<ul>
+<li>文件所有者具有读、写和执行权限。</li>
+<li>文件所有者所在组没有任何权限。</li>
+<li>其他用户没有任何权限。</li>
+</ul>
+<p>后面 9 个字符分为三组，每组从左至右如果有对应的权限就是<code>421</code>相加起来就是 7 后面都是0。所以 .ssh 文件夹的权限是正确的值 700，如果不是 700 的使用 <code>chmod 700 .ssh</code> 进行提权。authorized_keys 文件的权限是 <code>rw</code> 就是 <code>420</code> 相加起来就是 6 。后面都是 0，所以 authorized_keys 的权限也是正确的值 600。同样如果不是 600，使用 <code>chmod 600 authorized_keys</code> 命令修改权限。</p>
+<p>配置完成后，您现在可以使用 SSH 免密码登录到远程服务器（iPhone）。在 Mac 上，使用以下命令连接到远程服务器：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh root@10.10.20.155</span><br></pre></td></tr></table></figure>
+
+<p>这将直接连接到远程服务器，而无需输入密码。</p>
+<p><img src="866ac19a922d485083538ac1d4fbff8c~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h3 id="通过-USB-有线的方式登录到-iPhone"><a href="#通过-USB-有线的方式登录到-iPhone" class="headerlink" title="通过 USB 有线的方式登录到 iPhone"></a>通过 USB 有线的方式登录到 iPhone</h3><p>配置为免密码登录之后，还可以进一步使用 USB 有线连接的方式登录到手机。如果你经常使用 WiFi 这种方式远程登录调试就会发现偶尔会碰到指令输入，响应卡顿，反应慢的情况，这样的体验显然让人感到不爽。所以，在大部分情况下，更推荐使用 USB 有线连接登录到 iPhone 上，这样使用的过程中，就像在本地输入命令操作一样流畅。</p>
+<p><code>iproxy</code> 是一个用于端口转发的命令行工具。它通常用于在 iOS 设备和计算机之间建立端口映射，从而将 iOS 设备上运行的服务暴露到计算机上。这对于开发者来说非常有用，因为可以通过本地计算机访问 iOS 设备上运行的服务，而无需将服务部署到公共网络上。</p>
+<p><code>iproxy</code> 是 <code>usbmuxd</code> 的一部分，后者是一个用于连接和管理 iOS 设备的 USB 通信的守护进程。<code>usbmuxd</code> 允许通过 USB 连接与 iOS 设备进行通信，并且<code>iproxy</code> 则负责在本地计算机和iOS设备之间建立端口转发。</p>
+<p>通常，您可以在命令行中使用 <code>iproxy</code> 命令来建立端口转发，例如：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iproxy local_port device_port</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>local_port</code> 是本地计算机上的端口号，<code>device_port</code> 是 iOS 设备上的端口号。执行此命令后，iOS 设备上的服务将通过 <code>device_port</code> 映射到本地计算机上的 <code>local_port</code>。</p>
+<p>请注意，使用 <code>iproxy</code> 需要先安装 <code>libusbmuxd</code> 包。在 macOS 上，您可以使用 Homebrew 来安装 <code>libusbmuxd</code>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">brew install libusbmuxd</span><br></pre></td></tr></table></figure>
+
+<p>安装好之后，就可以使用 iproxy 命令了，使用 iproxy 将本机 10010 端口和 USB 设备的 22 端口进行映射的命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iproxy 10010 22</span><br></pre></td></tr></table></figure>
+
+<p><img src="68273210a76642c5b692f47eadb5eeaa~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>这里本机的端口 10010 可以设置为你想要的其他端口，但是不能是系统保留的端口（系统保留的端口有哪些，可以看<a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3/103505?fr=ge_ala">百度</a>的介绍）。端口转发设置完成之后，这个终端就不要关闭，也不要管它了，新建另一个终端窗口进行 ssh 登录。此时，需要给 ssh 加上指定端口参数，命令如下：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh -p 10010 root@localhost</span><br></pre></td></tr></table></figure>
+
+<p>同样第一次使用这种方式建立连接会给出提示，输入 <code>yes</code> 确认</p>
+<p><img src="15c962453c7749b7bdb59c531c18f10e~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>之后，在 iPhone 设备上输入命令调试时，再也不会遇到卡顿，慢，延迟的现象啦。玩得开心~</p>
+<h1 id="ssh-常见问题"><a href="#ssh-常见问题" class="headerlink" title="ssh 常见问题"></a>ssh 常见问题</h1><p>有时候我们会对 iOS 设备重新越狱，重新越狱后的设备信息发生了变化，继续使用 ssh 登录是无法成功的。会给出如下信息：</p>
+<p><img src="Xnip2024-09-15_04-35-31.jpg" alt="image.png"></p>
+<p>在这种情况下，我们知道并不是发生了中间人攻击，而是 IP 地址跟设备不匹配了。所以可以使用 <code>ssh-keygen -R IP地址</code> 移除指定 IP 的设备信息。</p>
+<p><img src="Xnip2024-09-15_04-39-25.jpg" alt="image.jpg"></p>
+<p>再次使用 ssh 进行远程连接，就回到第一次远程登录那样了。</p>
+<p><img src="Xnip2024-09-15_04-41-23.jpg" alt="image.jpg"></p>
+<h1 id="在-palera1n-越狱的-iOS16-7-10-iPhone8plus-上使用-OpenSSH-遇到的问题"><a href="#在-palera1n-越狱的-iOS16-7-10-iPhone8plus-上使用-OpenSSH-遇到的问题" class="headerlink" title="在 palera1n 越狱的 iOS16.7.10 iPhone8plus 上使用 OpenSSH 遇到的问题"></a>在 palera1n 越狱的 iOS16.7.10 iPhone8plus 上使用 OpenSSH 遇到的问题</h1><p>使用 palera1n 越狱的时候，在安装 Sileo 的时候会提示设置一个终端密码，意味着默认的密码不再是 alpine 了。安装好 Sileo 之后，默认的软件源中已经有 openssh 了，所以直接在搜索框中搜索就好了。如下图所示：</p>
+<img src="IMG_0005.PNG" alt="IMG_0003.PNG" width="50%">
+
+<p>原本以为安装好 openssh 之后，可以像 iOS 12.5.7 那样顺利的远程连接。实际发现无法使用 root 用户登录，即使密码输入的是正确的。如下图：</p>
+<p><img src="Xnip2024-09-15_05-02-16.jpg"></p>
+<p>在 iOS 16 系统上，使用 palera1n 或者 dopamine 越狱成功之后，使用 ssh 的时候，默认的 root 用户出于安全考虑是禁用的，需要执行一次 <code>sudo passwd root</code> 修改 root 用户密码之后才可以使用，即使你修改的密码是一样的。 所以解决的方法有两种</p>
+<ol>
+<li>先用 mobile 用户登录，再执行 <code>sudo passwd root</code> 修改 root 密码之后，再次使用 root 用户登录。</li>
+<li>在 iPhone 上下载终端应用程序，然后输入 <code>sudo passwd root</code> 修改 root 密码，之后再使用 root 用户登录。</li>
+</ol>
+<p>这里第一种方法我就不演示了，肯定没问题的。第 2 种方法需要用到 iOS 端的 Terminal App。我试过一些其他的终端程序无法成功运行。但是 <a href="https://mtac.app/repo/">MTAC’s Repo</a> 的 MTerminal 是可以成功在 iOS 16.7.10 上正常运行的。</p>
+<p>在 iPhone 上运行 MTerminal 进行修改 root 用户密码操作如下图：</p>
+<img src="IMG_0006.PNG" alt="IMG_0003.PNG" width="80%">
+
+<p>修改成功后，再次使用 root 用户进行 ssh 远程连接到 iPhone 就和之前一模一样了，可以愉快的玩耍了。</p>
+<p><img src="Xnip2024-09-15_05-17-44.jpg"></p>
+]]></content>
+      <categories>
+        <category>iOS 逆向与安全</category>
+      </categories>
+  </entry>
+  <entry>
     <title>iOS 应用砸壳</title>
     <url>/2024/10/27/iOS-%E5%BA%94%E7%94%A8%E7%A0%B8%E5%A3%B3/</url>
     <content><![CDATA[<h1 id="什么是壳"><a href="#什么是壳" class="headerlink" title="什么是壳"></a>什么是壳</h1><p>在软件保护和安全领域，“壳”指的是利用特殊的算法对应用程序的二进制文件进行加密或包装的保护层，通常被称为 “加壳”。壳的作用是保护应用程序的代码，防止未经授权的访问、篡改和逆向工程。壳通常会在应用程序启动时将其解密到内存中，以便正常运行。</p>
@@ -1703,22 +1676,30 @@
       </categories>
   </entry>
   <entry>
-    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
-    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
-    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
-<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
-<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
-<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
-<ul>
-<li>取消修改控制器的view为UICollectionView</li>
-<li>将UICollectionView作为控制器的view的子视图</li>
-<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
-</ul>
-<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
-<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
+    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
+    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
+
+<p>基于这一现象，我们来进行分析。</p>
+<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
+<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
+<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
+<p>关于服务器的比较逻辑，需要强调一下。</p>
+<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
+<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
+
+<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
+<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
+<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
+<p>OK，到此这次的主题已得到完美解决。</p>
 ]]></content>
       <tags>
-        <tag>iOS</tag>
+        <tag>bug</tag>
       </tags>
   </entry>
   <entry>
@@ -1901,6 +1882,140 @@ m<sup>k * φ(n) + 1</sup> mod n = m
         <tag>RSA</tag>
         <tag>DES</tag>
         <tag>AES</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iPhoneX上pop回到根控制器上漂移的bug</title>
+    <url>/2018/04/28/iPhoneX%E4%B8%8Apop%E5%9B%9E%E5%88%B0%E6%A0%B9%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%8A%E6%BC%82%E7%A7%BB%E7%9A%84bug/</url>
+    <content><![CDATA[<p>记录一个在iPhone X上发生的诡异的bug…语言怎么描述都太苍白,那么直接看图<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/BrowserPreview_tmp201804281808.gif"></p>
+<p>只有在滑动到最底部的时候,push到下一个页面,然后在pop回来就会出现contentOffset.y值自动偏移的现象…</p>
+<p>视图的层次结构如图:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_1.png"></p>
+<p>选中的视图控制器就是TabBarController的第二个子控制器,控制器的view就是一个UICollectionView;我是很懵逼的…同事说可能是iPhone X上的安全距离的原因(但我还是很懵逼)…于是我对视图层次结构做了下修改;</p>
+<ul>
+<li>取消修改控制器的view为UICollectionView</li>
+<li>将UICollectionView作为控制器的view的子视图</li>
+<li>设置collectionView的约束为,上左右等于控制器的view,下等于控制器的view的下面,但是偏移一个-34的高度(仅在iPhone X上)</li>
+</ul>
+<p>修改之后的视图层次结构如下:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180428_2.png"></p>
+<p>这样,collectionView不再漂移了…对上述偏移的值进行修改测试可以发现,当这个值小于等于-34的时候就不会发生漂移,大于-34时就会发生漂移…换一句话的意思就是,如果collectionView距离底部的距离小于34的那么就会漂移,大于等于34不会发生漂移…</p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>揭开神秘的iOS布局</title>
+    <url>/2018/03/26/%E6%8F%AD%E7%A7%98iOS%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<p>翻译自: <a href="http://tech.gc.com/demystifying-ios-layout/">Demystifying iOS Layout</a></p>
+<p>在你刚开始开发iOS应用时,最难避免或者说最难调试的是处理视图的布局和内容;通常这些事情的发生是因为对 <strong>视图更新</strong> 真实发生存在误解;了解 <strong>视图更新</strong> 的方式和时间需要更深入地了解iOS应用程序的主运行循环,以及它如何与<code>UIView</code>提供的某些方法关联;这篇博文将解释这些互动,希望澄清如何使用<code>UIView</code>的方法来获得你想要的行为;</p>
+<h2 id="iOS应用程序的主运行循环"><a href="#iOS应用程序的主运行循环" class="headerlink" title="iOS应用程序的主运行循环"></a>iOS应用程序的主运行循环</h2><p>iOS应用程序的主运行循环用来处理所有用户输入事件并在您的应用程序中触发适当的响应;任何与应用程序的用户交互都会被添加到事件队列中;应用程序对象(如下图所示)将事件队列中的事件取出,并将它们分派给应用程序中的其他对象;<strong>它本质上是通过解释来自用户的输入事件并在应用程序的核心对象中为该输入调用相应的处理程序来执行运行循环</strong>;这些处理程序调用应用程序开发人员编写的代码;一旦这些方法调用返回,控制回到主运行循环并且开始更新周期;更新周期负责布局和重绘视图(在下一节中介绍);下面是应用程序如何与设备进行通信并处理用户输入的插图</p>
+<p><img src="http://tech.gc.com/images/demystifying-ios-layout/main_event_loop.jpg" alt="Main Event Loop"></p>
+<p><em><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html">https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html</a></em></p>
+<h2 id="更新周期-Update-Cycle"><a href="#更新周期-Update-Cycle" class="headerlink" title="更新周期(Update Cycle)"></a>更新周期(Update Cycle)</h2><p>更新周期是应用程序完成运行所有事件处理代码后,控制权返回到主运行循环的点;就是在这个点,系统开始更新布局,显示和约束;如果您要求改变视图而它正在执行事件处理程序,系统会将此视图标记为需要重绘;在下一次更新周期,系统将执行这些视图上所有的变化;用户交互和布局更新之间的时间间隔对用户来说应该是感觉不到的;iOS应用程序通常以60fps动画,这意味着一个刷新周期只需要1&#x2F;60秒;由于这种情况发生的速度很快,用户不会注意到她与设备上的应用程序进行交互和看到内容和布局更新之间的UI的滞后;但是,由于事件被执行的时间和相应视图的重绘时间之间存在时间间隔,所以在运行循环过程中,视图可能不会按照您希望的方式更新;如果您有任何计算依赖视图最新的内容或布局,您有可能操作的是该视图的旧的内容或布局而不是最新的;了解运行循环,更新周期和某些的<code>UIView</code>方法能够帮助避免或者调试这类问题;</p>
+<p>您可以在下图中看到更新周期在运行循环结束时如何发生<br><img src="http://tech.gc.com/images/demystifying-ios-layout/tech-blog-loop.png" alt="Update Cycle"></p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>视图的布局指的是它在屏幕上的大小和位置;每一个视图都有一个<code>frame</code>属性来描述它在父视图坐标系统中的位置以及它的大小;<code>UIView</code>提供了一些方法,可以让你通知系统一个视图的布局已经改变,同时为你提供了可以重写的方法,以便在重新计算视图的布局后定义要执行的操作</p>
+<h3 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</h3><p>这个<code>UIView</code>方法调整视图及其所有子视图的大小和位置;它给出当前视图和每个子视图的位置和大小;此方法很昂贵,因为它对视图的所有子视图起作用并调用其相应的<code>layoutSubviews</code>方法;系统会在任何需要重新计算视图的 frame 属性时调用此方法,因此当您想要设置 frame 属性指定视图位置和大小的时候您应该重写此方法;但是,当您的视图层次结构需要布局刷新时,您绝不应该显示的调用它;相反,在运行循环期间,您可以使用多种机制在不同点触发<code>layoutSubviews</code>调用,这比直接调用<code>layoutSubviews</code>方法要便宜的多;</p>
+<p>当<code>layoutSubviews</code>方法完成时,将在拥有该视图的视图控制器中触发对<code>viewDidLayoutSubviews</code>的调用;<strong>由于<code>layoutSubviews</code>是更新视图布局后可靠调用的唯一方法,因此应该将任何取决于布局和大小的逻辑代码方法<code>viewDidLayoutSubviews</code>中,而不是放在<code>viewDidLoad</code>或<code>viewDidAppear</code>中</strong>;这是避免使用过时的布局或者位置变量的唯一方法。</p>
+<h2 id="自动刷新触发器"><a href="#自动刷新触发器" class="headerlink" title="自动刷新触发器"></a>自动刷新触发器</h2><p>有多个事件会自动地将视图标记为布局已经改变,所以该视图的<code>layoutSubviews</code>方法将在下一次更新周期时被系统调用,不需要开发人员手动执行这个方法;</p>
+<p>这些自动将视图标记为布局已经改变的方式有以下几种:</p>
+<ul>
+<li>改变视图的大小</li>
+<li>添加子视图</li>
+<li>用户滚动<code>UIScrollView</code>(<code>layoutSubviews</code>方法会被<code>UIScrollView</code>以及它的父视图调用)</li>
+<li>用户旋转设备</li>
+<li>更新视图的约束</li>
+</ul>
+<p>以上这些方式都告诉系统,视图的位置需要重新计算并且会自动导致最终的<code>layoutSubviews</code>方法的调用;当然,也有直接触发<code>layoutSubviews</code>方法调用的办法;</p>
+<h3 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout()"></a>setNeedsLayout()</h3><p>触发<code>layoutSubviews</code>调用最省资源的方式就是在您的视图上调用<code>setNeedsLayout</code>方法;这将指示系统这个视图的布局需要重新计算;<code>setNeedsLayout</code>执行并立即返回,并且在返回之前并不实际更新视图;相反,视图将会在下一个更新周期(系统调用这些视图以及后续所有子视图的<code>layoutSubviews</code>方法)实际更新视图的布局;即使从<code>setNeedsLayout</code>返回后到视图被重新绘制布局之间有一段任意的时间间隔,但是这个延迟不会对用户造成影响,因为永远不会长到对界面造成卡顿;</p>
+<h3 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded()"></a>layoutIfNeeded()</h3><p><code>layoutIfNeeded</code>是<code>UIView</code>的另一个将会在不久后触发<code>layoutSubviews</code>调用的方法;与<code>setNeedsLayout</code>会让视图在下一个周期调用<code>layoutSubviews</code>更新视图不同,<code>layoutIfNeeded</code>会立即触发<code>layoutSubviews</code>方法调用,如果视图需要布局更新的话;如果你在调用<code>setNeedsLayout</code>方法或者触发上面描述的自动刷新触发器之后调用了<code>layoutIfNeeded</code>方法,<code>layoutSubviews</code>将会在视图上被调用;然而,如果你调用<code>layoutIfNeeded</code>之后没有动作指示系统视图需要重新刷新视图,那么<code>layoutSubviews</code>方法将不会被调用;<br>在一次运行循环中,两次调用视图的<code>layoutIfNeeded</code>方法之间,视图的布局并没有变化的话,那么第二次调用将不会触发<code>layoutSubviews</code>的调用;</p>
+<p>与<code>setNeedsLayout</code>方法不同,使用<code>layoutIfNeeded</code>方法,布局和重绘会在函数返回之前立即发生改变(除非有正在运行中的动画);这个方法在你需要依赖新的布局而又无法等待视图的下次更新周期到来的时候特别有用;然而,除了这种情况外,你还是应该调用<code>setNeedsLayout</code>然后等待下次更新周期的到来,这样在每次运行循环中都只会更新一次布局;</p>
+<p>动画更改约束时,此方法特别有用;您应该在动画的 block 开始之前调用一次<code>layoutIfNeeded</code>,以确保在动画开始之前通知所有的布局更新;配置新的约束,然后在动画 block 内,再次调用<code>layoutIfNeeded</code>以动画到最新的状态;</p>
+<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>视图的显示包含颜色,文本,图片和Core Graphics绘制等视图属性,但不包含它和它的子视图的大小和位置;和布局的方法类似,显示也有触发更新的方法,它们由系统在检测到更新时被自动调用,或者我们可以手动调用直接触发更新;</p>
+<h3 id="draw"><a href="#draw" class="headerlink" title="draw(_:)"></a>draw(_:)</h3><p><code>UIView</code>的<code>draw</code>方法(Objective-C中的<code>drawRect</code>)对视图的显示内容的作用	就像 <code>layoutSubviews</code>方法对视图的位置和尺寸的作用;同<code>layoutSubviews</code>一样,你不应该在代码中直接调用<code>draw</code>方法,而应该在运行循环的不同点调用能触发<code>draw</code>方法调用的方法;然而,与<code>layoutSubviews</code>方法不同的是,<code>draw</code>方法不会触发后续子视图的调用;</p>
+<h3 id="setNeedsDisplay"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay()"></a>setNeedsDisplay()</h3><p>这个方法类似布局中的<code>setNeedsLayout</code>;它会给有显示内容更新的视图设置一个内部的标记之后返回,并不会真正的视图重绘;而是在接下来的更新周期中,系统会遍历所有已被标记的视图,调用它们的<code>draw</code>方法;如果你只想在下次更新时重绘部分的视图,你可以调用<code>setNeedsDisplay(_:)</code>(Objective-C中的<code>setNeedsDisplayInRect:</code>)方法,并把希望重绘的矩形部分传入参数;</p>
+<p>大部分时候,在视图中更新任何 UI 组件都会通过自动设置内部的”显示内容更新”标记将视图标记为”dirty”的;导致在下一次更新周期中视图的内容就会重绘而不需要直接显示调用<code>setNeedsDisplay</code>;然而如果你有一个属性没有绑定到UI控件,但需要在属性值每次更新重绘视图,那么你可以实现该属性的<code>didSet</code>方法,并在里面调用<code>setNeedsDisplay</code>方法来触发视图的更新;</p>
+<p>有时设置一个属性要求自定义绘制,这种情况下你需要重写<code>draw</code>方法;在下面的例子中,设置<code>numberOfPoints</code>会触发系统根据具体点数绘制不同的视图;在这个例子中,你需要在<code>draw</code>方法中实现自定义绘制,并在<code>numberOfPoints</code>的property observer里调用<code>setNeedsDisplay</code>;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class MyView: UIView &#123;</span><br><span class="line">	var numberOfPoints = 0 &#123;</span><br><span class="line">		didSet &#123;</span><br><span class="line">			setNeedsDisplay()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	override func draw(_ rect: CGRect) &#123;</span><br><span class="line">		switch numberOfPoints &#123;</span><br><span class="line">		case 0: </span><br><span class="line">			return</span><br><span class="line">		case 1: </span><br><span class="line">			drawPoint(rect)</span><br><span class="line">		case 2:</span><br><span class="line">			drawLine(rect)</span><br><span class="line">		case 3: </span><br><span class="line">			drawTriangle(rect)</span><br><span class="line">		case 4:</span><br><span class="line">			drawRectangle(rect)</span><br><span class="line">		case 5: </span><br><span class="line">			drawPentagon(rect)</span><br><span class="line">		default:</span><br><span class="line">			drawEllipse(rect)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>视图的显示方法里没有类似布局中的<code>layoutIfNeeded</code>这样可以触发立即更新的方法;通常情况下等到下一个更新周期再重新绘制视图也无所谓;</p>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>在自动布局技术中布局和重绘视图有三个步骤;第一步是更新约束,系统计算并设置视图上所有必需的约束条件;第二步是布局阶段,布局引擎计算视图和子视图的 frame 并且将它们布局;最后一步完成这一循环的是显示阶段;第三步完成此次循环的是显示阶段,如果有必要,那么通过调用视图的<code>draw</code>方法重绘视图的内容;</p>
+<h3 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints()"></a>updateConstraints()</h3><p>这个方法用在自动布局中动态的改变视图的约束;和布局中的<code>layoutSubviews</code>方法和显示内容中的<code>draw</code>方法类似,<code>updateConstraints</code>只应该被重写,而不应该在你的代码中直接调用;一般来说,您应该在<code>updateConstraints</code>方法中仅仅实现必须要更新的约束;静态的约束应该设置在interface builder,视图的初始化方法(initializer)或者控制器的<code>viewDidLoad</code>中;</p>
+<p>通常情况下,开启或者关闭约束,更改约束的优先级或者常量值,或者从视图层级中移除一个视图时都会设置一个内部的标记,这个标记将会在下一次更新周期触发<code>updateConstraints</code>方法调用;当然啦,也有手动的给视图打上需要更新约束的标记的方法,如下:</p>
+<h3 id="setNeedsUpdateConstraints"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints()"></a>setNeedsUpdateConstraints()</h3><p>调用<code>setNeedsUpdateConstraints</code>会保证在下一次的更新周期中更新约束;它通过标记视图的约束已更新来触发<code>updateConstraints</code>调用;这个方法和<code>setNeedsDisplay</code>,<code>setNeedsLayout</code>方法的工作机制类似;</p>
+<h3 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded()"></a>updateConstraintsIfNeeded()</h3><p>这个方法就等同于使用了自动布局的视图中的<code>layoutIfNeeded</code>方法;它会检查视图约束是否更新的标记(能够被自动设置,或者通过<code>setNeedsUpdateConstraints</code>设置,或者通过<code>invalidateInstrinsicContentSize</code>设置),如果它表明约束需要更新,它将立刻触发<code>updateConstraints</code>方法的调用而不需要等到运行循环的结束;</p>
+<h3 id="invalidateIntrinsicContentSize"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize()"></a>invalidateIntrinsicContentSize()</h3><p>一些使用自动布局的视图中会有一个<code>intrinsicContentSize</code>的属性,这是视图根据它的内容得到的自然尺寸;一个视图的<code>intrinsicContentSize</code>属性通常由所包含的元素的约束来决定,但是也可以通过重写来提供自定义的行为;调用<code>invalidateIntrinsicContentSize</code>会设置一个标记表示这个视图的<code>intrinsicContentSize</code>已经过期,需要在下一个布局阶段重新计算;</p>
+<h2 id="它们是如何连接的"><a href="#它们是如何连接的" class="headerlink" title="它们是如何连接的"></a>它们是如何连接的</h2><p>视图的布局,显示以及约束都遵循着相似的模式,例如它们更新的方式以及如何在运行循环的不同点上强制更新;任意组件都有一个实际去更新的方法(<code>layoutSubviews</code>,<code>draw</code>,以及<code>updateConstraints</code>),你可以重写来手动操作视图,但是任何情况下都不要在你的代码中直接调用;这些方法仅仅在视图有标记,告诉系统视图的某些组件需要更新了,在主运行循环的后面被调用;有些操作会自动设置这个标志,也有一些方法能够让您手动的设置它;对于布局和约束的更新,如果您无法等到更新周期的到来(因为有些操作依赖最新的布局),有这么一些方法可以让你立即更新,并保证布局需要更新标记被正确标记;下面的表格列出了任意组件会怎样更新及其对应方法;</p>
+<table>
+<thead>
+<tr>
+<th>Method purposes</th>
+<th>Layout</th>
+<th>Display</th>
+<th>Constraints</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Implement updates(override,don’t call explicitly)</td>
+<td><code>layoutSubviews</code></td>
+<td><code>draw</code></td>
+<td><code>updateConstraints</code></td>
+</tr>
+<tr>
+<td>Explicitly mark view as needing update on next update cycle</td>
+<td><code>setNeedsLayout</code></td>
+<td><code>setNeedsDisplay</code></td>
+<td><code>setNeedsUpdateConstraints</code> <code>invalidateIntrinsicContentSize</code></td>
+</tr>
+<tr>
+<td>Update iimmediately if view is marked as ‘dirty’</td>
+<td><code>layoutIfNeeded</code></td>
+<td></td>
+<td><code>updateConstraintsIfNeeded</code></td>
+</tr>
+<tr>
+<td>Actions that implicitly cause views to be updated</td>
+<td><code>addSubview</code><br> Resizing视图,通过<code>setFrame</code>改变视图的<code>bounds</code>(不只是translation)<br>用户滑动UIScrollView<br>用户旋转设备</td>
+<td>改变视图的<code>bounds</code></td>
+<td>激活&#x2F;禁用约束<br>更改约束的值或者优先级<br>从视图层次结构中移除视图</td>
+</tr>
+</tbody></table>
+<p>下面的流程图总结了<strong>更新周期</strong>和<strong>事件循环</strong>之间的交互,并指出了上文提到的方法在<strong>运行循环</strong>期间的位置;你可以在运行循环中的任意一点直接的调用<code>layoutIfNeeded</code>或者<code>updateConstraintsIfNeeded</code>,需要记住,这开销会很大;在循环的主运行循环的后面是更新周期,如果视图被设置特定的”需要更新约束”,”需要更新布局”或者”需要更新显示”的标记,在这个节点会进行更新约束,更新布局以及更新显示内容;一旦这些更新结束,主运行循环会重新开始;</p>
+<p><img src="http://tech.gc.com/images/demystifying-ios-layout/update_cycle.png" alt="Update Cycle"><em><a href="https://i.stack.imgur.com/i9YuN.png">https://i.stack.imgur.com/i9YuN.png</a></em></p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决git clone速度慢的问题</title>
+    <url>/2018/10/26/%E8%A7%A3%E5%86%B3git-clone%E9%80%9F%E5%BA%A6%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>之前一直以为是公司对网络的封锁,导致git clone速度慢,后来网上查找这个问题的时候得知不能怪公司,是因为咱们在这个局域网内…<br>扯多了,回到正题,解决问题,由于我的是Mac电脑,我说的只针对Mac电脑</p>
+<h5 id="1-进入终端命令行模式-输入"><a href="#1-进入终端命令行模式-输入" class="headerlink" title="1. 进入终端命令行模式,输入"></a>1. 进入终端命令行模式,输入</h5><p><code>sudo vim /etc/hosts</code></p>
+<h5 id="2-输入i进入编辑模式-移动到最后一行准备输入"><a href="#2-输入i进入编辑模式-移动到最后一行准备输入" class="headerlink" title="2. 输入i进入编辑模式,移动到最后一行准备输入"></a>2. 输入i进入编辑模式,移动到最后一行准备输入</h5><h5 id="3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址"><a href="#3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址" class="headerlink" title="3. 用浏览器访问 http://tool.chinaz.com 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址"></a>3. 用浏览器访问 <a href="http://tool.chinaz.com/">http://tool.chinaz.com</a> 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址</h5><h5 id="4-回到第2步中按如下格式输入"><a href="#4-回到第2步中按如下格式输入" class="headerlink" title="4. 回到第2步中按如下格式输入:"></a>4. 回到第2步中按如下格式输入:</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">192.30.253.112 github.com</span><br><span class="line">151.101.44.249 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
+<h5 id="5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束"><a href="#5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束" class="headerlink" title="5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束"></a>5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束</h5><h5 id="6-更新DNS缓存-输入"><a href="#6-更新DNS缓存-输入" class="headerlink" title="6. 更新DNS缓存,输入"></a>6. 更新DNS缓存,输入</h5><p><code>sudo dscacheutil -flushcache </code></p>
+]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记录一个pod install失败的解决方法</title>
+    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
+<p>项目的Podfile如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
+<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
+<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>再次运行<code>pod install</code>完美</p>
+<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -2321,121 +2436,6 @@ m<sup>k * φ(n) + 1</sup> mod n = m
         <tag>逆向</tag>
         <tag>微信</tag>
         <tag>插件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决git clone速度慢的问题</title>
-    <url>/2018/10/26/%E8%A7%A3%E5%86%B3git-clone%E9%80%9F%E5%BA%A6%E6%85%A2%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>之前一直以为是公司对网络的封锁,导致git clone速度慢,后来网上查找这个问题的时候得知不能怪公司,是因为咱们在这个局域网内…<br>扯多了,回到正题,解决问题,由于我的是Mac电脑,我说的只针对Mac电脑</p>
-<h5 id="1-进入终端命令行模式-输入"><a href="#1-进入终端命令行模式-输入" class="headerlink" title="1. 进入终端命令行模式,输入"></a>1. 进入终端命令行模式,输入</h5><p><code>sudo vim /etc/hosts</code></p>
-<h5 id="2-输入i进入编辑模式-移动到最后一行准备输入"><a href="#2-输入i进入编辑模式-移动到最后一行准备输入" class="headerlink" title="2. 输入i进入编辑模式,移动到最后一行准备输入"></a>2. 输入i进入编辑模式,移动到最后一行准备输入</h5><h5 id="3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址"><a href="#3-用浏览器访问-http-tool-chinaz-com-使用-IP查询-工具获得github-com和github-global-ssl-fastly-net的ip地址" class="headerlink" title="3. 用浏览器访问 http://tool.chinaz.com 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址"></a>3. 用浏览器访问 <a href="http://tool.chinaz.com/">http://tool.chinaz.com</a> 使用 IP查询 工具获得github.com和github.global.ssl.fastly.net的ip地址</h5><h5 id="4-回到第2步中按如下格式输入"><a href="#4-回到第2步中按如下格式输入" class="headerlink" title="4. 回到第2步中按如下格式输入:"></a>4. 回到第2步中按如下格式输入:</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">192.30.253.112 github.com</span><br><span class="line">151.101.44.249 github.global.ssl.fastly.net</span><br></pre></td></tr></table></figure>
-<h5 id="5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束"><a href="#5-按-esc-键-然后输入-wq-保存文件并退出vim编辑模式-到此hosts文件修改结束" class="headerlink" title="5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束"></a>5. 按 esc 键,然后输入 :wq 保存文件并退出vim编辑模式,到此hosts文件修改结束</h5><h5 id="6-更新DNS缓存-输入"><a href="#6-更新DNS缓存-输入" class="headerlink" title="6. 更新DNS缓存,输入"></a>6. 更新DNS缓存,输入</h5><p><code>sudo dscacheutil -flushcache </code></p>
-]]></content>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>揭开神秘的iOS布局</title>
-    <url>/2018/03/26/%E6%8F%AD%E7%A7%98iOS%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[<p>翻译自: <a href="http://tech.gc.com/demystifying-ios-layout/">Demystifying iOS Layout</a></p>
-<p>在你刚开始开发iOS应用时,最难避免或者说最难调试的是处理视图的布局和内容;通常这些事情的发生是因为对 <strong>视图更新</strong> 真实发生存在误解;了解 <strong>视图更新</strong> 的方式和时间需要更深入地了解iOS应用程序的主运行循环,以及它如何与<code>UIView</code>提供的某些方法关联;这篇博文将解释这些互动,希望澄清如何使用<code>UIView</code>的方法来获得你想要的行为;</p>
-<h2 id="iOS应用程序的主运行循环"><a href="#iOS应用程序的主运行循环" class="headerlink" title="iOS应用程序的主运行循环"></a>iOS应用程序的主运行循环</h2><p>iOS应用程序的主运行循环用来处理所有用户输入事件并在您的应用程序中触发适当的响应;任何与应用程序的用户交互都会被添加到事件队列中;应用程序对象(如下图所示)将事件队列中的事件取出,并将它们分派给应用程序中的其他对象;<strong>它本质上是通过解释来自用户的输入事件并在应用程序的核心对象中为该输入调用相应的处理程序来执行运行循环</strong>;这些处理程序调用应用程序开发人员编写的代码;一旦这些方法调用返回,控制回到主运行循环并且开始更新周期;更新周期负责布局和重绘视图(在下一节中介绍);下面是应用程序如何与设备进行通信并处理用户输入的插图</p>
-<p><img src="http://tech.gc.com/images/demystifying-ios-layout/main_event_loop.jpg" alt="Main Event Loop"></p>
-<p><em><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html">https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html</a></em></p>
-<h2 id="更新周期-Update-Cycle"><a href="#更新周期-Update-Cycle" class="headerlink" title="更新周期(Update Cycle)"></a>更新周期(Update Cycle)</h2><p>更新周期是应用程序完成运行所有事件处理代码后,控制权返回到主运行循环的点;就是在这个点,系统开始更新布局,显示和约束;如果您要求改变视图而它正在执行事件处理程序,系统会将此视图标记为需要重绘;在下一次更新周期,系统将执行这些视图上所有的变化;用户交互和布局更新之间的时间间隔对用户来说应该是感觉不到的;iOS应用程序通常以60fps动画,这意味着一个刷新周期只需要1&#x2F;60秒;由于这种情况发生的速度很快,用户不会注意到她与设备上的应用程序进行交互和看到内容和布局更新之间的UI的滞后;但是,由于事件被执行的时间和相应视图的重绘时间之间存在时间间隔,所以在运行循环过程中,视图可能不会按照您希望的方式更新;如果您有任何计算依赖视图最新的内容或布局,您有可能操作的是该视图的旧的内容或布局而不是最新的;了解运行循环,更新周期和某些的<code>UIView</code>方法能够帮助避免或者调试这类问题;</p>
-<p>您可以在下图中看到更新周期在运行循环结束时如何发生<br><img src="http://tech.gc.com/images/demystifying-ios-layout/tech-blog-loop.png" alt="Update Cycle"></p>
-<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>视图的布局指的是它在屏幕上的大小和位置;每一个视图都有一个<code>frame</code>属性来描述它在父视图坐标系统中的位置以及它的大小;<code>UIView</code>提供了一些方法,可以让你通知系统一个视图的布局已经改变,同时为你提供了可以重写的方法,以便在重新计算视图的布局后定义要执行的操作</p>
-<h3 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</h3><p>这个<code>UIView</code>方法调整视图及其所有子视图的大小和位置;它给出当前视图和每个子视图的位置和大小;此方法很昂贵,因为它对视图的所有子视图起作用并调用其相应的<code>layoutSubviews</code>方法;系统会在任何需要重新计算视图的 frame 属性时调用此方法,因此当您想要设置 frame 属性指定视图位置和大小的时候您应该重写此方法;但是,当您的视图层次结构需要布局刷新时,您绝不应该显示的调用它;相反,在运行循环期间,您可以使用多种机制在不同点触发<code>layoutSubviews</code>调用,这比直接调用<code>layoutSubviews</code>方法要便宜的多;</p>
-<p>当<code>layoutSubviews</code>方法完成时,将在拥有该视图的视图控制器中触发对<code>viewDidLayoutSubviews</code>的调用;<strong>由于<code>layoutSubviews</code>是更新视图布局后可靠调用的唯一方法,因此应该将任何取决于布局和大小的逻辑代码方法<code>viewDidLayoutSubviews</code>中,而不是放在<code>viewDidLoad</code>或<code>viewDidAppear</code>中</strong>;这是避免使用过时的布局或者位置变量的唯一方法。</p>
-<h2 id="自动刷新触发器"><a href="#自动刷新触发器" class="headerlink" title="自动刷新触发器"></a>自动刷新触发器</h2><p>有多个事件会自动地将视图标记为布局已经改变,所以该视图的<code>layoutSubviews</code>方法将在下一次更新周期时被系统调用,不需要开发人员手动执行这个方法;</p>
-<p>这些自动将视图标记为布局已经改变的方式有以下几种:</p>
-<ul>
-<li>改变视图的大小</li>
-<li>添加子视图</li>
-<li>用户滚动<code>UIScrollView</code>(<code>layoutSubviews</code>方法会被<code>UIScrollView</code>以及它的父视图调用)</li>
-<li>用户旋转设备</li>
-<li>更新视图的约束</li>
-</ul>
-<p>以上这些方式都告诉系统,视图的位置需要重新计算并且会自动导致最终的<code>layoutSubviews</code>方法的调用;当然,也有直接触发<code>layoutSubviews</code>方法调用的办法;</p>
-<h3 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout()"></a>setNeedsLayout()</h3><p>触发<code>layoutSubviews</code>调用最省资源的方式就是在您的视图上调用<code>setNeedsLayout</code>方法;这将指示系统这个视图的布局需要重新计算;<code>setNeedsLayout</code>执行并立即返回,并且在返回之前并不实际更新视图;相反,视图将会在下一个更新周期(系统调用这些视图以及后续所有子视图的<code>layoutSubviews</code>方法)实际更新视图的布局;即使从<code>setNeedsLayout</code>返回后到视图被重新绘制布局之间有一段任意的时间间隔,但是这个延迟不会对用户造成影响,因为永远不会长到对界面造成卡顿;</p>
-<h3 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded()"></a>layoutIfNeeded()</h3><p><code>layoutIfNeeded</code>是<code>UIView</code>的另一个将会在不久后触发<code>layoutSubviews</code>调用的方法;与<code>setNeedsLayout</code>会让视图在下一个周期调用<code>layoutSubviews</code>更新视图不同,<code>layoutIfNeeded</code>会立即触发<code>layoutSubviews</code>方法调用,如果视图需要布局更新的话;如果你在调用<code>setNeedsLayout</code>方法或者触发上面描述的自动刷新触发器之后调用了<code>layoutIfNeeded</code>方法,<code>layoutSubviews</code>将会在视图上被调用;然而,如果你调用<code>layoutIfNeeded</code>之后没有动作指示系统视图需要重新刷新视图,那么<code>layoutSubviews</code>方法将不会被调用;<br>在一次运行循环中,两次调用视图的<code>layoutIfNeeded</code>方法之间,视图的布局并没有变化的话,那么第二次调用将不会触发<code>layoutSubviews</code>的调用;</p>
-<p>与<code>setNeedsLayout</code>方法不同,使用<code>layoutIfNeeded</code>方法,布局和重绘会在函数返回之前立即发生改变(除非有正在运行中的动画);这个方法在你需要依赖新的布局而又无法等待视图的下次更新周期到来的时候特别有用;然而,除了这种情况外,你还是应该调用<code>setNeedsLayout</code>然后等待下次更新周期的到来,这样在每次运行循环中都只会更新一次布局;</p>
-<p>动画更改约束时,此方法特别有用;您应该在动画的 block 开始之前调用一次<code>layoutIfNeeded</code>,以确保在动画开始之前通知所有的布局更新;配置新的约束,然后在动画 block 内,再次调用<code>layoutIfNeeded</code>以动画到最新的状态;</p>
-<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>视图的显示包含颜色,文本,图片和Core Graphics绘制等视图属性,但不包含它和它的子视图的大小和位置;和布局的方法类似,显示也有触发更新的方法,它们由系统在检测到更新时被自动调用,或者我们可以手动调用直接触发更新;</p>
-<h3 id="draw"><a href="#draw" class="headerlink" title="draw(_:)"></a>draw(_:)</h3><p><code>UIView</code>的<code>draw</code>方法(Objective-C中的<code>drawRect</code>)对视图的显示内容的作用	就像 <code>layoutSubviews</code>方法对视图的位置和尺寸的作用;同<code>layoutSubviews</code>一样,你不应该在代码中直接调用<code>draw</code>方法,而应该在运行循环的不同点调用能触发<code>draw</code>方法调用的方法;然而,与<code>layoutSubviews</code>方法不同的是,<code>draw</code>方法不会触发后续子视图的调用;</p>
-<h3 id="setNeedsDisplay"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay()"></a>setNeedsDisplay()</h3><p>这个方法类似布局中的<code>setNeedsLayout</code>;它会给有显示内容更新的视图设置一个内部的标记之后返回,并不会真正的视图重绘;而是在接下来的更新周期中,系统会遍历所有已被标记的视图,调用它们的<code>draw</code>方法;如果你只想在下次更新时重绘部分的视图,你可以调用<code>setNeedsDisplay(_:)</code>(Objective-C中的<code>setNeedsDisplayInRect:</code>)方法,并把希望重绘的矩形部分传入参数;</p>
-<p>大部分时候,在视图中更新任何 UI 组件都会通过自动设置内部的”显示内容更新”标记将视图标记为”dirty”的;导致在下一次更新周期中视图的内容就会重绘而不需要直接显示调用<code>setNeedsDisplay</code>;然而如果你有一个属性没有绑定到UI控件,但需要在属性值每次更新重绘视图,那么你可以实现该属性的<code>didSet</code>方法,并在里面调用<code>setNeedsDisplay</code>方法来触发视图的更新;</p>
-<p>有时设置一个属性要求自定义绘制,这种情况下你需要重写<code>draw</code>方法;在下面的例子中,设置<code>numberOfPoints</code>会触发系统根据具体点数绘制不同的视图;在这个例子中,你需要在<code>draw</code>方法中实现自定义绘制,并在<code>numberOfPoints</code>的property observer里调用<code>setNeedsDisplay</code>;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class MyView: UIView &#123;</span><br><span class="line">	var numberOfPoints = 0 &#123;</span><br><span class="line">		didSet &#123;</span><br><span class="line">			setNeedsDisplay()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	override func draw(_ rect: CGRect) &#123;</span><br><span class="line">		switch numberOfPoints &#123;</span><br><span class="line">		case 0: </span><br><span class="line">			return</span><br><span class="line">		case 1: </span><br><span class="line">			drawPoint(rect)</span><br><span class="line">		case 2:</span><br><span class="line">			drawLine(rect)</span><br><span class="line">		case 3: </span><br><span class="line">			drawTriangle(rect)</span><br><span class="line">		case 4:</span><br><span class="line">			drawRectangle(rect)</span><br><span class="line">		case 5: </span><br><span class="line">			drawPentagon(rect)</span><br><span class="line">		default:</span><br><span class="line">			drawEllipse(rect)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>视图的显示方法里没有类似布局中的<code>layoutIfNeeded</code>这样可以触发立即更新的方法;通常情况下等到下一个更新周期再重新绘制视图也无所谓;</p>
-<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>在自动布局技术中布局和重绘视图有三个步骤;第一步是更新约束,系统计算并设置视图上所有必需的约束条件;第二步是布局阶段,布局引擎计算视图和子视图的 frame 并且将它们布局;最后一步完成这一循环的是显示阶段;第三步完成此次循环的是显示阶段,如果有必要,那么通过调用视图的<code>draw</code>方法重绘视图的内容;</p>
-<h3 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints()"></a>updateConstraints()</h3><p>这个方法用在自动布局中动态的改变视图的约束;和布局中的<code>layoutSubviews</code>方法和显示内容中的<code>draw</code>方法类似,<code>updateConstraints</code>只应该被重写,而不应该在你的代码中直接调用;一般来说,您应该在<code>updateConstraints</code>方法中仅仅实现必须要更新的约束;静态的约束应该设置在interface builder,视图的初始化方法(initializer)或者控制器的<code>viewDidLoad</code>中;</p>
-<p>通常情况下,开启或者关闭约束,更改约束的优先级或者常量值,或者从视图层级中移除一个视图时都会设置一个内部的标记,这个标记将会在下一次更新周期触发<code>updateConstraints</code>方法调用;当然啦,也有手动的给视图打上需要更新约束的标记的方法,如下:</p>
-<h3 id="setNeedsUpdateConstraints"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints()"></a>setNeedsUpdateConstraints()</h3><p>调用<code>setNeedsUpdateConstraints</code>会保证在下一次的更新周期中更新约束;它通过标记视图的约束已更新来触发<code>updateConstraints</code>调用;这个方法和<code>setNeedsDisplay</code>,<code>setNeedsLayout</code>方法的工作机制类似;</p>
-<h3 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded()"></a>updateConstraintsIfNeeded()</h3><p>这个方法就等同于使用了自动布局的视图中的<code>layoutIfNeeded</code>方法;它会检查视图约束是否更新的标记(能够被自动设置,或者通过<code>setNeedsUpdateConstraints</code>设置,或者通过<code>invalidateInstrinsicContentSize</code>设置),如果它表明约束需要更新,它将立刻触发<code>updateConstraints</code>方法的调用而不需要等到运行循环的结束;</p>
-<h3 id="invalidateIntrinsicContentSize"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize()"></a>invalidateIntrinsicContentSize()</h3><p>一些使用自动布局的视图中会有一个<code>intrinsicContentSize</code>的属性,这是视图根据它的内容得到的自然尺寸;一个视图的<code>intrinsicContentSize</code>属性通常由所包含的元素的约束来决定,但是也可以通过重写来提供自定义的行为;调用<code>invalidateIntrinsicContentSize</code>会设置一个标记表示这个视图的<code>intrinsicContentSize</code>已经过期,需要在下一个布局阶段重新计算;</p>
-<h2 id="它们是如何连接的"><a href="#它们是如何连接的" class="headerlink" title="它们是如何连接的"></a>它们是如何连接的</h2><p>视图的布局,显示以及约束都遵循着相似的模式,例如它们更新的方式以及如何在运行循环的不同点上强制更新;任意组件都有一个实际去更新的方法(<code>layoutSubviews</code>,<code>draw</code>,以及<code>updateConstraints</code>),你可以重写来手动操作视图,但是任何情况下都不要在你的代码中直接调用;这些方法仅仅在视图有标记,告诉系统视图的某些组件需要更新了,在主运行循环的后面被调用;有些操作会自动设置这个标志,也有一些方法能够让您手动的设置它;对于布局和约束的更新,如果您无法等到更新周期的到来(因为有些操作依赖最新的布局),有这么一些方法可以让你立即更新,并保证布局需要更新标记被正确标记;下面的表格列出了任意组件会怎样更新及其对应方法;</p>
-<table>
-<thead>
-<tr>
-<th>Method purposes</th>
-<th>Layout</th>
-<th>Display</th>
-<th>Constraints</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Implement updates(override,don’t call explicitly)</td>
-<td><code>layoutSubviews</code></td>
-<td><code>draw</code></td>
-<td><code>updateConstraints</code></td>
-</tr>
-<tr>
-<td>Explicitly mark view as needing update on next update cycle</td>
-<td><code>setNeedsLayout</code></td>
-<td><code>setNeedsDisplay</code></td>
-<td><code>setNeedsUpdateConstraints</code> <code>invalidateIntrinsicContentSize</code></td>
-</tr>
-<tr>
-<td>Update iimmediately if view is marked as ‘dirty’</td>
-<td><code>layoutIfNeeded</code></td>
-<td></td>
-<td><code>updateConstraintsIfNeeded</code></td>
-</tr>
-<tr>
-<td>Actions that implicitly cause views to be updated</td>
-<td><code>addSubview</code><br> Resizing视图,通过<code>setFrame</code>改变视图的<code>bounds</code>(不只是translation)<br>用户滑动UIScrollView<br>用户旋转设备</td>
-<td>改变视图的<code>bounds</code></td>
-<td>激活&#x2F;禁用约束<br>更改约束的值或者优先级<br>从视图层次结构中移除视图</td>
-</tr>
-</tbody></table>
-<p>下面的流程图总结了<strong>更新周期</strong>和<strong>事件循环</strong>之间的交互,并指出了上文提到的方法在<strong>运行循环</strong>期间的位置;你可以在运行循环中的任意一点直接的调用<code>layoutIfNeeded</code>或者<code>updateConstraintsIfNeeded</code>,需要记住,这开销会很大;在循环的主运行循环的后面是更新周期,如果视图被设置特定的”需要更新约束”,”需要更新布局”或者”需要更新显示”的标记,在这个节点会进行更新约束,更新布局以及更新显示内容;一旦这些更新结束,主运行循环会重新开始;</p>
-<p><img src="http://tech.gc.com/images/demystifying-ios-layout/update_cycle.png" alt="Update Cycle"><em><a href="https://i.stack.imgur.com/i9YuN.png">https://i.stack.imgur.com/i9YuN.png</a></em></p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记录一个pod install失败的解决方法</title>
-    <url>/2018/04/16/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AApod-install%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>今天在网络看到一个demo,想把它clone下来运行一下看看效果,大家都知道一般clone下来的项目需要使用<code>pod install</code>命令安装一下第三方库的,这个demo也不例外;问题在于这个demo的cocoapods版本太低了(0.39.0)以至于Podfile中有些语法现如今都无法识别…以下截图是执行<code>pod install</code>命令之后给出了的错误提示:<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_21.png"></p>
-<p>项目的Podfile如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27;, :exclusive =&gt; true do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>大概的意思就是不支持 :exclusive &#x3D;&gt; true语法，在cocoaPods 1.0之后exclusive语法已经被移除了</p>
-<p><a href="https://github.com/CocoaPods/CocoaPods/issues/4705">这里是Stack Overflow上的解答</a></p>
-<p>将相关的代码删除之后,注意<code>,</code>号也要删除;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>再次执行<code>pod install</code>命令,结果如下<br><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_22.png"><br>已经安装成功了,给了两个警告⚠️,你可以不用管它,有强迫症的同学可以在target前加上<code>platform :ios, &#39;7.1&#39;</code>,这个7.1是你的项目的Deployment Target…</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">use_frameworks!</span><br><span class="line"></span><br><span class="line">platform :ios, &#x27;7.1&#x27;</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Example&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">target &#x27;RTPagedCollectionViewLayout_Tests&#x27; do</span><br><span class="line">  pod &#x27;RTPagedCollectionViewLayout&#x27;, :path =&gt; &#x27;../&#x27;</span><br><span class="line">  </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>再次运行<code>pod install</code>完美</p>
-<p><img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180416_23.png"></p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
       </tags>
   </entry>
 </search>
