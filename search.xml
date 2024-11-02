@@ -315,6 +315,785 @@
       </tags>
   </entry>
   <entry>
+    <title>8天让iOS开发者上手Flutter之一：快速入门Flutter</title>
+    <url>/2021/07/10/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%80%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8Flutter/</url>
+    <content><![CDATA[<p>flutter 现在是越来越火了，现在作为一个 iOS 开发，如果你不会 flutter 都好像不算个正常人似的？而且现在的 flutter 情况，有点像 2012 年那会儿刚刚兴起的 iOS，Android 开发一样，会点皮毛 UI 就可以提升不少身价…这些年过来，有无数的前端跨平台框架兴起。却只有 flutter 一家独秀，说明它还是有两把刷子的。今天这篇文章内容是基于 Mac 和 Android Studio 基础来开发 flutter 的，如果你还没有配置好开发环境，可以在网上搜索，或者直接到官网安装。这篇文章主要用来记录我学习 flutter 的过程，如果你也对 flutter 感兴趣可以跟着一起练习。</p>
+<p>配置好 Flutter 环境之后，开始创建我们的第一个 Flutter 工程</p>
+<h1 id="创建第一个-Flutter-工程"><a href="#创建第一个-Flutter-工程" class="headerlink" title="创建第一个 Flutter 工程"></a>创建第一个 Flutter 工程</h1><p>打开 iTerm2，cd 到 ~&#x2F;AndroidStudioProjects 目录，输入以下命令，没有 iTerms 的使用 Mac 系统自带的 Terminal 也行。<br></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">flutter create flutter_demo</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意，AndroidStudio 项目名称不能使用大写字母，这里推荐使用小写字母加下划线给工程命名。</p>
+<p><img src="c12dd5b7513e4a3a87c4249d6bff3e5a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>打开对应的目录，可以看到新建了一个 <code>flutter_demo</code> 目录</p>
+<p><img src="f65f809f540045a594d2e8c4207eb44d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"><br></p>
+<p>接下来，cd 到 <code>flutter_demo</code> 目录，在终端输入 <code>flutter run</code> 命令，它就会运行项目，如果你电脑连接了真机，就会自动运行到真机上，没有真机会去寻找模拟器并运行，模拟器也没有，就会打开一个 Chrome 网页运行项目 (flutter 项目目前可以运行在 iOS，Android，web 上)。我这里连上了 iPhone 真机，运行项目会报一个 BUILD FAILED 的错误:</p>
+<p><img src="01063bff94594693889713336801ab99~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>原因是 flutter_demo 项目生成的 iOS 项目默认的 bundle identifier 咱们用不了，去 iOS 项目里面修改一下就好了</p>
+<p><img src="7869a380e58e4bb4bee43d7632f9ad63~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里注意我们免费的开发者证书，在 iPhone 上最多安装 3 个开发中的 APP，多了就安装不了，删掉之前的 APP 就好了，再次运行 <code>flutter run</code> </p>
+<p><img src="12983baee1574506aabf12d1383af6ed~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>可以看到这里给出了 flutter 运行的一些关键命令，Hot reload 热重载，这个特性对我们开发 UI 时还是比原生的体验好不少的，它不用我们重新运行项目就能看到 UI 的一些改变。Hot restart 热重启，意思不用退出 APP，就直接重新运行了。此时真机上就打开了我们的第一个 flutter 工程的 APP</p>
+<div align="center">
+<img src="0b9a168158354713a31d3103001fd8f8~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h1 id="HelloFlutter"><a href="#HelloFlutter" class="headerlink" title="HelloFlutter"></a>HelloFlutter</h1><p>上面是通过命令创建一个 flutter 项目，当然在实际开发过程我，我们一般不会这么操作。使用 Android Studio 来创建 flutter 项目。没有这个选项的同学，在 Android Studio 的插件里面选择 flutter 并安装就有了，如果提示还需要安装 Dart 就一块安装了，flutter 使用的是 Dart 语言。iOS 开发者没必要被这个新语言给吓到了，现代的语言基本都差不了太多，敲着敲着就熟悉了</p>
+<p><img src="65f2784c45fc45728781cfd1d77a618c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击后会出现以下界面，目前我们选择 Flutter App 就好了</p>
+<p><img src="c2ad2dcb3a05426fae1347fab30f7054~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>下一个界面会让我们设置工程名称，工程位置，工程描述，工程组织，Android 语言，iOS 语言等等…我这里设置工程名称为 hello_flutter，其他的默认选择就好了…也可以根据你自己的需要选择</p>
+<p><img src="6b9e58c9ee274fe695c3094500da4961~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击 Finish 之后就可以看到完整的工程目录了，flutter 工程的主入口，跟我们 iOS 项目一样有一个 main.m 文件，flutter 的是 main.dart 文件，可以看到这个文件里面已经有不少初始的代码了，今天是我们第一次接触 flutter 项目，就不要这里的代码，全部删掉，我们从第一行代码开始自己敲出来</p>
+<p><img src="8caf387fbb084bf681dac3caa7863f7f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="fad716135bad4cc986a89968f01bc083~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<ul>
+<li>导入 material.dart 头文件(相当于 iOS 中 UIKit)</li>
+<li>写一个 main() 函数作为主入口</li>
+<li>调用 runAPP() 函数</li>
+<li>Center 类是用来布局的类，表示一个位置，child 属性表示他有的子控件的意思。Text 类就是我们文本类，有点儿我们 iOS 的 UILabel 的意思，Text 类的第一个参数就是具体的文本，省略了参数名，第二个参数 <code>textDirection</code> 表示文本显示方向，我们习惯的从左至右就是 <code>TextDirection.ltr</code>，left to right。像一些阿拉伯语言，希伯来语的文字就是从右到左显示的，我这里试了一下 hello world 的方向并没有变化，可能还需要其他设置吧…<br></li>
+</ul>
+<p>运行之后 iPhone 显示如下：</p>
+<div align="center">
+<img src="1fcd588320c3486f9b78bf16e0ef090e~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h1 id="自定义-Widget"><a href="#自定义-Widget" class="headerlink" title="自定义 Widget"></a>自定义 Widget</h1><p>flutter 里面的 Widget 类叫作小部件，是 flutter 里面经常用到的，它分为有状态的 Stateful 和 Stateless 无状态的。其中无状态的比较简单，我们先自定义一个类 CustomWidget 继承自 StatelessWidget。我们自定义的 Widget 想要显示到屏幕上需要实现一个 build 的函数，系统会调用这个函数来渲染我们想要显示到屏幕上的内容</p>
+<p><img src="2644086b52ce4c129b4166634f3aea71~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个时候，如何将我们的 hello flutter 显示到屏幕呢，可以看到 runApp 函数里面有一个 Center 类，我们 CustomWidget 类的 build 方法也是返回的一个 Center 类，所以可以直接将我们 CustomWidget 初始化给 runApp 作参数</p>
+<p><img src="1b0fe8e697f143da87ae575c721bfce7~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>有些时候，我们发现 hot reload 无法更新界面，可以使用 hot restart，如果 hot restart 还是无法更新界面，那就需要重新运行一下就可以了。此时我们发现 main() 函数里面就只有一句调用 runApp() 代码，在 Dart 语言中，函数定义如果只有一句代码，那么可以省略成如下箭头形式</p>
+<p><img src="6622e630312b4d46a4570b12b32f55e4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="设置文字样式-style"><a href="#设置文字样式-style" class="headerlink" title="设置文字样式 style"></a>设置文字样式 style</h1><p>按住 command 再用鼠标左键点击 Text 类，就会跳到一个 text.dart 文件，会看到一个 this.style 属性，再次按住 command 点击，会来到 style 的声明部分：</p>
+<p><img src="c20f3fc043974b2b956dbd6b28eebd80~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里的 final 表示不可变，常量的意思，类似于 Swift 里面的 let。可以看到 style 是一个 TextStyle 类型，查看 TextStyle 类，会发现里面很多的属性，比如 color，backgroundColor，fontSize，fontWeight…这些都是很熟悉的属性,接下来我们设置一下 hello flutter 的一些文字样式</p>
+<p><img src="4d1565a3e89643599da97f6eb93f3f19~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>使用 Android Studio 快捷键 command + \ 查看界面</p>
+<div align="center">
+<img src="681e54bc6ba244e383e6c42c94dfdb10~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h1 id="Material-App"><a href="#Material-App" class="headerlink" title="Material App"></a>Material App</h1><p>在 flutter 提供的头文件 material.dart 中，提供了一个快速构建 APP 的类型 MaterialApp，我们可以使用它来快速构建一个 APP 的基础框架。<br></p>
+<p>我们先新建一个App类来写我们的代码</p>
+<p><img src="921de45df974425b96a8552edd7167ec~tplv-k3u1fbpfcp-watermark.png" alt="image.png"><br></p>
+<p>然后我们在 App 的 build 方法中，返回一个 MaterialApp 类，如果 MaterialApp 不传入任何参数的话，运行后会发现APP整个屏幕变成红色，并且显示了一行文字，意思是出错了之类的，说明我们的 MaterialApp 应该是需要传入一个必要的参数的。</p>
+<p><img src="abd8214222cc4924b43e1749ddceceae~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>没错就像我们 iOS 的 APP 同样需要一个 rootViewController 一样，MaterialApp 函数需要一个 home 参数，home 参数可以传一个 Widget 类，如果传入我们刚刚写的 CustomWidget 类，运行后发现有了一点不一样的地方</p>
+<div align="center">
+<img src="cbd25bca31084862b6aa3ce68862a221~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<p>右上角有一个 debug 的图标，hello flutter 下面也出现了两条横线。</p>
+<p>flutter 还提供了一个 Scaffold 的类，这个类翻译过来叫作脚手架，有点像是我们 iOS 中的一些基础控制器(比如 UITabBarController，UINavigationController)的封装。我们来使用一下这个类，这个 Scaffold 类有一个 appBar 的属性，这个属性就跟我们的 UINavigationController 的 UINavigationBar 一样，appBar 是一个 AppBar 类型，它的 title 属性可以传入一个 Widget，我们传入一个 Text 类试试看。Scaffold 类除了 appBar 属性，还有一个 body 属性表示的内容，把这个 body 设置为我们刚刚的 CustomWidget，看看是什么效果，代码如下：</p>
+<p><img src="2ba07c4727cd42bcbeb8768167858493~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP上显示效果：</p>
+<div align="center">
+<img src="b0436c60496843b0bb0d3a20d7f0b96d~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<p>这个时候，是不是发现像那么回事了</p>
+<p>MaterialApp 还有一个 theme 的属性，这个属性用了配置 app 的主题，设置一下主题颜色代码如下：</p>
+<p><img src="5f097b85ecd74b42ac0374d7276c94bb~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP上显示效果：</p>
+<div align="center">
+<img src="a72cec5174ba4c989c6fea7452e13aa6~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h1 id="初探-ListView"><a href="#初探-ListView" class="headerlink" title="初探 ListView"></a>初探 ListView</h1><p>在探索 ListView 之前，我们先把模型实现一下，我们这里展示的一组关于汽车的图片和名字，就定义一个 Car 类，我们新建一个 car 文件用来存放我们的模型代码，代码如下：</p>
+<p><img src="6f71fd16e1b14a1fb632819077a9d0d6~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>再定义一个数组，用来存放一组汽车模型，我这里放了一组网络图片，你可以直接使用，也可以自己在网上找几张图片，填入模型数组中</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="built_in">List</span>&lt;Car&gt; cars = [</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;保时捷918 Spyder&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-7d8be6ebc4c7c95b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;兰博基尼Aventador&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-e3bfd824f30afaac?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;法拉利Enzo&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-a1d64cf5da2d9d99?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;Zenvo ST1&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-bf883b46690f93ce?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;迈凯伦F1&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-5a7b5550a19b8342?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;萨林S7&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-2e128d18144ad5b8?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;科尼赛克CCR&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-01ced8f6f95219ec?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;布加迪Chiron&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-7fc8359eb61adac0?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;轩尼诗Venom GT&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-d332bf510d61bbc2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  ),</span><br><span class="line">  Car(</span><br><span class="line">    name: <span class="string">&#x27;西贝尔Tuatara&#x27;</span>,</span><br><span class="line">    imageUrl:</span><br><span class="line">    <span class="string">&#x27;https://upload-images.jianshu.io/upload_images/2990730-3dd9a70b25ae6bc9?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240&#x27;</span>,</span><br><span class="line">  )</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>然后回到 main.dart 文件新建一个 Home 类，用来存放我们 ListView 相关代码,和 Xcode 一样 Android Studio 同样有代码块功能，直接输入 stl 就会出现提示，回车就会生成 StatelessWidget 类相关代码。我们将 Scaffold 相关的代码挪到 Home 中来。</p>
+<p><img src="76d90981bd244df4b58afd63c041a279~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>接下来就是正式开始使用 ListView 了，ListView 跟其他一般的类不太一样，它的初始化需要调用 build 方法，并且传入两个参数，一个是 itemCount，一个是 itemBuilder，有点类似我们 UITableView 的 cellForRow 方法，只不过我们 UITableView 使用的是代理的设计，而这里的 ListView 使用的代码块回调的设计。</p>
+<p>这里说一个 Android Studio 的比 Xcode 好用的地方，如图的 itemCount 使用了 cars.length 但是提示 cars 报错，是因为没有导入 car.dart 文件，给了个小红灯泡。这个时候，我们光标移动到 Car 类上，然后使用 option + 回车 会弹出一个菜单，再按一次回车就可以导入我们的 car.dart 文件了</p>
+<p><img src="e624caad2d2d40a9a9699f96f04b43b0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>itemBuilder 属性就是一个代码块，用来配置每个 item 的样式，我们可以先统一返回一个 Text 文本看看效果。</p>
+<p><img src="b8a2cb6254db46db93612495dcfbde64~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>显示效果就是类似于 tableView 一样的一行行的文本</p>
+<div align="center">
+<img src="775d0ccc95184864bf9e70703aa7f3c4~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<p>接下来介绍一个类似于 UIView 的容器类 Container，它跟 UIView 类似，可以设置一些颜色，间距，子控件之类的，我们来试一下，将 Text 改为 Container，child 属性就是子控件的意思，再给 child 设置为 Text，文本就是 cars 里面的 name，代码如下：</p>
+<p><img src="98718e624fc1481fad5769b121af4fb5~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>再看一下显示效果</p>
+<div align="center">
+<img src="ce681f02eddb45d79b66ccdfa7e9c97c~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<p>那么如果我们现在想要显示图片加文字的话应该怎么做呢？这里再介绍一个 Column 类,和前面介绍 Center 类类似，同样是属于布局的类，Column 表示上下的布局，因为我们想把图片和文字上下摆放，所以需要用到 Column 这个类。然后关于图片的显示，这里我们先不讲怎么去网络请求，而是直接使用 Image 类提供的一个方法去加载网络图片，代码如图：</p>
+<p><img src="044d760fbdcf429795ed49a93628557f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>显示效果如图：</p>
+<div align="center">
+<img src="abbc32c8ac5949178defa602be8aad6d~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<p>这个时候，你应该也猜到了，如果挪动 children 里面 Text 和 Image 和顺序，会发现图片和文字的顺序就交换了，是不是很容易理解。如果想要调整图片和文字之间的间距怎么调呢，使用 SizedBox 类，传一个 height 就可以调整间距了，也可以继续使用 Container，代码如下：</p>
+<p><img src="552a4140323044e8a58255513de3f513~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如果觉得 itemBuilder 的代码太长，也可以将它的代码封装到一个方法里面，例如我这里使用 iOS 中的 _cellForRow 来命名这个方法。使用下划线的意义的是表示这是一个私有方法。</p>
+<p><img src="9a121339036140b0bb7ca047ceebfe76~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP 右上角会发现有一个 debug 图标，这个图标的显示在 MaterialApp 类里面有一个属性可以控制显示隐藏。</p>
+<p><code>debugShowCheckedModeBanner: false</code></p>
+<h1 id="常用-Widget-介绍"><a href="#常用-Widget-介绍" class="headerlink" title="常用 Widget 介绍"></a>常用 Widget 介绍</h1><p>在介绍常用 Widget 之前，我们想把刚刚写的 ListView 相关代码，封装到一个文件内，这样方便以后我们回头学习。listView_demo 代码如下：</p>
+<p><img src="446b4ffe8afc45e99221bf5cd3afeee1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个时候，main.dart 文件内的 Home 类的 build 方法里，返回我们的 ListViewDemo 初始化方法就行了。</p>
+<p>然后再新建一个新的 base_widget 文件，用来存放我们将要介绍的基础 Widget 代码。</p>
+<p><img src="8f77023a8d4244d783be32abf79463cd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>可以在 main.dart 文件中直接使用我的 BaseWidgetDemo 初始化方法，这样我们就不需要再去 main.dart 文件修改代码了。每介绍一个新 Widget 直接修改 BaseWidgetDemo 的 build 方法返回值为我们的自定义类 xxxDemo() 就好了</p>
+<p><img src="76bc9786e7e84c9980e1ebee1a9b551b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>第一个介绍是 Text</p>
+<h2 id="Text"><a href="#Text" class="headerlink" title="Text"></a>Text</h2><p><img src="41880af972fc45689907bd150a538fa0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>Text 我们一开始讲过了，这里就再讲一点关于字符串相关的，如果需要拼接字符串可以使用 $ 符号，如果字符串中有特殊符号，那就使用 ${}。其他 Text 常用的属性，跟我们 iOS 中都差不太多，需要注意的是 Text 的样式，是在 style 里面设置的。下面看一下 APP 显示的效果</p>
+<div align="center">
+<img src="d993b732bdd5495a88814dc8d3374742~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h2 id="RichText"><a href="#RichText" class="headerlink" title="RichText"></a>RichText</h2><p>RichText 就是富文本，它的 text 属性可以传一个 TextSpan 的类，这个 TextSpan 类可以设置 text 文本，设置 style 样式，还可以设置 children 子控件，这样就可以无限加花样拼接各种字符串在一起，代码如下</p>
+<p><img src="b1945fbc5bbb43cba0faa548f46bd6ce~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP上显示的效果：</p>
+<div align="center">
+<img src="63e6b01de12b44449ce52f68f56b069d~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h2 id="Container，Row"><a href="#Container，Row" class="headerlink" title="Container，Row"></a>Container，Row</h2><p>Container 是个容器，Row 是个用于布局的类，跟 Column，Center 类似，根据代码查看一下 APP 的显示，就能大概明白意思了，代码如下：</p>
+<p><img src="29e91abfa353405685dee33de2c27584~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP显示如下：</p>
+<div align="center">
+<img src="34a8ba5c9b5c446ab0dfc9ad49864494~tplv-k3u1fbpfcp-watermark.jpg">
+</div>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>今天介绍了 Flutter 里面的许多的基础 Widget，有用于布局的 Center，Row，Column…有用于显示文本的 Text，RichText，TextSpan…有列表展示 ListView，有基础架构 Scaffold，MaterialApp 类，虽然东西有点多，但基本还没有什么难以理解的内容</p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之七</title>
+    <url>/2021/08/19/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%83/</url>
+    <content><![CDATA[<p>上一篇文章我们已经完成首页聊天页面的导航条和列表展示，今天的任务是完成搜索 cell 的展示和点击之后的搜索页面的功能。</p>
+<h1 id="自定义-SearchCell"><a href="#自定义-SearchCell" class="headerlink" title="自定义 SearchCell"></a>自定义 SearchCell</h1><h2 id="新建-search-cell-dart-文件"><a href="#新建-search-cell-dart-文件" class="headerlink" title="新建 search_cell.dart 文件"></a>新建 search_cell.dart 文件</h2><p><img src="1dbd72608e914624a9d4585ad1097307~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现-SearchCell-代码"><a href="#实现-SearchCell-代码" class="headerlink" title="实现 SearchCell 代码"></a>实现 SearchCell 代码</h2><p>SearchCell 的话，因为仅仅只是展示，点击之后就进入搜索页了，应该来说是不需要状态的，所以用一个 StatelessWidget 就够了。然后布局的方式使用一个 Container 包含一个 Row，Row 里面包一个图片和文本就可以了。布局的方式其实多种多样，能实现就好了。完整代码如下：</p>
+<p><img src="d0128b2c771c49c59ef63ecd63e85895~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>一个有意思的地方是，flutter 里面的 Image 居然可以设置颜色，而且颜色是设置给图片的。比如我的放大镜图片原本是黑色的，设置红色之后，居然真的变红色了！！！</p>
+<div align="center">
+<img src="7c322f9a1989444792c8be1a83af7e8e~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="使用-SearchCell"><a href="#使用-SearchCell" class="headerlink" title="使用 SearchCell"></a>使用 SearchCell</h2><p>SearchCell 的展示就算写完了，然后在 ChatPage.dart 中使用，我们把 ListView 的 itemBuilder 方法抽取出来，然后因为我们多加了一个 SearchCell，所以 itemCount 需要加 1，然后取 _chatList 数据的时候也要处理一下下标。</p>
+<p><img src="17291ce793da406ba1a0877a2350c65e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="自定义-SearchPage"><a href="#自定义-SearchPage" class="headerlink" title="自定义 SearchPage"></a>自定义 SearchPage</h1><h2 id="新建-search-page-dart-文件"><a href="#新建-search-page-dart-文件" class="headerlink" title="新建 search_page.dart 文件"></a>新建 search_page.dart 文件</h2><p><img src="0699384aaddf495185d41f9dfbfb4d63~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="简单实现-SearchPage"><a href="#简单实现-SearchPage" class="headerlink" title="简单实现 SearchPage"></a>简单实现 SearchPage</h2><p>SearchPage 作为一个页面，使用 StatelessWidget 肯定是无法胜任的，所以使用一个 StatefulWidget。而由于 AppBar 的样式和我们需要显示的效果图还是有差别的，所以这里我们不使用 Scaffold 提供的 AppBar 了。我们自定义一个 SearchBar，配合一个 ListView 来搭建基本的布局。这里面基本没有新鲜的东西，就简单贴一下代码：</p>
+<p><img src="2a65878c91ef4795a80cde4b9100e7ac~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>SearchBar 由于是在 SearchPage 中使用的，所以就直接定义在 SearchPage 中了，代码也是先简单定义如下：</p>
+<p><img src="e6ae11c406504b5f8f1e8386d60fc9ad~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="点击跳转到-SearchPage"><a href="#点击跳转到-SearchPage" class="headerlink" title="点击跳转到 SearchPage"></a>点击跳转到 SearchPage</h2><p><img src="f9239dbba4a8422a88b545ade852133e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在搜索 cell 里面实现点击方法，然后跳转到 SearchPage，显示效果如图：</p>
+<div align="center">
+<img src="e5054ecb6ba147d7a3adc6f76e71bc47~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h1 id="实现-SearchBar"><a href="#实现-SearchBar" class="headerlink" title="实现 SearchBar"></a>实现 SearchBar</h1><h2 id="SearchBar-的布局"><a href="#SearchBar-的布局" class="headerlink" title="SearchBar 的布局"></a>SearchBar 的布局</h2><p>SearchBar 的布局，最外层分为上下两个部分，上面的部分是系统状态栏的高度。下面的部分就是显示搜索条的高度。而搜索条的布局，使用 Row 分隔为左右两个部分，左侧包含放大镜，文本输入框和删除图片。右侧就是一个返回上级页面的取消。这里主要提一下 flutter 中的文本框，跟 iOS 中 UITextField 真的很不一样，UITextField 中左侧的图标，右侧的删除，都是封装在内部的。而在 flutter 中，文本框 TextField 真的就只有文本框，没有其他的东西，都需要自己添加。完整代码如下：</p>
+<p><img src="0dbc3f3f2239405ca84199dc0fda9801~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210818_60.png"></p>
+<h2 id="SearchBar-事件处理"><a href="#SearchBar-事件处理" class="headerlink" title="SearchBar 事件处理"></a>SearchBar 事件处理</h2><h3 id="取消的处理"><a href="#取消的处理" class="headerlink" title="取消的处理"></a>取消的处理</h3><p>点击取消需要 pop 到上一个界面，给取消加一个 <code>GestureDetector</code> 实现 <code>onTap</code> 就好了。代码如下：</p>
+<p><img src="386cd9fc654946959405e1090597a1ee~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210818_61.png"></p>
+<h3 id="清除按钮功能实现"><a href="#清除按钮功能实现" class="headerlink" title="清除按钮功能实现"></a>清除按钮功能实现</h3><p>未输入文本的时候，不显示清除按钮。有输入文本的时候，显示清除按钮。点击清除按钮，清空文本内容并隐藏清除按钮。</p>
+<p>使用一个bool值 <code>_showClear</code> 控制清除按钮的显示隐藏。代码如下：</p>
+<p><img src="9a5423cd5b0146b19169fbb6bbf12236~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在文本变化的时候，修改 <code>_showClear</code> 值并刷新状态。文本的变化在TextField的 <code>onChanged</code> 属性就可以监听到。代码如下：</p>
+<p><img src="053efa2bbde9460f976cfe5e7ba63d83~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>最后就是清除按钮的点击功能，由于需要清空 TextField 的文本内容，需要使用到 <code>TextEditingController</code>,给 TextField 的 <code>controller</code> 属性赋值，然后通过 <code>TextEditingController</code> 对象清除文本内容。文本清除之后并不会自动调用系统的 <code>onChanged</code> 方法，自己手动调用一下就好了。代码如下：</p>
+<p><img src="b08d5ad674544fd3b52cb4cd86366783~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="SearchBar-回调文本框的内容"><a href="#SearchBar-回调文本框的内容" class="headerlink" title="SearchBar 回调文本框的内容"></a>SearchBar 回调文本框的内容</h3><p>文本框的内容变化的时候，需要回调给 SearchBar 外部，这样我们才能在 SearchPage 页面进行搜索内容。使用一个回调作为参数就可以实现了。代码如下：</p>
+<p><img src="762fd4c2b23444caa7f44d23dc3641d9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><code>onChanged</code> 是一个闭包属性，在初始化 SearchBar 的时候传入，在 TextField 的文本变化的时候调用闭包，并将文本作为参数回传给 SearchBar 外部。因为将 <code>onChanged</code> 作为了必传参数，所以编译器自然会在用到了 SearchBar 的地方报错。很容易找到报错的地方，加个参数就好了。</p>
+<p><img src="6481817bd4544a138bbeaf10b3c80c54~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>SearchBar 相关的代码就算差不多完成了，其实可以将 SearchBar 单独作为一个文件独立出来。接下来就是处理 SearchPage 了</p>
+<h1 id="实现-SearchPage"><a href="#实现-SearchPage" class="headerlink" title="实现 SearchPage"></a>实现 SearchPage</h1><p>搜索页面的搜索功能，往细了说，可以搜索很多内容，我们这里只是简单的搜索名字，只要名字包含输入的内容，就将搜索结果展示出来。由于这里对中文名进行搜索的时候，能匹配到的数据比较少，所以这里已经将网络请求返回的名字由中文改为英文名字了。前面展示中文名字的截图就不做修改了。</p>
+<h2 id="SearchPage-的搜索功能"><a href="#SearchPage-的搜索功能" class="headerlink" title="SearchPage 的搜索功能"></a>SearchPage 的搜索功能</h2><h3 id="添加-datas-数据源"><a href="#添加-datas-数据源" class="headerlink" title="添加 datas 数据源"></a>添加 <code>datas</code> 数据源</h3><p>要实现 SearchPage 的搜索功能，那么它首先必须要有数据源，很明显它的数据源是从首页来的。先定义一个 <code>datas</code>,作为必传参数，然后通过外部层层传递过来。</p>
+<p><img src="700b1121913846efb7e15edd66ee4613~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><code>datas</code> 定义好了以后，报红色错误的地方，就是需要传参数的地方，很方便，都不用我们自己去翻哪里需要加参数了。发现 SearchCell 里面需要传入数据源，同样的方式，在 SearchCell 里面定义 <code>datas</code>,然后在报错的地方处理。</p>
+<p><img src="15a0335618d648deb35dfa08cff589b9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>就这样子顺藤摸瓜，直到来到 chat_page 将数据源传入就完成了</p>
+<p><img src="9dd3a5666ded4f8393fed63621b903d1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="SearchPage-自己的数据源"><a href="#SearchPage-自己的数据源" class="headerlink" title="SearchPage 自己的数据源"></a>SearchPage 自己的数据源</h3><p>SearchPage 需要展示搜索之后的结果，所以自己定义一个数组用来存放搜索的结果。并且暂时先使用 Text 做一个最简单的展示。代码如下：</p>
+<p><img src="8e81c3d13e6547c4bc7bb8a5d021bac5~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="实现搜索功能并展示数据"><a href="#实现搜索功能并展示数据" class="headerlink" title="实现搜索功能并展示数据"></a>实现搜索功能并展示数据</h3><p>搜索的功能实现很简单，就是判断数据源里面的名字是否包含输入的文本，如果包含就全部添加并展示。<br>代码如下：</p>
+<p><img src="9bd07dfcbf5247609d3b28d3780fec6c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP 上如图，我输入 son，显示结果：</p>
+<div align="center">
+<img src="3332ccab3c12452fb12016e1508f6d5a~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="SearchPage-的搜索结果列表展示"><a href="#SearchPage-的搜索结果列表展示" class="headerlink" title="SearchPage 的搜索结果列表展示"></a>SearchPage 的搜索结果列表展示</h2><p>SearchPage 的搜索结果列表展示的数据样式，应该和首页是类似的。所以可以直接使用首页的布局。代码如下：</p>
+<p><img src="3118496d7dd94eae9cb516dd92e86ef0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="SearchPage-高亮显示搜到的结果"><a href="#SearchPage-高亮显示搜到的结果" class="headerlink" title="SearchPage 高亮显示搜到的结果"></a>SearchPage 高亮显示搜到的结果</h2><p>这里的思路是，高亮显示搜到的结果，那么普通的文本肯定是不行了，必须是富文本。如何找到搜索的关键字在文本中的位置呢，这个不用我们考虑了。flutter 中对字符串有一个分隔方法 <code>split</code>,这个方法跟 iOS 中的字符串的 <code>componentsSeparatedByString:</code> 方法类似，根据传入的参数来分隔字符串。这里贴一下 iOS 的代码：</p>
+<p><img src="c991926b90ac4a6490d95ad1bc0889e2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>（还是Xcode看着顺眼啊）我们将字符串 <code>abcaa</code> 以字符 <code>a</code> 分组，再将分组的结果拼接回原来的字符串。为什么要这么操作？因为重新拼接新字符串的时候，我们就可以处理富文本字符串了。现在回到 flutter 中来，flutter 中拼接的富文本的方式太方便了，RichText 花样拼接 TextSpan 这个我们在前面也讲过了。</p>
+<p><img src="7bd6ae46acf344e48435c1dfa80dc50f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><code>_searchKey</code> 就是我们输入的文本，在 SearchPage 中声明属性，在 SearchBar 的回调中赋值就好了。</p>
+<p><img src="be6eb80c9ad24db5897308c568863416~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="6723d425c75249d488bc3b8d31f9e345~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>现在测试一下，输入 son，APP 显示如图：</p>
+<div align="center">
+<img src="20dad78f11364579aae756585e776407~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="滚动列表叫回键盘"><a href="#滚动列表叫回键盘" class="headerlink" title="滚动列表叫回键盘"></a>滚动列表叫回键盘</h2><p>ListView 的滚动，我们在前面已经说过一次，需要将 ListView 包在 <code>NotificationListener</code> 里面。然后叫回键盘的代码 <code>FocusScope.of(context).requestFocus(FocusNode());</code> 这个记住就好了，代码如下：</p>
+<p><img src="d33048a50ec0451983defba0221a6547~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里我们的 flutter 仿微信 Demo 功能就差不多完了，还剩最后一篇就是介绍 flutter 和原生混合开发的一些东西。这个也是实际项目中应该经常会遇到的情况。其实写到这里会发现很多东西和原生都是相通的或者类似的。除了新的语言 Dart 不是很熟悉之外，其他很多地方比如很多属性的名字，颜色，闭包，都能够看到原生的影子。flutter 创造者们也不会闭门造车，都会去借鉴原生里面的东西。</p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之三</title>
+    <url>/2021/07/22/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%89/</url>
+    <content><![CDATA[<h1 id="搭建项目主框架"><a href="#搭建项目主框架" class="headerlink" title="搭建项目主框架"></a>搭建项目主框架</h1><h2 id="新建微信聊天，通讯录，发现，我的四个文件"><a href="#新建微信聊天，通讯录，发现，我的四个文件" class="headerlink" title="新建微信聊天，通讯录，发现，我的四个文件"></a>新建微信聊天，通讯录，发现，我的四个文件</h2><p>上一篇文章最后我们已经将 APP 的 TabBar 和四个对应的子视图搭建好了，但是每一个子视图里面肯定会有大量的代码，全部放到 rootPage 文件里面肯定是不合理的。所以我们为每个子视图创建单独的文件，并将代码分散到每个文件中。</p>
+<p><img src="c5a720ed438344788169ab80fb409938~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>比如聊天页面，返回自己的 Scaffold：</p>
+<p><img src="618e714770d24d4facaee7b437ac7fc8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>现在我们点击切换一下 tabBar 的 item，发现会有一些高亮的颜色，以及一个水波纹效果，这些都是 MaterialApp 类的 theme 提供的。如果想去掉这些效果，要来到 main.dart 文件，设置以下两个属性：</p>
+<p><img src="b1260254db7f4ab686c8c79d65a0382b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>仔细查看点击 item 的时候，文字被放大了。这个是 bottomNavigationBar 的属性 <code>selectedFontSize</code> 决定的，将它设置为 12.0 之后，就不会变大了，在 rootPage.dart 文件里面：</p>
+<p><img src="9717b7c335fa4065ab4e4fc9e20bfd48~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="本地资源文件"><a href="#本地资源文件" class="headerlink" title="本地资源文件"></a>本地资源文件</h1><h2 id="配置-Android-的启动图和应用图标"><a href="#配置-Android-的启动图和应用图标" class="headerlink" title="配置 Android 的启动图和应用图标"></a>配置 Android 的启动图和应用图标</h2><p>Android 和 iOS 的资源文件，比如 APP 的图标，启动图，需要到相应的项目文件里面去配置。我们大家都是 iOS 开发者了，这里就只说一下 Android 的图标和启动图如何配置。有需要图片资源的同学可以前往 <a href="https://github.com/masterKing/wechatDemo">下载</a></p>
+<p><img src="77f7870a53b74d518e85e699e8907c46~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在安卓模拟器上运行起来之后，会发现安卓的标题不是在中间</p>
+<p><img src="89e269268c514376849e3342fcdee59d~tplv-k3u1fbpfcp-watermark.png" alt="Screenshot_1626706998.png"></p>
+<p>这里可以通过 AppBar 的一个属性，来调整让它变成中间显示</p>
+<p><img src="2d6097f5de8b4cbd841253298032542a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="配置公共的资源"><a href="#配置公共的资源" class="headerlink" title="配置公共的资源"></a>配置公共的资源</h2><p>如果是两端都需要的资源，比如我们 APP 的微信，通讯录，发现和我的图标。需要在当前 flutter 项目中配置了。</p>
+<p><img src="5ff5a0d3eacd4063a2b0cca656e65d89~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>pubspec.yaml 文件是我们 flutter 项目的配置文件。文件内 assets 和下面的几行表示需要的图片路径，可以在 flutter 项目的根目录下创建一个 images 的目录，里面存放所有当前 flutter 需要用的图片。然后还需要手动导入一张一张图片…这点就比较恶心人了…更恶心人的是，这个 yaml 文件的格式，包括位置都不能错，比如刚刚放开注释的时候，如果你使用的是 command + &#x2F; 快捷键，那么你就得好好挪动下位置了，位置不对编译不通过。</p>
+<p><img src="5a076f973f1641b7a93f4a03fbf8d67c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现发现页"><a href="#实现发现页" class="headerlink" title="实现发现页"></a>实现发现页</h1><div align="center">
+<img src="6c5ef89f17244d2c8d2403d8bf74e9c5~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="设置APP启动默认展示发现页面"><a href="#设置APP启动默认展示发现页面" class="headerlink" title="设置APP启动默认展示发现页面"></a>设置APP启动默认展示发现页面</h2><p>这个方便我们开发调试这个发现页面，我们开发原生 APP 的时候也经常会这么干。直接将 rootPage.dart 里的 _currentIndex 设置为 2 就 OK 了，这个不用多说</p>
+<p><img src="60a72f30b2d148278ab955c188675989~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="配置导航条"><a href="#配置导航条" class="headerlink" title="配置导航条"></a>配置导航条</h2><p>微信的导航条颜色是灰色的。然后在安卓上这个导航条标题默认在左侧，这里也需要设置一下在中间。然后标题的颜色也不是白色，改为黑色。然后导航条和下面的 body 有一条黑线，可以通过设置 <code>elevation</code> 的值来控制。</p>
+<p><img src="7baba8c474044957b85468f0542ea7fd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="84d5ab21e4944283bdcd5087c173c1b1~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="自定义发现-cell"><a href="#自定义发现-cell" class="headerlink" title="自定义发现 cell"></a>自定义发现 cell</h2><p>新建一个 pages 文件，将所有页面文件都放到里面。然后在新建一个 discover_cell 准备实现自定义的 cell。按道理来说一个 cell 应该是需要更新UI的所以应该是有状态的，但是现在我们是练手过程，可以先用一个无状态的 cell。 </p>
+<p><img src="e86442ff86fa425dacb5e072a958928a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>接下来就是实现这个自定义 cell（discover_cell）的代码了；首先观察微信的发现页的 cell，左侧有一个图标，和一个标题，这两个是必须要有的，不然无法构成一个完整的 cell，然后是右侧有些 cell 会有子图标和子标题，还有一个右箭头，这个是每个 cell 都存在的。根据以上这些信息，我们就可以定义出 discover_cell 应该要有的一些属性了。如下：<br></p>
+<ul>
+<li><code>title</code> 左侧的标题，必传参数<br></li>
+<li><code>imageName</code> 左侧的图标，必传参数<br></li>
+<li><code>subTitle</code> 右侧的标题，非必传参数，也叫可选参数<br></li>
+<li><code>subImageName</code> 右侧的图标，可选参数<br></li>
+</ul>
+<p><img src="343b247159da4bf79641790d5aaf811c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如图所示，声明了这四个属性之后，给出了红色的报错，可以将光标移到报错的红色字母任意处，按住 option + 回车 就可以弹出右侧的选择菜单，第一个选项应该是新版本加的，俺也不是很清楚如何使用，网上资料很少，推荐去查询官方文档了。我这里就懒的去查了，因为我们要选择的是第二个选线 <code>Create constructor for final fields</code> 创建构造方法。细心的同学会发现 <code>subTitle</code>,<code>subImageName</code> 的类型是 <code>String?</code> 这个类型后面跟了个问号，就是代表可选参数的意思，这里跟 iOS 的 Swift 倒是十分相似。</p>
+<p>选择创建构造方法之后，系统会自动生成一行代码，但是这一行代码很长而且它不换行，非常难看。这里有个小技巧，在生成的代码最后一个属性后面加上一个,号然后再按 option + command + L 重新格式化代码，就会自动换行了。</p>
+<p><img src="6dea5bcdc29e496f8e4eb2bdbbe2b486~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>换行之后发现，两个必传参数报错，还是老办法，光标移动到报错的地方，按住 option + 回车 就会给出提示，意思我们要给必传参数加上 <code>required</code> 关键字。这样属性的定义就算完成了。</p>
+<p><img src="8bf3d583b85e4553a2d146bd9d887562~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>属性定义完了之后就是实现 build 方法搭建界面了。布局界面的方式有很多，可以使用 Row 来布局，也可以使用 Stack 加 Positioned 布局，不管什么方式能实现界面效果都可以。我这使用 Row 布局。代码如下：</p>
+<p><img src="7792f9602b8c415da1cc7a104894d2bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>最外层使用一个 Container 包装一个 Row，然后 Row 里面再包含两个 Container 包着的 Row 分别代表左右两边子视图。这样看上去应该还算蛮清晰明了的。左侧部分的图标和标题是必传参数，没啥好说的。</p>
+<p>右侧由于子标题和子图标都不一定存在，所以需要做一些处理，Text 控件如果没有子标题可以显示空字符串‘’，这个比较好解决。而子图标不能说给一张空图片，所以需要根据 subImageName 是否为空来显示不同的控件，如果有就显示 Image，如果没有就显示一个 Container 占位。最右侧的箭头图标是每个 cell 都存在的就没啥好说的了。自定义 discover_cell 的代码就算完成了，下一步完善我们的发现页面</p>
+<h2 id="完善发现页面"><a href="#完善发现页面" class="headerlink" title="完善发现页面"></a>完善发现页面</h2><p>cell 写好之后，完善发现页面就简单多了。这里使用最简单的方式来实现，就是直接拼接每个子 cell 的方式。</p>
+<p><img src="bb9c501966b64ea89b16224243716420~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>flutter 里面的 ListView 并不像 iOS 中的 UITableView 那样分组和行。ListView 只有行，自行合并几个行组成一组，组与组之间使用一个 SizedBox 隔开，行与行之间使用 Row(因为分割线左侧是白色的，右侧是灰色的，所以需要组合两个 Container)隔开。</p>
+<p>其中购物哪一行 cell 右侧的子标题和子图标没有设置字体大小和图标大小，所以显示可能会有点问题，回到 cell 里面设置一下就好了。</p>
+<p><img src="e792b6ca4c2a476eae4ebed34f16b6d4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现点击cell切换到新页面"><a href="#实现点击cell切换到新页面" class="headerlink" title="实现点击cell切换到新页面"></a>实现点击cell切换到新页面</h1><h2 id="让cell能够响应点击事件GestureDetector"><a href="#让cell能够响应点击事件GestureDetector" class="headerlink" title="让cell能够响应点击事件GestureDetector"></a>让cell能够响应点击事件<code>GestureDetector</code></h2><p>flutter 提供了一个 <code>GestureDetector</code> 类用来检测手势，它有一个 child 属性，可以放我们的UI代码。它还能响应各种手势，在不同的属性里面处理，比如我们点击 cell 就是 onTap 属性。除了 onTap 之外，还有 onTapDown,onTapCancel。其中 onTapCancel 是触摸之后离开了，onTapDown 是按下就会被调用，onTap 按下去并松开之后调用。实现如下代码之后，自己试试就能明白其中差别了。</p>
+<p><img src="b507b1093e6a4361a9e8f14e840b3b1f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现页面之间跳转"><a href="#实现页面之间跳转" class="headerlink" title="实现页面之间跳转"></a>实现页面之间跳转</h2><p>点击发现 cell 之后，需要跳转它对应的详情页面，就需要一个详情页。可以新建一个 discover_child_page.dart 文件，再去补充里面的页面代码。也可以从现有的一些空白文件中复制一份，比如 mine_page.dart 文件，它里面就只有基本的我的页面代码,只需少量修改代码就可以使用。不论使用哪种方式，新建 discover_child_page.dart 完成后，页面代码如下：</p>
+<p><img src="5bcbe870debf4fc39d84a72d6c47f429~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个详情页的一些属性，应该是需要从外面传入的，比如 title。于是定义一个 title属性。</p>
+<p><img src="433df2447dad40ff9866d7847f57e1e0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后在当前页面展示我们的 title，之前都是在 StatelessWidget 里面使用我们的属性，那在 StatefulWidget 里面我们怎么使用属性呢？属性前面加上 widget.</p>
+<p><img src="39f5610e04f049959d75933a5ed05ea2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里发现详情页就算差不多完成了。</p>
+<p>回到 cell 里面的点击方法，实现点击跳转。这里和 iOS 有点类似的地方就是同样是使用一个导航控制器类。flutter 也是使用一个名字叫导航的类 <code>Navigator</code>。调用以下方法。</p>
+<figure class="highlight plaintext"><figcaption><span>dart</span></figcaption><table><tr><td class="code"><pre><span class="line">Navigator.of(context).push(）</span><br></pre></td></tr></table></figure>
+
+<p>push() 的参数需要一个 Route 类型，这里使用 <code>MaterialPageRoute</code> 类，<code>MaterialPageRoute</code> 的构造方法返回一个 Widget，这个返回的 Widget 就是我们需要跳转到的页面。代码如下：</p>
+<p><img src="4986f78b3e6a42919b2ef7b3cd75e947~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>前面讲过的，在 flutter 中，如果函数体的代码只有一句的话，可以使用 &#x3D;&gt; 的形式，于是上面可以简写成这样：</p>
+<p><img src="1ad80766d4c4410db13e6dbc1be75f97~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现有状态的-discover-cell"><a href="#实现有状态的-discover-cell" class="headerlink" title="实现有状态的 discover_cell"></a>实现有状态的 discover_cell</h1><h2 id="修改-discover-cell-为-StatefulWidget"><a href="#修改-discover-cell-为-StatefulWidget" class="headerlink" title="修改 discover_cell 为 StatefulWidget"></a>修改 discover_cell 为 StatefulWidget</h2><p>原生的微信 APP 在点击 cell 的时候，会有一个灰色的背景，在松开的时候会变回最初的颜色。现在来实现这个效果。所以我们的 discover_cell 需要从 StatelessWidget 改为 StatefulWidget。先将 build 方法缩起来，快捷键 command 加 - 号，0 右边那个减号。</p>
+<p><img src="9f0eaa6f32594407a3b329b56d8bd12b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后先将 bulid 方法覆盖，再将属性和构造方法覆盖。最后删除原有的 StatelessWidget 类。这时候 build 方法里面会爆一个错误，原因是<code>_DiscoverCellState</code> 类里面拿不到 <code>DiscoverCell</code> 的属性，所以我们在属性前面加上 <code>widget.</code> 就好了。</p>
+<h2 id="实现点击变灰需求"><a href="#实现点击变灰需求" class="headerlink" title="实现点击变灰需求"></a>实现点击变灰需求</h2><p>我们前面说过了 onTap 方法，onTapDown 方法，onTapCancel 方法的调用时机。实现这个需求就在这三个方法里面更新状态就好了。代码如下：</p>
+<p><img src="989f099de0f342a99860d199f4c16330~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之二</title>
+    <url>/2021/07/19/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%BA%8C/</url>
+    <content><![CDATA[<h1 id="Flutter布局"><a href="#Flutter布局" class="headerlink" title="Flutter布局"></a>Flutter布局</h1><h2 id="Alignment"><a href="#Alignment" class="headerlink" title="Alignment"></a>Alignment</h2><p>Container 类里有一个 alignment 属性，翻译过来应该叫对齐方式，这个属性用来控制 Container 的子控件相对于它自身的一个位置。在我们 iOS 开发中，我们知道坐标系的原点是在左上角。</p>
+<p>而在 flutter 中，坐标系的原点在父控件的正中心，可以使用这个 alignment 属性来控制子控件在父控件中的位置，它有两个参数分别是 double 类型的 x,y。取值是 -1 到 1，</p>
+<ul>
+<li>当 (0, 0) 的时候表示子控件在父控件的正中心，当 (1, 0) 的时候，表示子控件位于 x 方向上的最右侧，y 方向上居中；</li>
+<li>当 (-1, -1) 的时候，表示子控件位于父控件的左上角位置。有点类似于 CALayer 的 anchorPoint 属性。</li>
+</ul>
+<p>如图代码如下：</p>
+<p><img src="658c0a6e27534e0eaa7531960f6f83a1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="3af95f906929441e9e113e235402ca11~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="Row"><a href="#Row" class="headerlink" title="Row"></a>Row</h2><p>Row 表示水平布局，它有一个 children 属性，用来存放它的子控件。代码如下：</p>
+<p><img src="09c67fe367fc4a86889cbc07b8f12d85~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="c8dac668c50045eeb4b89237aa430f0c~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>其中 Icon 类是 flutter 提供的一个快速创建一些常用图标的类。如果想给每个 Icon 都加一个背景色，直接设置 Icon 的 color 是不行的，这样修改的是图标的颜色而不是背景色，给 Icon 包一层 Container 容器，然后再设置 Container 颜色这样就可以实现了。</p>
+<p>最开始我们尝试了 alignment 属性的作用，当它是 (0，0) 的时候，Text 的位置默认是在屏幕中央的。为什么这里换成我们的 Row 之后，Row 的子控件位置不在屏幕中央呢？</p>
+<h3 id="mainAxisAlignment"><a href="#mainAxisAlignment" class="headerlink" title="mainAxisAlignment"></a>mainAxisAlignment</h3><p>Row 和 Column 都有一个 mainAxisAlignment 属性，叫作主轴对齐方式，默认是 MainAxisAlignment.start 意思沿着主轴方向开始，Row 布局下就是从左至右，Column 布局下就是从上至下。<br></p>
+<ul>
+<li><code>MainAxisAlignment.spaceAround</code>:将剩下的空间平均分配<br></li>
+<li><code>MainAxisAlignment.spaceBetween</code>:将剩下的空间分配到子控件之间<br></li>
+<li><code>MainAxisAlignment.spaceEvenly</code>:等间距分配子控件</li>
+</ul>
+<h3 id="crossAxisAlignment"><a href="#crossAxisAlignment" class="headerlink" title="crossAxisAlignment"></a>crossAxisAlignment</h3><p>交叉轴对齐方式。start，end，center 这几种方式试一下很好理解，stretch 会将子控件拉伸。而 baseline 用的比较少,单独使用它会报错，需要和 Text 文本结合，还需要配合 <code>textBaseline</code> 属性一起使用。如下图所示，如果不设置 <code>CrossAxisAlignment.baseline</code> 和 <code>TextBaseline.alphabetic</code> 就会根据控件高度水平对齐，而如果设置了就会根据控件内文本的基线对齐。<br></p>
+<p><img src="52e87b0a49674f1e85560f4c3a54df0f~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210713_177.png"></p>
+<p><img src="dddb21324b744ad1a71de8a98862f0f5~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210713_178.png"></p>
+<h2 id="Column"><a href="#Column" class="headerlink" title="Column"></a>Column</h2><p>这个和 Row 是对应的，Row 是水平布局，这个 Column 是垂直布局</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayoutDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> LayoutDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">      color: Colors.green,</span><br><span class="line">      alignment: Alignment(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">      child: Column(</span><br><span class="line">        children: [</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.add, size: <span class="number">180</span>,),</span><br><span class="line">            color: Colors.red,</span><br><span class="line">          ),</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.ac_unit, size: <span class="number">120</span>,),</span><br><span class="line">            color: Colors.yellow,</span><br><span class="line">          ),</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.access_alarm, size: <span class="number">60</span>,),</span><br><span class="line">            color: Colors.blue,</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示效果如图：</p>
+<div align="center">
+<img src="f43e891ecf234671ad18336db379a204~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+
+<h3 id="mainAxisAlignment-1"><a href="#mainAxisAlignment-1" class="headerlink" title="mainAxisAlignment"></a>mainAxisAlignment</h3><p>这个跟 Row 类似</p>
+<h3 id="crossAxisAlignment-1"><a href="#crossAxisAlignment-1" class="headerlink" title="crossAxisAlignment"></a>crossAxisAlignment</h3><p>这个跟 Row 类似</p>
+<h2 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h2><p>这个是用在 Z 轴上的布局的，row 是 X 轴，column 是 Y 轴。children 数组第一个放在最底部，最后一个放在上面，离用户最近的地方。</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayoutDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> LayoutDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">      color: Colors.green,</span><br><span class="line">      alignment: Alignment(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">      child: Stack(</span><br><span class="line">        children: [</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.add, size: <span class="number">180</span>,),</span><br><span class="line">            color: Colors.red,</span><br><span class="line">          ),</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.ac_unit, size: <span class="number">120</span>,),</span><br><span class="line">            color: Colors.yellow,</span><br><span class="line">          ),</span><br><span class="line">          Container(</span><br><span class="line">            child: Icon(Icons.access_alarm, size: <span class="number">60</span>,),</span><br><span class="line">            color: Colors.blue,</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>APP显示效果：</p>
+<div align="center">
+<img src="29eabf4666e94592b92fe8f7599821df~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<h3 id="alignment"><a href="#alignment" class="headerlink" title="alignment"></a>alignment</h3><p>Stack 里有一个 alignment 属性，它用来控制所有子控件相对于最大那个子控件的位置</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StackDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> StackDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Stack(</span><br><span class="line">      alignment: Alignment.bottomRight,</span><br><span class="line">      children: [</span><br><span class="line">        Container(</span><br><span class="line">          child: Icon(Icons.add, size: <span class="number">180</span>,),</span><br><span class="line">          color: Colors.red,</span><br><span class="line">        ),</span><br><span class="line">        Container(</span><br><span class="line">          child: Icon(Icons.ac_unit, size: <span class="number">120</span>,),</span><br><span class="line">          color: Colors.yellow,</span><br><span class="line">        ),</span><br><span class="line">        Container(</span><br><span class="line">          child: Icon(Icons.access_alarm, size: <span class="number">60</span>,),</span><br><span class="line">          color: Colors.blue,</span><br><span class="line">        ),</span><br><span class="line">      ],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div align="center">
+<img src="3ec51da73a554b3c877297e6927d434a~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<h3 id="Positioned"><a href="#Positioned" class="headerlink" title="Positioned"></a>Positioned</h3><p>Stack 里配合 Positioned 类使用的话，跟我们 iOS 的约束有点类似了，可以设置上，左间距之类的</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StackDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> StackDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Stack(</span><br><span class="line">      children: [</span><br><span class="line">        Positioned(</span><br><span class="line">          child: Container(</span><br><span class="line">            child: Icon(</span><br><span class="line">              Icons.add,</span><br><span class="line">              size: <span class="number">180</span>,</span><br><span class="line">            ),</span><br><span class="line">            color: Colors.red,</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">        Positioned(</span><br><span class="line">          child: Container(</span><br><span class="line">            child: Icon(</span><br><span class="line">              Icons.ac_unit,</span><br><span class="line">              size: <span class="number">120</span>,</span><br><span class="line">            ),</span><br><span class="line">            color: Colors.yellow,</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">        Positioned(</span><br><span class="line">          top: <span class="number">20</span>,</span><br><span class="line">          left: <span class="number">20</span>,</span><br><span class="line">          right: <span class="number">20</span>,</span><br><span class="line">          child: Container(</span><br><span class="line">            child: Icon(</span><br><span class="line">              Icons.access_alarm,</span><br><span class="line">              size: <span class="number">60</span>,</span><br><span class="line">            ),</span><br><span class="line">            color: Colors.blue,</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">      ],</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div align="center">
+<img src="756c171599864736be922041582a7a50~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<p>可以看到最小的蓝色视图的上左右均设置了 20 的间距，是不是熟悉的约束味道。。。</p>
+<h2 id="Expanded"><a href="#Expanded" class="headerlink" title="Expanded"></a>Expanded</h2><p>Expanded 是一个类似 Container 的常用的布局容器，它用来填充布局，使用了填充布局在主轴方向上是不会有间隔的,所以 Expanded 用在 Row 里面的时候，子控件的宽度设置就没有意义了，而在 Column 里面使用的使用，子控件的高度设置就没有意义了。这里以 Column 为例：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayoutDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> LayoutDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">      color: Colors.green,</span><br><span class="line">      alignment: Alignment(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">      child: Column(</span><br><span class="line">        children: [</span><br><span class="line">          Expanded(</span><br><span class="line">              child: Container(</span><br><span class="line">                child: Icon(Icons.add, size: <span class="number">180</span>,),</span><br><span class="line">                color: Colors.red,</span><br><span class="line">              ),</span><br><span class="line">          ),</span><br><span class="line">          Expanded(</span><br><span class="line">              child: Container(</span><br><span class="line">                child: Icon(Icons.ac_unit, size: <span class="number">120</span>,),</span><br><span class="line">                color: Colors.yellow,</span><br><span class="line">              ),</span><br><span class="line">          ),</span><br><span class="line">          Expanded(</span><br><span class="line">              child: Container(</span><br><span class="line">                child: Icon(Icons.access_alarm, size: <span class="number">60</span>,),</span><br><span class="line">                color: Colors.blue,</span><br><span class="line">              ),</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div align="center">
+<img src="c61d9a86201943d3a6e31d7f8afc67d4~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<h2 id="AspectRatio"><a href="#AspectRatio" class="headerlink" title="AspectRatio"></a>AspectRatio</h2><p>AspectRatio 是一个容器类，它有一个属性 aspectRatio 表示宽高比。如果指定了宽度，根据这个 aspectRatio 可以自动算出高度；如果指定了高度，根据 aspectRatio 可以自动算出宽度。如下面代码指定了父视图高度为 100，aspectRatio 宽高比为 2，子视图宽度就是 200，再把父视图撑起来也是 200。</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LayoutDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> LayoutDemo(&#123;Key? key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">        color: Colors.green,</span><br><span class="line">        alignment: Alignment(<span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">        child: Container(</span><br><span class="line">          color: Colors.blue,</span><br><span class="line">          height: <span class="number">100</span>,</span><br><span class="line">          child: AspectRatio(</span><br><span class="line">            aspectRatio: <span class="number">2</span>,</span><br><span class="line">            child: Icon(</span><br><span class="line">              Icons.add,</span><br><span class="line">            ),</span><br><span class="line">          ),</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<div align="center">
+<img src="b7c386921f1644af91bc5d24da5766c5~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<h1 id="Flutter状态管理"><a href="#Flutter状态管理" class="headerlink" title="Flutter状态管理"></a>Flutter状态管理</h1><p>之前介绍的这么多类都是无状态的，意思是显示之后没办法更新 UI 的，如果想要实时更新 UI 的话，就不能继承无状态的类了。我们先来看一个例子：明明 count 变化了，但是界面显示没有变化</p>
+<p><img src="95069ac3145a4002ac097296d7fe4a5d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>记得修改 APP 的 home 视图</p>
+<p><img src="5a40edcaae6b4c5f87d41a0f3800d357~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后点击屏幕右下角的加号按钮，可以发现明明控制台打印了 count 的值已经发生了变化，但是界面显示依然是 0</p>
+<p><img src="d729f11560cf44bf82dbbbd5562f7411~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>下面我们解决这个问题，将 StateManagerDemo 继承改为 StatefulWidget，实现 createState 方法返回一个自定义的 State 对象，自定义的 State 对象里面实现 build 方法。还需要注意在按钮的点击方法里调用一下 setState 方法。这样每次点击加号按钮就能实时更新 UI 了。改造完之后如下图所示：</p>
+<p><img src="778099f068b949c7b89886ff80dc21bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="项目搭建之底部TabBar"><a href="#项目搭建之底部TabBar" class="headerlink" title="项目搭建之底部TabBar"></a>项目搭建之底部TabBar</h1><p>到目前为止，我们对 flutter 的一些基础知识就算是介绍的差不多了。接下来我们开始做一个简单的仿微信 APP。我们应该都有经验，理论的知识学得再多，不动手开始敲代码，不在项目中运用，是很难真正掌握一门知识的。</p>
+<p>新建一个 flutter 工程，命名 wechat_demo：</p>
+<p><img src="800ac6c2c4414768bcdba85dd953f749~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>删掉多余的代码，可以全部重新自己写：</p>
+<p><img src="063a4f181c9246b08eb8232606db9132~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>创建底部的 TabBar 和 item,默认的 type 是白色的，显示效果很难看所以改为 fixed，还可以设置 fixedColor：</p>
+<p><img src="b48d2047edc94f0a834233853b73602d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="32edbe92fef5448abadd95e52c6078f4~tplv-k3u1fbpfcp-watermark.png">
+</div> 
+
+<p>这样底部的 TabBar 就显示出来了，会发现点击没有效果，对比 iOS 会发现这块地方还是 iOS 提供的 UITabBarController 封装的更舒服，每个平台都各有优劣吧。</p>
+<p>BottomNavigationBar 有一个属性 currentIndex 即代表了当前选中的下标。我们可以通过设置它的值来控制哪个按钮被选中。既然需要改变 UI 了，说明我们需要将 StatelessWidget 改为 StatefulWidget 了。还有一个参数 onTap 是用来回调点击事件的。实现点击事件，切换 currentIndex，重新 setState 就可以实现，点击切换了。我们将 bottomNavigationBar 相关代码放到一个新的文件 rootPage 中。代码如下：</p>
+<p><img src="535f9cbc78574cbeb866215f6e590f18~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>记得修改 main.dart 文件中</p>
+<p><img src="0174709795614365a4438640b1b14b31~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样就实现了 APP 的底部 TabBar 的展示，点击功能。点击每个 item 的时候，会发现 flutter 的 bottomNavigationBar 还自带了动画效果…</p>
+<p>我们知道 Scaffold 还有一个 body 的属性，表示展示在屏幕上的内容。我们每个 item 对应的界面都需要一个 AppBar，那么也许意味着，body 属性还需要一个 Scaffold 来展示我们的每个 item 对应的内容。</p>
+<p><img src="ee3b980bed8642e6a1480ea509eab7eb~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>可以看到微信首页就已经大概出来了，但是点击的时候只会显示这个微信页面，怎么实现切换不同的页面呢，肯定需要一个数组，来存放对应的每个页面了。</p>
+<p><img src="f299d1dcc70f4a5d8205a9caf62afb72~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后 body 里，根据我们的 _currentIndex 返回对应的 body</p>
+<p><img src="98747470b16143d3b733754def9e7219~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样点击每个 item 都会跳转到对应的界面了，APP 的主框架的搭建好了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>今天主要讲了 flutter 的三大布局类 Row，Column，Stack 以及他们的一些属性。然后是有状态的 Widget 和无状态的 Widget，最后搭建了一下我们要做的仿微信 APP 的底部 bottomNavigationBar 和切换页面功能</p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之五</title>
+    <url>/2021/08/01/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%BA%94/</url>
+    <content><![CDATA[<p>上篇文章，我们已经完成了通讯录的列表。这篇文章介绍完成通讯录右侧的索引条的功能。</p>
+<h1 id="显示索引条"><a href="#显示索引条" class="headerlink" title="显示索引条"></a>显示索引条</h1><p>之前我们已经做过了我的页面的布局，我的页面上有一个列表和一个拍照按钮，和我们今天要实现的索引条布局十分类似。我的页面的布局如下：</p>
+<p><img src="81053ec975144322af3bc1ef5f9e08e4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>通讯录界面的布局，和我的页面的布局都是使用一个 Stack 包含列表和其他子视图来实现。索引条是紧贴屏幕右侧，然后里面的子视图是由上至下的。所以自然的会想到使用一个 Positioned 包含 Column 来实现。Positioned 和 Stack 的组合我们之前讲过，这两个组合起来使用，就和我们 iOS 的约束布局类似，可以设置上左宽高等等。Column 就更不用多说，我们已经使用过很多次了。所以代码如下图所示：</p>
+<p><img src="3b62754a2a31422a9416c79e94759829~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="be45a58d597a4a35b0d5ec97d96c445f~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>然后优化一下索引条的位置，高度我们设置为屏幕高度的一半，那么上下的间距就不能设置为 0 了，设置距离上间距为屏幕的 1&#x2F;8 看起来比较合适。</p>
+<p><img src="d72de44cc3ed45c4b43280c52b1a59ee~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="7351193b625b4e5195471735a66581fa~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h1 id="抽取-IndexBar"><a href="#抽取-IndexBar" class="headerlink" title="抽取 IndexBar"></a>抽取 IndexBar</h1><p>写到这里我们会发现，这个索引条还有很多的功能需要我们来实现，还是有点复杂的，如果代码都写在 friends_page.dart 里会有点冗余，我们完全可以将这个索引条作为一个独立的 Widget 来实现。新建 index_bar.dart 文件，代码如下：</p>
+<p><img src="fe9068395cd1451fa340e6dace011a17~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="实现-IndexBar-的点击切换状态"><a href="#实现-IndexBar-的点击切换状态" class="headerlink" title="实现 IndexBar 的点击切换状态"></a>实现 IndexBar 的点击切换状态</h1><p>当没有触摸到 IndexBar 的时候，默认是不展示背景色的，文字也是黑色的。当我们开始点击 IndexBar 的时候，显示出背景色，然后文字也变成了白色。</p>
+<p>实现这个功能，主要是要对 <code>GestureDetector</code> 的两个方法有所了解。<code>onVerticalDragDown</code> 方法会在手指触摸 IndexBar 的时候就会被调用，<code>onVerticalDragEnd</code> 会在手指松开屏幕的时候调用。利用这两个方法就可以实现需求。代码如下：</p>
+<p><img src="133c4a566110476b8405e347c313840d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>因为要对文字的颜色进行修改，所以初始化 Text 的时候，就需要使用变量 _textColor;</p>
+<p><img src="beaa4c3ca6ee489892a049625fe25a99~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="获取当前选中的下标"><a href="#获取当前选中的下标" class="headerlink" title="获取当前选中的下标"></a>获取当前选中的下标</h1><p>同样是对 <code>GestureDetector</code> 的一个手势方法的使用，<code>onVerticalDragUpdate</code> 这个方法的调用时机，在手指移动的时候会不停的调用这个方法。这个方法有一个 <code>DragUpdateDetails</code> 参数，它包含了手指所在的坐标信息。不过是相对于整个屏幕的坐标，可以将它转化为相对于 IndexBar 的坐标，然后通过计算可以得到我们当前选中的是哪个下标。代码如下：</p>
+<p><img src="c1faac2e10e9496396883d1cba5a80b8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>方法中的 ~&#x2F; 是 flutter 特有的运算符，意思是除后取整。而 clamp() 是对边界情况的处理，意思调用该函数的结果在它的两个参数之间。</p>
+<h1 id="回调选中的下标"><a href="#回调选中的下标" class="headerlink" title="回调选中的下标"></a>回调选中的下标</h1><p>这里的回调，和 OC 里面的 block，Swift 里面的闭包都是一个意思。flutter 里面带有下划线的变量是私有的，外部无法访问的。所以对外暴露的参数，不能写在 <code>_IndexBarState</code> 类里面，需要写在 IndexBar 类里面。声明一个闭包(或者叫 block)属性,作为必传参数在初始化的时候传入。</p>
+<p><img src="55fdb39036574be89074b99011841ad8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样，在 <code>friends_page.dart</code> 文件中初始化 <code>IndexBar</code> 的时候，就需要传入一个闭包。然后 <code>IndexBar</code> 内部在 <code>onVerticalDragUpdate</code> 的时候，调用这个闭包，就可以将当前选中的下标回调给外部了。</p>
+<p><img src="922919210c40483a945f4d0944f05ce0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="634b70d14d9c4b81b022321f39ed69cb~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个时候，会发现一个小问题，就是点击 IndexBar 的时候，回调没有执行，只有在点击并手指挪动的时候才会执行。所以需要在 <code>onVerticalDragDown</code> 方法里面也调用一次闭包。这时候如果直接将 <code>onVerticalDragUpdate</code> 方法里面的代码复制到 <code>onVerticalDragDown</code> 方法里面确实没有问题，但是会明显的看到重复的代码太多了。</p>
+<p><img src="ae4eaba1a6884716969cfe2105ad5033~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>所以可以抽取一个方法，将重复的代码放到一块。</p>
+<p><img src="f935783fe0b24caab0e4d75cde2f5f05~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后调用的时候就简单多了。</p>
+<p><img src="e1f72d6a90154eb38166c935be8e34dd~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="优化回调执行的频率"><a href="#优化回调执行的频率" class="headerlink" title="优化回调执行的频率"></a>优化回调执行的频率</h1><p>已经成功的实现了回调，但是从打印的结果来看，会发现同样一个下标会被回调许多次。这样我们滚动好友列表的时候会造成不必要的性能消耗。明明只需要滚动一次，结果却滚动了无数次到同一个位置。所以这里我们需要优化一下，一个很自然的想法就是记录一个 <code>_currentIndexLetter</code>，每次执行回调的时候，判断回调的首字母是否和 <code>_currentIndexLetter</code> 是否不同，如果是一样的就没有必要回调了，只有不同的时候，才执行回调。</p>
+<p><img src="eb0ec5918762440885e3bc19d5023c29~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>代码如下：</p>
+<p><img src="a6d2588d71ee4c8680b4bc2116ea8e61~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="493df27362e642b49c63fcad4be40d12~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这样回调的频率就正常了。</p>
+<h1 id="滚动好友列表-ListView"><a href="#滚动好友列表-ListView" class="headerlink" title="滚动好友列表 ListView"></a>滚动好友列表 ListView</h1><p>可滚动的 widget 都有一个 controller 属性，用于控制滚动条的行为。controller 属性是一个 <code>ScrollController</code> 对象。可以使用它来实现指定滚动到某个位置，实现回到顶部等功能。</p>
+<p>滚动好友列表需要一个新的对象 <code>ScrollController</code> 实例，将它设置给 ListView 的 <code>controller</code> 属性，然后就可以通过使用 <code>ScrollController</code> 实例来操作 ListView 的滚动。</p>
+<p><img src="d6867385dc2d4dda98559f16f69f40a2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="87bb89f0fc6d41ac9bfdc63a78aaebce~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里暂时先将滚动的偏移设置为固定值 250，试试看效果。可以看到当我们点击 IndexBar 的时候，ListView 就会滚动到偏移为 250 的地方。接下来就是处理滚动的实际偏移值了。</p>
+<p>滚动的实际偏移，是根据我们的数据源来计算的。因为我们的 cell 的高度是确定的，不显示组头的 cell 高度是 54，有组头的 cell 高度是 54 + 30 &#x3D; 84。使用首字母作为 key，计算出对应的偏移为 offset，然后使用 Map(类似 iOS 中字典)记录下来。由于第一个是不是字母，而是搜索符号，而它对应的偏移也是固定的 0。所以可以在初始化 Map 的时候就指定好。而其他的高度我们在 initState 方法中计算。代码如下：</p>
+<p><img src="a1486026da394231ae187a6eb56f462f~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>有了这个 Map 之后，我们在 IndexBar 的回调方法中，就可以根据 IndexBar 回调给我们的首字母得到对应的偏移值了。代码如下：</p>
+<p><img src="1a12df0544684482ad25772040aa4c27~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里，我们的 IndexBar 基本上就实现了滚动 ListView 的功能。但是滚动几次之后就会发现一个小问题。。。滚动到底部的几个组头的时候，会出现 ListView 先将组头滚动到指定位置，然后又滚回底部的情况。原因很好理解，后面的组头内容不够显示一整个屏幕了。所以我们这里需要做下处理。这里主要是对 ListView 的滚动的监听，如果是在 iOS 中我们会想去获取滚动视图的 contentSize 然后减去 UITableView 的高度，就是 UITableView 的最大的滚动范围。而在 Flutter 中，这些都不需要我们计算了。</p>
+<p>如果需要获取到 ListView 的一些滚动相关的信息，可以将它包裹在 <code>NotificationListener</code> 里面，它有一个 <code>onNotification</code> 属性，是一个闭包，可以回调给我们一些滚动的相关信息。包含在闭包参数 <code>ScrollNotification note</code> 里面。准确来讲滚动相关的信息包含在 <code>ScrollNotification</code> 的属性 <code>metrics</code> 里面。它包含当前滚动偏移值，能滚动的最大范围(这就是我们 iOS 中 contentSize 的高减去 UITableView 的高)等等信息。完整代码如下：</p>
+<p><img src="150c3f3be83546c1b47a17038928298e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>将 <code>_maxScrollExtent</code> 定义为一个属性就好了。需要注意的是并不能给初始值为 0，否则没有滚动 ListView 之前，使用 IndexBar 就无法滚动 ListView 了。</p>
+<p><img src="f77a46cc161b4f6297011476a258d27a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>至此，IndexBar 滚动 ListView 的功能就实现了。</p>
+<h1 id="显示指示器"><a href="#显示指示器" class="headerlink" title="显示指示器"></a>显示指示器</h1><p>终于来到了最后一步，显示我们 IndexBar 的指示器。首先考虑的就是布局。最初的 IndexBar 只有右侧的下标一列。现在我们左侧需要一块容器用来显示我们的指示器，所以 IndexBar 的根视图应该考虑改为 Row。指示器背景的不规则图形可以使用一张图片展示，图片已经准备好了。中间的文字，使用 Text 就够了。先看下大概布局代码：</p>
+<p><img src="a2c4ca445a8a4024a1b85f47e888bd1d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<div align="center">
+<img src="83d6f7a7ffeb4010bd9f134a42b4c358~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>如果觉得位置不是很合适，可以修改一下各自的宽度。然后是对指示器的显示与隐藏做控制，指示器的显示与隐藏的控制，应该说跟背景色的显示隐藏是类似的。都是在手势的那两个方法里面实现控制。使用一个 bool 变量来控制指示器的显示与隐藏，在手势的触摸方法和离开方法里面操作这个 bool 变量，然后 setState() 就可以实现了指示器的显示与隐藏了。</p>
+<p>然后是关于指示器的显示文本的。这个文本就是我们的 <code>_currentIndexLetter</code>，直接使用就好了。最后是关于如何控制整个 IndexBar 的上下位移的。通过对 Alignment 的使用，发现可以控制 IndexBar 的上下位移。通过不断的修改 Alignment 的 y 值会找到一个合适的 y 值指向第一个放大镜，那么 -y 就指向最后一个字母 Z。我这里试了几次发现 y&#x3D;-1.13 的时候，指示器刚刚好指向第一个放大镜的位置。那么现在的问题就是将 1.13 * 2 &#x3D; 2.26 分成<code>_index_words.length - 1</code>份，然后根据选择的下标，取得对应的Alignment 的 y 值。当我们选择第一个的时候下标为 0，y 值应该为 -1.13,当我们选择最后一个的时候下标为 <code>_index_words.length - 1</code>,y 值应该为 1.13。根据这些信息就可以找到计算 y 值的公式。最终的代码如下：<br></p>
+<p>新增两个变量<code>_showIndicator</code>和<code>_indicatorAlignmentY</code>。</p>
+<p><img src="353987e4193a4460984edca74d16588b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>使用这两个变量还有<code>_currentIndexLetter</code></p>
+<p><img src="6fd8c7c981f64b62b76c35b4592ac324~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>到这里，我们就终于实现了通讯录的 IndexBar 的封装。下一节会介绍一些网络请求了…</p>
+<div align="center">
+<img src="ca2cca992d764871abe3a7e8163c2d85~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之六</title>
+    <url>/2021/08/17/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%85%AD/</url>
+    <content><![CDATA[<p>发现了一个宝藏网址，这里讲解的 <a href="https://book.flutterchina.club/">flutter实战</a> 比我写的靠谱多了。</p>
+<h1 id="准备网络数据"><a href="#准备网络数据" class="headerlink" title="准备网络数据"></a>准备网络数据</h1><p>这一步不是很重要，提供一些假数据而已，不是重点嫌麻烦的可以跳过。</p>
+<p>先介绍一个网址：<a href="http://rap2.taobao.org/account/login">http://rap2.taobao.org/account/login</a> 这个网址用来搭建我们需要的网络数据，注册账号非常简单，这里就不多说了。</p>
+<p>注册完成之后，新建一个仓库，简简单单取个名字就够了：</p>
+<p><img src="4a3c12fb3b244575ac6b794168d93675~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_10.png"></p>
+<p>之后点击进入仓库，可以看到下图：</p>
+<p><img src="dfd2860cb5c64f4b947d45551aba9d93~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_11.png"></p>
+<p>会默认生成以一个示例接口，可以看一看示例接口的生成规则。看不懂也没关系，我们直接直接上手自己新建一个接口，如图所示：</p>
+<p><img src="0af92d6af9b14eae865b69d5beb874c4~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_12.png"></p>
+<p>点击右上角的编辑按钮进入编辑模式，新建一个响应 chatlist，类型为 Array。然后生成 chatlist 的数据，imageUrl 表示每条聊天数据的用户头像。其中用户头像的初始值里面有一段 @natural(20,99)，这个是 Mock.js 代码。这里是相关介绍 <a href="http://mockjs.com/">http://mockjs.com/</a></p>
+<p><img src="4b21769272134c4ea316f9289a9d945d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_14.png"></p>
+<p>每条聊天数据，除了 imageUrl 还需要有用户名 name 和消息的内容 message。@cname 用来生成随机的中文名，@cparagraph 用来生成随机的中文段落来表示聊天内容。我们这里只是简单的构造一下这个聊天列表所需要的数据，真正的聊天列表的数据肯定是不会这么简单的。。。</p>
+<p><img src="c1a42755454d455d9d2be30c80fd6e62~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_15.png"></p>
+<p>编辑的差不多的时候，记得点击保存,保存之后点击红圈中的图标就可以获取到数据</p>
+<p><img src="3a1db20c16414845bc45ce901e244a66~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="聊天页面导航条"><a href="#聊天页面导航条" class="headerlink" title="聊天页面导航条"></a>聊天页面导航条</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>默认展示页面改为 <code>_currentIndex</code> 改为 0,新建 chat 目录，将相关文件放在这里。</p>
+<p><img src="0213b262930d4066b6f26e34993011cc~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210808_17.png"></p>
+<h2 id="添加加号按钮"><a href="#添加加号按钮" class="headerlink" title="添加加号按钮"></a>添加加号按钮</h2><p>加号按钮这个东西，我们之前已经添加过类似的了，appBar 的 actions 就是我们需要添加代码的地方。</p>
+<p><img src="336b5de10dc2451bbb989516bd66049c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如果我们按照这个思路写下去的话，就需要自己再去实现一个弹出菜单的类。其实 flutter 提供了我们一些现成的类可以做到类似的效果。</p>
+<h2 id="PopupMenuButton"><a href="#PopupMenuButton" class="headerlink" title="PopupMenuButton"></a><code>PopupMenuButton</code></h2><p><code>PopupMenuButton</code> 类用来弹出一个菜单，必传参数为 <code>itemBuilder</code>，用来实现它需要展示的内容。<code>PopupMenuItem</code> 就是用来展示内容的类。这里有一个细节说一下，<code>PopupMenuButton</code> 有一个 <code>onSelected</code> 属性，这个属性是个闭包，意思是选中某个 <code>PopupMenuItem</code> 的时候，会调用这个闭包。但是有一个前提就是每个 <code>PopupMenuItem</code> 的 <code>value</code> 必须不为 null 的时候，才会执行 <code>onSelected</code> 闭包，我在这里卡了半天，网上找了半天资料也没有明确讲到这里。其他就没什么好讲的了，都比较简单。</p>
+<p><img src="4b9d82deec2e46e881aa084e25d9bb7d~tplv-k3u1fbpfcp-watermark.png" alt="Snip20210812_19.png"></p>
+<p>其中 <code>_buildMenuItem</code> 的实现如下，注意 <code>value</code> 要赋值就好了，不为空就行，不然 <code>PopupMenuButton</code> 的 <code>onSelected</code> 不执行：</p>
+<p><img src="9f6f5da2ff794264afbf256c95e307a6~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>还有一个小细节，如何设置 <code>PopupMenuButton</code> 的颜色，可以直接设置它的颜色</p>
+<p><img src="0548c31d2ba248e9b8bdeb375031c487~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>还可以设置APP的主题的 <code>cardColor</code>，不过这个优先级没有直接设置 <code>PopupMenuButton</code> 颜色高。</p>
+<p><img src="9c19742492944488ba13249b31db685b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="请求网络数据"><a href="#请求网络数据" class="headerlink" title="请求网络数据"></a>请求网络数据</h1><h2 id="https-pub-flutter-io-cn"><a href="#https-pub-flutter-io-cn" class="headerlink" title="https://pub.flutter-io.cn/"></a><a href="https://pub.flutter-io.cn/">https://pub.flutter-io.cn/</a></h2><p><img src="04224929590b47528f1a1ea05dbe8ab9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个网站可以搜索 flutter 使用的包 packages。我们使用 http 这个包来请求我们的网络数据。这个包是 flutter 官方提供的。实际项目开发的时候可能并不会使用 http 这个包，大部分是使用 dio 来请求网络数据。这里只介绍官方的 http 包如何使用。</p>
+<h2 id="导入http包"><a href="#导入http包" class="headerlink" title="导入http包"></a>导入http包</h2><p><img src="32044f0faafd4673bc0a0e5cc22ae858~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="1dfb3991238d4f77927c2728ef210d6e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>粘贴完成之后需要更新一下，就是获取一下包对应的代码。可以通过上方的 <code>Pub get</code>,也可以在终端中输入 <code>flutter packages get</code> </p>
+<p><img src="dfeb775cd3ae4e96ba22440e706d33d3~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>命令执行完之后，就可以使用这个包了。</p>
+<h2 id="导入-http-头文件并取别名"><a href="#导入-http-头文件并取别名" class="headerlink" title="导入 http 头文件并取别名"></a>导入 http 头文件并取别名</h2><p><img src="9539435380ef4dd38aa8af4eaa119b38~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="发送请求"><a href="#发送请求" class="headerlink" title="发送请求"></a>发送请求</h2><p><img src="df206f11e0b1474e8086c80ff222d5cf~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>请求的发送写在 <code>initState</code> 里面。<code>getData()</code> 后面跟了一个 async 表示的是异步执行。async 需要搭配 await 使用，await 后面跟着的是耗时的代码。所以上面的程序会先打印来了，然后再输出请求的状态码；</p>
+<p><img src="a9e9b0f789c4471492caccb982daa03d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击其他的页面，再次回到当前页面会发现 initState 方法重新走了一遍，这是因为我们还没有保存住状态，后面会讲到如何保持 Widget 的状态。</p>
+<h2 id="处理返回的数据"><a href="#处理返回的数据" class="headerlink" title="处理返回的数据"></a>处理返回的数据</h2><p>首先介绍一下，在 flutter 中如何将请求返回的 JSON 数据转为 Map，在我们 iOS 开发中是转为字典，而 flutter 中没有字典这个类型，对应的类型是 Map。以及如果将 Map 转为 JSON。在 iOS 中我们知道会使用一个 <code>NSJSONSerialization</code> 的类用来处理JSON数据。同样的，在 flutter 中也会有一个专门的类 <code>JsonCodec</code> 来处理。</p>
+<h3 id="JSON-和-Map-互相转"><a href="#JSON-和-Map-互相转" class="headerlink" title="JSON 和 Map 互相转"></a>JSON 和 Map 互相转</h3><p><img src="cd897b4dbfd54af1941972b4360d3159~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>其中的 json 就是 <code>JsonCodec</code> 的实例。需要导入 <code>&#39;dart:convert&#39;</code> 头文件。flutter 中还可以通过 <code>is</code> 来判断是不是某个类型。</p>
+<h3 id="新建聊天模型"><a href="#新建聊天模型" class="headerlink" title="新建聊天模型"></a>新建聊天模型</h3><p><img src="3017a15c3cbe4d3ab67d82bafdb385f2~tplv-k3u1fbpfcp-watermark.png" alt="image.png"> </p>
+<p>除了红框内的方法之外，其他没什么新鲜事物。红框内的方法应该说是一个工厂方法，是设计模式的一种，用来初始化对象的。除了默认的初始化方法，还可以使用这个工厂方法来实例化一个 Chat 对象。模型建立好了之后就可以处理响应的数据了</p>
+<h3 id="处理响应的数据"><a href="#处理响应的数据" class="headerlink" title="处理响应的数据"></a>处理响应的数据</h3><p><img src="5bf33bb810d64e51873ad84fb15bf76d~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里用到了 Future，关于 Future 的讲解可以看官方文档 <a href="https://dart.cn/tutorials/language/futures">https://dart.cn/tutorials/language/futures</a></p>
+<h1 id="使用-FutureBuilder-显示界面"><a href="#使用-FutureBuilder-显示界面" class="headerlink" title="使用 FutureBuilder 显示界面"></a>使用 FutureBuilder 显示界面</h1><p>很多时候我们会依赖一些异步数据来动态更新 UI，比如在打开一个页面时我们需要先从互联网上获取数据，在获取数据的过程中我们显示一个加载框，等获取到数据时我们再渲染页面；当然，通过 StatefulWidget 我们完全可以实现上述这些功能。</p>
+<p>但由于在实际开发中依赖异步数据更新UI的这种场景非常常见，因此 Flutter 专门提供了 <code>FutureBuilder</code> 来快速实现这种功能。<code>FutureBuilder</code> 会依赖一个 <code>future</code>，它会根据所依赖的 <code>future</code> 的状态来动态构建自身。这个 <code>future</code> 我们刚刚已经准备好了。关于 <code>FutureBuilder</code> 的介绍 <a href="https://book.flutterchina.club/chapter7/futurebuilder_and_streambuilder.html#_7-5-1-futurebuilder">这篇文章</a> 讲解的很详细。<br>最后完整代码如下：</p>
+<p><img src="320e21f3548744db88a59b289094e80b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="不使用-FutureBuilder-的方式"><a href="#不使用-FutureBuilder-的方式" class="headerlink" title="不使用 FutureBuilder 的方式"></a>不使用 FutureBuilder 的方式</h1><p>刚刚说了，我们可以使用 FutureBuilder 来快速实现展示异步网络数据，也可以自己实现，现在我们自己实现一下。使用一个私有变量 _chatList 记录请求下来的数据，再根据 _chatList 的值来展示不同的页面。代码如下：</p>
+<p><img src="57600afd73aa4a3c8178bc07be97a375~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><img src="22da31c383294f85ae5af4ad182b2ab1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>因为 getData 的返回值是 Future 的原因，getData() 后面可以跟 <code>then</code> 方法，还可以跟错误捕获 <code>catchError</code>,完成时的回调 <code>whenComplete</code>，超时设置 <code>timeOut</code> 等等，这种写法挺有意思，一路点下去就完了…</p>
+<h2 id="实现超时取消刷新功能"><a href="#实现超时取消刷新功能" class="headerlink" title="实现超时取消刷新功能"></a>实现超时取消刷新功能</h2><p><img src="b865f3d6e0434e74a1e1a3324da786f4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在每次请求的时候，重置 <code>_cancelConnect</code> 的值。</p>
+<p><img src="07c8ba9d07b446f9a6684241fc5f31bc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="保持-Widget-的状态"><a href="#保持-Widget-的状态" class="headerlink" title="保持 Widget 的状态"></a>保持 Widget 的状态</h1><p>我们来回点击通讯录页面和聊天页面，会发现每次点击进入当前的页面，都会重新的载入，<code>initState()</code> 会被重新调用。将通讯录页面滑动到底部，再次点击进入会发现又默认回到了顶部。为什么会出现这样的问题。正是因为我们的Widget的状态没有保持，每次展示都重新创建了。</p>
+<p>Dart 语言中有一个 Mixins 的概念：<a href="https://dart.cn/samples#mixins">官方的解释是这样</a>，可以给类 A Mixins 一个 B，那么 A 就拥有了 B 的属性和方法。有点像 OC 的类扩展的意思。保持 Widget 的状态就需要用到这个语言特性。一共有三个步骤：</p>
+<ol>
+<li>Mixins 类<code>AutomaticKeepAliveClientMixin</code></li>
+<li>重写<code>wantKeepAlive</code>方法</li>
+<li>调用父类Builder方法</li>
+</ol>
+<p><img src="d3d29b34ea3746b9a9cc7ec0ca19a9d9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>同样把通讯录页面也实现上面的步骤。然后再次来回点击发现还是没有保持住状态？？？这里有一个最大的问题就是我们的根 Widget 都没有保持住状态，那还谈什么保持子 Widget 的状态呢。。。</p>
+<h2 id="使用-PageView"><a href="#使用-PageView" class="headerlink" title="使用 PageView"></a>使用 PageView</h2><p>来到 rootPage.dart 文件，我们会看到 body 里面直接取了数组的某个元素作为根 Widget 展示。这样是无法保持住状态的，使用 PageView 才可以保持住状态。</p>
+<p><img src="275398750bb34835b5fa1a593e30bbc4~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>使用 PageView，代码如下：</p>
+<p><img src="adc5cc5e8c1046909d27097107c9f590~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>点击跳转到其他页面就可以直接通过 _pageController 来完成。使用了 PageView 之后会发现，不同的页面之间可以直接通过手势左右滑到就能切换了。这样的效果我们一般是不需要的，可以设置直接关闭。如果需要的话，在滑动的方法里面重新设置底部导航条的正确位置也是没有问题的。</p>
+<h3 id="使用滑动切换，解决-bug"><a href="#使用滑动切换，解决-bug" class="headerlink" title="使用滑动切换，解决 bug"></a>使用滑动切换，解决 bug</h3><p><img src="44cb9bc186724397b471136abbcc44ea~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="禁用滑动切换"><a href="#禁用滑动切换" class="headerlink" title="禁用滑动切换"></a>禁用滑动切换</h3><p><img src="e9d533514d734781bd6a13e6c43e738a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之八</title>
+    <url>/2021/08/29/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%85%AB/</url>
+    <content><![CDATA[<h1 id="介绍四种-Flutter-Project"><a href="#介绍四种-Flutter-Project" class="headerlink" title="介绍四种 Flutter Project"></a>介绍四种 Flutter Project</h1><p>先介绍一下这四个的差别和使用的场景。</p>
+<p><img src="4c14a47588414f198ca94d7fb4799997~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="Flutter-App"><a href="#Flutter-App" class="headerlink" title="Flutter App"></a>Flutter App</h2><p>如果是想要使用 flutter 开发一个新的项目，那么就选择 Flutter App。就像我们之前的 <code>wechat_demo</code></p>
+<h2 id="Flutter-Module"><a href="#Flutter-Module" class="headerlink" title="Flutter Module"></a>Flutter Module</h2><p>但是很多时候我们目前手上的原生 APP 可能会很庞大，不是随便就可以重新使用 flutter 重新再写一遍的。但是又想在现有的 APP 中体验一下 flutter，那么就选择 Flutter Module</p>
+<h2 id="Flutter-Package"><a href="#Flutter-Package" class="headerlink" title="Flutter Package"></a>Flutter Package</h2><p>Flutter 支持使用其他开发者向 Flutter 和 Dart 生态系统贡献的共享 package(类似于 iOS 中的第三方库吧，AFNetworking，YYKit等等…)，这意味着你可以快速构建应用而不是一切从零开始。</p>
+<p>Package 最低要求是包含一个 <code>pubspec.yaml</code> 文件。此外，一个 package 可以包含依赖关系 (在 <code>pubspec.yaml</code> 文件里声明)、 Dart 库、应用、资源、测试、图片和例子等。 pub.dev 上列出了很多 package，由 Google 工程师和 Flutter 和 Dart 社区的开发者开发和发布，你可以用在自己的应用里。</p>
+<h2 id="Flutter-Plugin"><a href="#Flutter-Plugin" class="headerlink" title="Flutter Plugin"></a>Flutter Plugin</h2><p>插件 (plugin) 是 package 的一种，全称是 plugin package，我们简称为 plugin，中文叫插件。插件 (plugin package) 是一种特别的 package，特别指那些帮助你获得原生平台特性的 package。插件可以为 Android (使用 Kotlin 或 Java 语言)、 iOS (使用 Swift 或 Objective-C 语言)、Web、macOS、Windows、Linux 平台，或其任意组合的平台编写。比如：某个插件可以为 Flutter 应用提供使用原生平台的摄像头的功能。</p>
+<h1 id="使用-Flutter-Module-进行混合开发"><a href="#使用-Flutter-Module-进行混合开发" class="headerlink" title="使用 Flutter Module 进行混合开发"></a>使用 Flutter Module 进行混合开发</h1><p>我们前七天开发的项目就是 Flutter App，今天主要介绍如何使用 Flutter Module 进行混合开发。混合开发官方推荐只使用单个 Flutter 页面，多个 Flutter 页面也能支持，但有可能会出现稳定性、性能问题以及 API 仍然可能变动的问题。请大家谨慎使用。<a href="https://flutter.cn/docs/development/add-to-app/multiple-flutters">官方介绍链接</a></p>
+<h1 id="iOS-原生项目中导入-Flutter"><a href="#iOS-原生项目中导入-Flutter" class="headerlink" title="iOS 原生项目中导入 Flutter"></a>iOS 原生项目中导入 Flutter</h1><h2 id="准备一个原生-iOS-项目"><a href="#准备一个原生-iOS-项目" class="headerlink" title="准备一个原生 iOS 项目"></a>准备一个原生 iOS 项目</h2><p>进行混合开发就一定需要一个原生项目，根据你的需求，可以使用目前手上的 APP，也可以临时创建一个 Demo 来先练练手。我们这里就临时新建一个 iOS 原生 Demo。</p>
+<p><img src="05dd3ccc43394ae4bbcd492293eee1b1~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这个原生项目很简单，就这么两行代码。</p>
+<h2 id="新建-Flutter-Module-项目"><a href="#新建-Flutter-Module-项目" class="headerlink" title="新建 Flutter Module 项目"></a>新建 Flutter Module 项目</h2><p>新建一个 Flutter Module 项目，项目名就叫 module。</p>
+<p><img src="76de47c4dafc48f3bc1dfe7b8e9af0c0~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>最好将两个项目放在同级目录下，因为原生项目需要知道 Flutter Module 项目的位置。</p>
+<p><img src="c3ccd6384a4a4c9ea5a35c9acf783ec3~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="使用-cocoapods-建立关联"><a href="#使用-cocoapods-建立关联" class="headerlink" title="使用 cocoapods 建立关联"></a>使用 cocoapods 建立关联</h2><p>在原生项目 Demo 里建立 Podfile 文件,然后编辑 Podfile。</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">flutter_application_path = <span class="string">&#x27;Podfile相对flutter module的路径&#x27;</span></span><br><span class="line">load File.join(flutter_application_path, <span class="string">&#x27;.ios&#x27;</span>, <span class="string">&#x27;Flutter&#x27;</span>, <span class="string">&#x27;podhelper.rb&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在每个需要集成 flutter module 的 target 添加如下代码</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">target <span class="string">&#x27;你的APP&#x27;</span> <span class="keyword">do</span></span><br><span class="line">  install_all_flutter_pods(flutter_application_path)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>编辑完之后的 Podfile 如下。</p>
+<p><img src="6f23d64afaad48af93ad329beaed0195~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后执行 <code>pod install</code> 命令</p>
+<p><img src="091aa3f14c0a48849a1069034a995ae5~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>如上图所示就表示集成好了。就接下来就是如何在原生项目中展示 flutter 的内容了。</p>
+<h2 id="展示单个-Flutter-页面"><a href="#展示单个-Flutter-页面" class="headerlink" title="展示单个 Flutter 页面"></a>展示单个 Flutter 页面</h2><p>展示单个 Flutter 页面的方式有两种，一种是使用 FlutterEngine 的方式，一种是不使用 FlutterEngine 的方式，其实不使用 FlutterEngine 的说法是不严谨的，只是我们没有使用代码创建 FlutterEngine 而已，Flutter 框架内部自己创建了 FlutterEngine，但是为了方便记忆，我们可以这么理解。但是这种不使用 FlutterEngine 的方式<a href="https://flutter.cn/docs/development/add-to-app/ios/add-flutter-screen#alternatively---create-a-flutterviewcontroller-with-an-implicit-flutterengine">官方并不推荐</a>。</p>
+<p>因为按需创建 <code>FlutterEngine</code> 的话，在 <code>FlutterViewController</code> 被 present 出来之后，第一帧图像渲染完之前，将会引入明显的延迟。但是当 Flutter 页面很少被展示时，当对决定何时启动 Dart VM 没有好的启发时，当 Flutter 无需在页面（view controller）之间保持状态时，此方式可能会有用。</p>
+<h3 id="不使用-FlutterEngine-展示单个-Flutter-页面-官方并不推荐"><a href="#不使用-FlutterEngine-展示单个-Flutter-页面-官方并不推荐" class="headerlink" title="不使用 FlutterEngine 展示单个 Flutter 页面(官方并不推荐)"></a>不使用 FlutterEngine 展示单个 Flutter 页面(官方并不推荐)</h3><p>来到 <code>ViewController.m</code> 文件中导入 <code>Flutter</code> 的头文件</p>
+<p><img src="a07fce1803d941e9bce3a14c91c0a02c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>直接创建 <code>FlutterViewController</code> 对象，并使用 present 和 push 两种方式展示</p>
+<p><img src="9cc03a3c599f4a9b9364d3be40f47f68~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP显示如下图所示：<br></p>
+<p>present方式显示如图：</p>
+<div align="center">
+<img src="4fc895fa4a0d40329a77e4f982bc97df~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>push方式显示如图：</p>
+<div align="center">
+<img src="3ed33eafd5744d229a3fa6522dc9e47c~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h3 id="使用-FlutterEngine-展示单个-Flutter-页面"><a href="#使用-FlutterEngine-展示单个-Flutter-页面" class="headerlink" title="使用 FlutterEngine 展示单个 Flutter 页面"></a>使用 FlutterEngine 展示单个 Flutter 页面</h3><h4 id="创建-FlutterEngine"><a href="#创建-FlutterEngine" class="headerlink" title="创建 FlutterEngine"></a>创建 FlutterEngine</h4><p>创建 <code>FlutterEngine</code> 的合适位置取决于您的应用。作为示例，我们将在应用启动的 <code>AppDelegate</code> 中创建一个 <code>FlutterEngine</code>，并作为属性暴露给外界。</p>
+<p>在 <code>AppDelegate.h</code> 中</p>
+<p><img src="ded0c838a6f94e83a17f8a0f7e437d3c~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在<code>AppDelegate.m</code>中</p>
+<p><img src="d409152918c444dab8b008e6e1772723~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h4 id="展示-FlutterViewController"><a href="#展示-FlutterViewController" class="headerlink" title="展示 FlutterViewController"></a>展示 FlutterViewController</h4><p><img src="8629028d1cf04881bb4e9902a5cd8a30~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>现在，你的 iOS 应用中集成了一个 Flutter 页面。</p>
+<h2 id="展示多个-Flutter-页面"><a href="#展示多个-Flutter-页面" class="headerlink" title="展示多个 Flutter 页面"></a>展示多个 Flutter 页面</h2><p>使用上面的方式，最终展示的 Flutter 页面都是同一个页面。而在实际混合开发中，想要展示多个不同的 Flutter 页面的需求应该是普遍的。那么 Flutter 能做到吗？答案是可以的，官方的说法是自 Flutter 2.0.0 开始，可以同时添加多个 Flutter 实例。由于稳定性，性能问题以及 API 任然可能变动，请谨慎使用。<a href="https://flutter.cn/docs/development/add-to-app/multiple-flutters">链接</a></p>
+<h3 id="使用-FlutterEngineGroup"><a href="#使用-FlutterEngineGroup" class="headerlink" title="使用 FlutterEngineGroup"></a>使用 FlutterEngineGroup</h3><p>展示多个 Flutter 页面需要使用到 <code>FlutterEngineGroup</code> 来创建 <code>FlutterEngine</code>,而不是上面直接使用 <code>FlutterEngine</code> 的方式。</p>
+<p>在<code>AppDelegate.h</code>中</p>
+<p><img src="a543a5a2a1854fa291bf8e2120c6fe90~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在<code>AppDelegate.m</code>中</p>
+<p><img src="27d732aecdc9406884024b447df68faa~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="新建一个-flutter-页面"><a href="#新建一个-flutter-页面" class="headerlink" title="新建一个 flutter 页面"></a>新建一个 flutter 页面</h3><p>来到 Android Studio 中的 Flutter module 项目，新建一个 page_two.dart 文件，并做些简单的展示</p>
+<p><img src="26b655d067424c298a28d5cff4d3ea1e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><code>PageTwo</code> 页面写好之后，还需要到 main.dart 文件中声明一个新的 dart 入口。这样才能在原生中找到这个 <code>PageTwo</code> 页面,代码如图：</p>
+<p><img src="beae4201c18346d1a3c10e698d1dbd44~tplv-k3u1fbpfcp-watermark.png" alt="image.png"><br></p>
+<p><code>page_two</code> 就是 <code>PageTwo</code> 的入口函数，在原生中待会就会用到。</p>
+<h3 id="展示两个-Flutter-页面"><a href="#展示两个-Flutter-页面" class="headerlink" title="展示两个 Flutter 页面"></a>展示两个 Flutter 页面</h3><p>回到原生项目的 ViewController.m 文件中，实现如下代码：</p>
+<p><img src="f0fba33c2802457588b86c41086ae6d5~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在第0行，我们创建 <code>engine</code> 的时候，并没有传入 Entrypoint 参数，所以就会展示默认的入口函数 <code>main</code> 对应的页面。在第 1 行中，我们创建 <code>engine</code> 的时候，指定了入口函数为 <code>page_two</code>，那么就会展示 page_two() 所对应的页面。</p>
+<p>present 展示的页面如图：</p>
+<div align="center">
+<img src="f04e4be2fa0f415e8931f017ad091e71~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>push展示的页面如图：</p>
+<div align="center">
+<img src="a20cf2162ca24b3d816c8938d5d3d8c2~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h1 id="Flutter-与-iOS-端通信"><a href="#Flutter-与-iOS-端通信" class="headerlink" title="Flutter 与 iOS 端通信"></a>Flutter 与 iOS 端通信</h1><p>Flutter 和 iOS 端的通信主要是使用各种通道。有<code>MethodChannel</code>，<code>BasicMessageChannel</code>,<code>EventChannel</code>等等，这里主要介绍前面两种通道。通道通过名称来建立联系，所以通道的名称需要确保是唯一的。如果有同名的通道，通信会受到干扰</p>
+<h2 id="MethodChannel-方法通道"><a href="#MethodChannel-方法通道" class="headerlink" title="MethodChannel 方法通道"></a>MethodChannel 方法通道</h2><p>方法通道主要用了传递方法名称和参数。在前面我们新建 PageTwo 的时候，就已经创建了一个 <code>MethodChannel</code> 了，名字为 <code>page_two_channel</code>。然后在文本‘返回上一页’的点击手势里面调用了一个方法 <code>invokeMethod()</code>。这个方法可以传递多个参数，第一个参数就是方法名称，后面是方法参数。我们这里没有参数，就只传入一个方法名 <code>pop</code>。那么 Flutter 端的工作就完成了，再回到我们的 iOS 原生端，ViewController.m 里面。实现如下代码：</p>
+<p><img src="45acb3a2d3af47278d290b0a24534ac5~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>在 iOS 中给 <code>MethodChannel</code> 加了一个 <code>Flutter</code> 前缀。然后初始化 <code>FlutterMethodChannel</code> 的时候，传入的名字一定要和 flutter 端是一致的，不然是无法建立通讯的。然后调用 <code>setMethodCallHandler:</code> 方法传入一个 block 参数。block 参数会在 channel.invokeMethod() 的时候被调用。block 参数 <code>call</code> 就是对 invokeMethod 参数的一个封装。<code>call</code> 的 <code>method</code> 就是方法名，还有一个 <code>arguments</code> 就是方法参数。这样就可以根据方法名进行判断后作出处理了。现在是从 flutter 向 iOS 原生通信，实现了在 flutter 中点击方法实现了 pop 回到上个页面的。相反的，也可以从 iOS 端向 flutter 端通信。在 iOS 端，使用 <code>channel</code> 调用 <code>invokeMethod()</code> 就可以向 flutter 发送消息了，在 flutter 端同样设置 <code>channel</code> 的 <code>setMethodCallHandler</code> 就可以接收了。</p>
+<p>flutter 端 <code>setMethodCallHandler</code> 代码如下：</p>
+<p><img src="6eae59f6154f455d82eca2588c6be0fc~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里说一句，这些通道不能在无状态的 Widget 里使用，改为有状态的就可以了。</p>
+<h2 id="BasicMessageChannel-基础消息通道"><a href="#BasicMessageChannel-基础消息通道" class="headerlink" title="BasicMessageChannel 基础消息通道"></a>BasicMessageChannel 基础消息通道</h2><p>除了上面提到的 <code>MethodChannel</code>，你还可以使用<a href="https://docs.flutter.io/flutter/services/BasicMessageChannel-class.html"><code>BasicMessageChannel</code></a>，它支持使用自定义消息编解码器进行基本的异步消息传递。 此外，您可以使用专门的 <a href="https://docs.flutter.io/flutter/services/BinaryCodec-class.html"><code>BinaryCodec</code></a>，<a href="https://docs.flutter.io/flutter/services/StringCodec-class.html"><code>StringCodec</code></a>和 <a href="https://docs.flutter.io/flutter/services/JSONMessageCodec-class.html"><code>JSONMessageCodec</code></a>类，或创建自己的编解码器。</p>
+<p><code>BasicMessageChannel</code> 这个通道的使用方法跟上面的 <code>MethodChannel</code> 是一样的，不同点是在 flutter 中创建 <code>BasicMessageChannel</code> 这个通道需要传入一个编解码器，使用一个标准的编解码器 <code>StandardMessageCodec</code> 可以将基本的数据类型进行编解码。<code>BasicMessageChannel</code> 通道可以实现基础数据类型的通讯。iOS 和 flutter 的基础数据类型对应编解码关系：</p>
+<p><img src="992500b07cb845a8afe0039b21cc9384~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本来还想写一个混合开发的实际案例的，但是鉴于本人目前的重点并不是 flutter，而且网上也有较多的介绍这种混合开发的实际案例，所以这里篇文章就写到这里了。这 8 篇文章的内容应该说只是一个 iOSer 入门 flutter 的教程，只是些皮毛东西，离掌握 flutter，Dart 还差的很远。而 flutter 的出现也并不是说会完全取代 Android 和 iOS 开发者，flutter 只能用来搭建一套各平台统一的 UI，而各个平台相关的功能，和硬件相关的需求，都依然需要各个平台的开发者去实现。</p>
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8天让iOS开发者上手Flutter之四</title>
+    <url>/2021/07/25/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E5%9B%9B/</url>
+    <content><![CDATA[<p>上一篇文章我们已经完成了发现页面的搭建，下一步我们实现微信的我的页面</p>
+<h1 id="我的页面"><a href="#我的页面" class="headerlink" title="我的页面"></a>我的页面</h1><p>在着手开发我的页面之前，先新建一个 discover 目录，将发现页面相关的文件统一挪动到这个目录下。这里会发现 Android Studio 一个比较特别的地方，新建一个目录后，挪动了的文件不需要重新导入头文件。AndroidStudio 会在需要的地方自动补全路径。这点感觉还是蛮智能的。</p>
+<p><img src="528d39f8d678470ca40e1823f8b0af82~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="设置APP启动默认展示我的页面"><a href="#设置APP启动默认展示我的页面" class="headerlink" title="设置APP启动默认展示我的页面"></a>设置APP启动默认展示我的页面</h2><p>这个设置在上一篇文章开发发现页面的时候也说过了，就是修改 rootPage.dart 文件里 _currentIndex 的值。</p>
+<p><img src="49c0b0536b3a48c09cb0f9a3ec6ad539~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="布局右上角的拍照按钮"><a href="#布局右上角的拍照按钮" class="headerlink" title="布局右上角的拍照按钮"></a>布局右上角的拍照按钮</h2><p>观察这个右上角的拍照按钮，会发现上下拖动列表的时候，这个拍照按钮的位置是不会发生变化的。意思是拍照按钮和列表是同级的关系，不是父子控件的关系。所以这里的布局我们可以使用 Stack 来实现，ListView 放在底下，这个拍照按钮放在上面。布局的方式多种多样，只要是能实现需求效果的都是可行的。这个 flutter 的 UI 布局有时候写着写着就会发现括号对不上，使用 command + option + L 也不管用，依然对不齐，这对于某些强迫症的人看起来是真的挺难受的，下图里都还是我一行一行调整了之后的。</p>
+<p><img src="97c360d9da944ae58e159ca1c540cfe3~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现-ListView-的普通-cell-部分"><a href="#实现-ListView-的普通-cell-部分" class="headerlink" title="实现 ListView 的普通 cell 部分"></a>实现 ListView 的普通 cell 部分</h2><p>我的页面的 ListView 的头部那个 cell 明显和它其他的 cell 不同，其他的 cell 跟我们上一篇文章里开发的 discover_cell 基本上是类似的，所以可以直接拿过来使用。做过 iOS 开发的都知道，tableView 等滚动视图作为控制器的根视图的时候，顶部都会有一个间距，在 flutter 里面也有这样的情况，如果需要干掉，就需要将我们的 ListView 包装在一个 <code>MediaQuery.removePadding()</code> 里面，然后设置它的属性 <code>removeTop: true</code>。这样就可以去掉顶部的间距了。完整代码如下：</p>
+<p><img src="62a1932e2d984c959c5cded8cbc3052a~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>此时APP显示如图：</p>
+<div align="center">
+<img src="7de9c40bd8f44ecf8478bc0f6c96c1f2~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="实现-ListView-的头部-cell"><a href="#实现-ListView-的头部-cell" class="headerlink" title="实现 ListView 的头部 cell"></a>实现 ListView 的头部 cell</h2><p>可以看到我们的 _MinePageState 的 build方 法已经够长了，所以关于头部 cell 的代码我们可以封装为一个方法写在其他的地方。</p>
+<p><img src="f8f135dee51247708051b102a0cdf2d9~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>关于头部 cell 这里除了布局稍微复杂了一些之外，就只有给图片加圆角是没有讲过的。要设置圆角图片的话，就不能使用 Image 类了。需要使用到 <code>BoxDecoration</code> 类，它可以设置圆角半径 <code>borderRadius</code> 和图片 <code>image</code>。完整代码如下：</p>
+<p><img src="609e9067e74f4ca78908c3d3986a7589~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>APP 显示效果如图： </p>
+<div align="center">
+<img src="b05e536a5a344eb2af3049b88472054c~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<p>我的页面就这样完成了。发现页面和我的页面这两个页面主要是对布局的灵活运用，都还是比较简单的。</p>
+<h1 id="通讯录页面"><a href="#通讯录页面" class="headerlink" title="通讯录页面"></a>通讯录页面</h1><p>接下来实现通讯录界面，这节课先只实现到下图这样，边上的索引下节课再实现。</p>
+<div align="center">
+<img src="9e1c9e054a92483d9a0da553a3c5745e~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+<h2 id="设置-APP-启动默认展示通讯录页面"><a href="#设置-APP-启动默认展示通讯录页面" class="headerlink" title="设置 APP 启动默认展示通讯录页面"></a>设置 APP 启动默认展示通讯录页面</h2><p>这一步已经讲过 2 次了，就不再贴图了…</p>
+<h2 id="设置通讯录页面导航栏"><a href="#设置通讯录页面导航栏" class="headerlink" title="设置通讯录页面导航栏"></a>设置通讯录页面导航栏</h2><p>导航栏的颜色，我们修改了好几次了。这个颜色可以放在一个 const.dart 的公用文件里。以后统一使用这个颜色，也方便以后统一修改。</p>
+<p><img src="5b11ecbb41ec479ca4289993173347b8~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>然后是通讯录页面的导航条，除了标题之外，右侧还有一个添加好友的按钮，可以使用 AppBar 的 title 实现一个复杂的导航条，但其实没那个必要。AppBar 提供了一个 actions 属性，这个属性就是展示在导航条右侧的，直接使用这个 actions 就可以了。代码如下：</p>
+<p><img src="b36b444a710a4e30b0a2bdc4eac87790~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现通讯录列表-cell"><a href="#实现通讯录列表-cell" class="headerlink" title="实现通讯录列表 cell"></a>实现通讯录列表 cell</h2><p>通讯录列表 cell 可以使用一种 cell 来完成，也可以使用两种不同的 cell 来完成，如果使用一种 cell 的话，代码里面需要判断的逻辑就会有点多。所以我这里推荐使用两种 cell 来完成。第一种就是头部的 4 个 cell，这几个属于一类，我们使用类 <code>_FriendLocalCell</code> 来表示，而其余的都是属于好友 cell 属于一类，用类 <code>_FriendNetworkCell</code> 表示。关于这两种 cell 我们暂时先不新建文件存放，直接在 friends_page.dart 文件中写。</p>
+<h3 id="实现-FriendLocalCell"><a href="#实现-FriendLocalCell" class="headerlink" title="实现 _FriendLocalCell"></a>实现 <code>_FriendLocalCell</code></h3><p>这一类 cell 主要是用来展示当前列表头部的几个 cell 的，这几个 cell 的图片都是从本地加载的。从效果图上可以看出，这个 cell 只需要 title，和 imageName 这两个必传参数就够了。然后是关于布局。最外层使用一个 Row 进行左右布局，左侧使用一个能显示圆角的图片。右侧再用一个 Column 进行上下布局，将文本和底部的分隔线上下排列。这里主要有一个地方没有讲到过，就是在 flutter 中获取屏幕的宽高，我们会抽成一个方法，放在 const.dart 文件中。如下图所示：</p>
+<p><img src="a5731eb671cc4d43b4561f53bcf137ba~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p><code>_FriendLocalCell</code> 完整代码如下：</p>
+<p><img src="5664732c2af244769cd8c120d9cb6390~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="实现-FriendNetworkCell"><a href="#实现-FriendNetworkCell" class="headerlink" title="实现 _FriendNetworkCell"></a>实现 <code>_FriendNetworkCell</code></h3><p>关于 <code>_FriendNetworkCell</code>，可能乍一看之下，会觉得应该和上面的 cell 差不太多。但是实际上还是有那么些区别的。首先 flutter 的 ListView 的是没有组的概念的，所以关于组标题就需要我们自己来动手实现了，这里的做法就是，除了上面的 <code>_FriendLocalCell</code> 所有的子控件之外，每一个 cell 都带上一个组标题，然后根据组标题是否有值，来显示或不显示组标题。那么在布局方面，就需要对上面的 cell，再包装一个 Column，将组标题和头像名称部分包起来。所以当前 cell 所需要的属性，除了好友的名字 <code>name</code> 和头像 <code>imageUrl</code> 为必须之外，还需要一个 <code>groupTitle</code> 为可选参数。</p>
+<p>完整的代码如下：</p>
+<p><img src="8f3622e493514fed80132a2783a8e40e~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="准备数据模型"><a href="#准备数据模型" class="headerlink" title="准备数据模型"></a>准备数据模型</h2><p>同样的，数据我们也分为两种，一种我们就叫作通讯录，使用 <code>AddressBook</code> 来表示。另一种叫好友用 <code>Friends</code> 表示。我们将好友列表用到的数据模型都放在新的文件 friends_data.dart 文件中。</p>
+<h3 id="准备-AddressBook-模型数组"><a href="#准备-AddressBook-模型数组" class="headerlink" title="准备 AddressBook 模型数组"></a>准备 <code>AddressBook</code> 模型数组</h3><p>这个模型数组，可以直接根据我们在效果图上看到的东西，生成对应的模型，和数组就好了。完整代码如下：</p>
+<p><img src="6769dce1c0a241238c9b687c316e685b~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h3 id="准备-Friends-模型数组"><a href="#准备-Friends-模型数组" class="headerlink" title="准备 Friends 模型数组"></a>准备 <code>Friends</code> 模型数组</h3><p>这里的数据源已经准备好了，我们只需要根据数据源创建出对应的模型。这个数组是好友数组,有需要的可以自行前往<a href="https://github.com/masterKing/wechatDemo">下载</a>。</p>
+<p><img src="4f37de210e874b6b87611bb8b24940c6~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<h2 id="实现部分通讯录页面"><a href="#实现部分通讯录页面" class="headerlink" title="实现部分通讯录页面"></a>实现部分通讯录页面</h2><p>现在我们的视图和数据都已经准备好了。接下来就是直接使用了，我们之前在发现页面使用 ListView 的方式，没有使用 builder，是直接使用的方式，就跟我们在 iOS 中的 cellForRow 方法中每次创建一个新的 cell 的方式一样，cell 没有重复利用。而今天我们使用 builder 的这种方式，就是 cell 被放入缓存池中被重复利用的方式。使用 <code>ListView.builder()</code> 的方式，需要传入两个参数，一个是 itemCount 元素的个数。一个是 itemBuilder，类似于 cellForRowAtIndexPath 方法，需要我们创建 cell 并返回。完整的代码如下：</p>
+<p><img src="3849d87dabcb414fbabcb46e04ffc067~tplv-k3u1fbpfcp-watermark.png" alt="image.png"></p>
+<p>这里再说一下对 datas 进行排序的地方。这个方法 <code>initState()</code> 有一个 @override 修饰，意思就会重写父类的方法，而且这个方法应该是调用的比 build 要早的。这样才能保证展示数据的时候，数据是已经经过排序过的。而这个排序的方法，其实跟 iOS 中的 <code>sortedArrayUsingComparator:</code> 排序也非常的像，传入一个代码块的方式。所以有开发经验的同学，会发现真的有些东西，各个平台都是通用的，学起来也会更快更容易上手。最后 APP 的显示如下图：</p>
+<div align="center">
+<img src="b9f94392e09f449f8bb8f73879d2a793~tplv-k3u1fbpfcp-watermark.png">
+</div>
+
+
+]]></content>
+      <categories>
+        <category>flutter</category>
+      </categories>
+      <tags>
+        <tag>flutter</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Error Domain=NSURLErrorDomain Code=-999 已取消</title>
     <url>/2018/04/03/Error-Domain-NSURLErrorDomain-Code-999-%E5%B7%B2%E5%8F%96%E6%B6%88/</url>
     <content><![CDATA[<p>今天遇到这么一个问题,在使用SDWebimage设置UIImageView的图片的时候,发现这个图片<br><code>http://img4.imgtn.bdimg.com/it/u=132600321,3123081067&amp;fm=27&amp;gp=0.jpg</code>怎么也设置不成功,后来调试一看发现<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_4.png">说是什么已取消,我是一脸懵逼啊,谁TM取消了啊???百思不得其解之后网上搜了一下;<br>嘿,还有人写了个总结<img src="https://raw.githubusercontent.com/masterKing/markDownPictures/master/Snip20180403_5.png"></p>
@@ -470,6 +1249,181 @@
       <categories>
         <category>iOS 逆向与安全</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Mach-O</title>
+    <url>/2021/06/28/Mach-O/</url>
+    <content><![CDATA[<h1 id="通用二进制-Universal-binary-文件"><a href="#通用二进制-Universal-binary-文件" class="headerlink" title="通用二进制(Universal binary)文件"></a>通用二进制(Universal binary)文件</h1><p>macOS 系统一路走来，支持的 CPU 及硬件平台都有了很大的变化，从早期的 PowerPC 平台，到后来的 x86，再到现在主流的 arm、x86-64 平台。软件开发人员为了做到不同硬件平台的兼容性，如果需要为每一个平台编译一个可执行文件，这将是非常繁琐的。</p>
+<p>为了解决软件在多个硬件平台上的兼容性问题，苹果开发了一个通用的二进制文件格式（Universal Binary）。又称为胖二进制（Fat Binary），通用二进制文件中将多个支持不同 CPU 架构的二进制文件打包成一个文件，系统在加载运行该程序时，会根据通用二进制文件中提供的多个架构来与当前系统平台做匹配，运行适合当前系统的那个版本。</p>
+<p>有人或许会好奇，不是讲 Mach-O 文件吗?怎么开始讲通用二进制文件，不要着急，看下面 <code>file</code> 命令查看 dyld 的打印，universal binary 前面不就是 Mach-O 吗</p>
+<p>苹果自家系统中存在着很多通用二进制文件。比如 &#x2F;usr&#x2F;lib&#x2F;dyld，在终端中执行 <code>file</code> 命令可以查看它的信息：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"> ~/ file /usr/lib/dyld</span><br><span class="line">/usr/lib/dyld： Mach-O universal binary with 3 architectures： [i386：Mach-O dynamic linker i386] [x86_64：Mach-O 64-bit dynamic linker x86_64] [arm64e]</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture i386)：	Mach-O dynamic linker i386</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture x86_64)：	Mach-O 64-bit dynamic linker x86_64</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture arm64e)：	Mach-O 64-bit dynamic linker arm64e</span><br></pre></td></tr></table></figure>
+
+<p>我们创建一个名为 test 的 iOS 工程，然后在 Xcode 中通过设置 Build Settings 中的 Architectures 来生成兼容各种架构的 APP</p>
+<p><img src="84375053987242bda5a6f2207abf73f7~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>编译之后，使用 <code>file</code> 命令查看生成的 ipa 包里的可执行文件</p>
+<p><img src="6d1f4577c2fb4a3fa7b2266f44a20a08~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h2 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h2><p>系统提供了一个命令行工具<code>lipo</code>来操作通用二进制文件。它可以添加、提取、删除以及替换通用二进制文件中特定架构的二进制版本。</p>
+<p>查看通用二进制文件信息： </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lipo -info <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>提取 test 中 armv7 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -extract armv7 -output test_armv7</span><br></pre></td></tr></table></figure>
+
+<p>提取 test 中 arm64 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -extract arm64 -output test_arm64</span><br></pre></td></tr></table></figure>
+
+<p>合并 test_armv7 和 test_arm64：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lipo -create test_armv7 test_arm64 -output test0</span><br></pre></td></tr></table></figure>
+
+<p>删除 test 中 armv7s 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -remove armv7s -output test1</span><br></pre></td></tr></table></figure>
+
+<p>通用二进制的”通用”不止针对可以直接运行的可以执行文件，系统中的动态库 .dylib 文件，静态库 .a 文件以及 Framework 等都可以是通用二进制文件，对它们同样也可以使用 <code>lipo</code> 命令来进行管理</p>
+<p>接下来打开我们的 Xcode，按 command + shift + o 输入 mach-o&#x2F;fat.h 就可以看到对通用二进制文件格式的声明，从文件的命名和声明来看，将通用二进制叫作胖二进制或许更合适。胖二进制的头部定义如下：</p>
+<p><img src="4240093e2e8f4c94aeeb393d242744b3~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="Snip20210627_130.png"></p>
+<p><code>magic</code> 字段被定义为常量 FAT_MAGIC，它的取值根据架构是固定的，在 32 位架构上是 <strong>0xcafebabe</strong>，在 64 位架构上是 <strong>0xcafebabf</strong>，表示这是一个通用二进制文件。这里要说一下字节序，计算机硬件有两种储存数据的方式，分别为大端字节序，和小端字节序，大端字节序：高位字节在前，低位字节在后，这是人类读写数值的方法。小端字节序：低位字节在前，高位字节在后，是大多数机器读取数据的方式。下图所示的是同一个数字 01234567 在大端和小端下的存储方式<br></p>
+<p><img src="93163b5b30e94d20b9164059e60e8b47~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="bg2016112201.gif"><br></p>
+<p><code>nfat_arch</code> 字段表示后面的 Mach-O 文件的数量<br></p>
+<p>每个通用二进制架构信息都使用 fat_arch 结构体表示，在 fat_header 结构体之后，紧接着的是一个或多个连续的 fat_arch 结构体，它的定义如下：</p>
+<p><img src="b58efccc561546129423509f485bdd24~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p><code>cputype</code>字段是 cpu 说明符，类型是<code>cpu_type_t</code>，定义在&lt;mach&#x2F;machine.h&gt;文件，使用同样的 command + shift + o 然后输入头文件的方法可以打开 &lt;mach&#x2F;machine.h&gt; 文件，在 macOS 上取值一般为 <code>CPU_TYPE_I386</code> 或 <code>CPU_TYPE_X86_64</code>，在 iOS 平台上一般是 <code>CPU_TYPE_ARM</code> 或 <code>CPU_TYPE_ARM64</code> <br></p>
+<p><code>cpu_subtype</code> 字段是机器说明符，类型是 <code>cpu_subtype_t</code>，同样定义在 &lt;mach&#x2F;machine.h&gt; 文件，macOS 上一般是 <code>CPU_SUBTYPE_I386_ALL</code>，<code>CPU_SUBTYPE_X86_64_ALL</code>，在 iOS 上一般则是 <code>CPU_SUBTYPE_ARM64_ALL</code>，<code>CPU_SUBTYPE_ARM_V7</code><br></p>
+<p><code>offset</code> 字段指明了当前 Mach-O 数据相对于当前文件开头的偏移值<br></p>
+<p><code>size</code> 字段指明了数据的大小<br></p>
+<p><code>align</code> 字段指明了数据的内存对齐边界，取值必须是 2 的 n 次方，它确保了当前 cpu 架构的目标文件加载到内存中时，数据是经过内存优化对齐的</p>
+<p>使用 <a href="https://github.com/gdbinit/MachOView">MachOView</a> 可以十分清楚的看到这些信息</p>
+<p><img src="b729551411874ad489f96eec9739a78d~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>在 fat_arch 结构体往下就是具体的 Mach-O 格式文件了，它的内容复杂得多，将在下一小节进行讨论。</p>
+<h1 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mach-O（Mach Object file format）是一种文件格式，用于在 macOS、iOS 以及其他基于 Mach 内核的操作系统上保存可执行文件、目标文件、动态库和内核转储。Mach-O 格式是这些系统上程序的核心组成部分，存储了程序运行所需的所有信息，比如代码、数据、符号表、调试信息等。</p>
+<p>熟悉 Mach-O 文件格式，有助于了解苹果软件底层运行机制，更好的掌握 dyld 加载 Mach-O 的步骤，为自己动手开发 Mach-O 相关的加解密工具打下基础</p>
+<ol>
+<li>MacOS 上的可执行文件是一种 Mach-O 文件(比如 ruby，phtyon…)，但不是所有可执行文件都是 Mach-O 文件</li>
+<li>库文件是一种 Mach-O 文件，动态库 .dylib，静态库 .a，还有 Framework 都是一种 Mach-O 文件</li>
+<li>.o 文件(clang 编译 c 源文件得到的)也叫目标文件夹，是一种 Mach-O 文件</li>
+<li>.dsym 文件(符号表)也是一种 Mach-O 文件</li>
+<li>dyld 是可执行文件，自然也是一种 Mach-O 文件</li>
+</ol>
+<p>以上这些都属于 Mach-O 文件，当然除了以上这五种，还有其他类型的 Mach-O 文件，只是这五种比较常见…其他还有八种，其他八种会在下面对 Mach-O 文件结构的介绍中提到</p>
+<p>从上面 MachOView 的截图中可以看到，test 文件内有 4 种不同架构的文件，每种架构的文件都可以称它为一个 Mach-O 文件，而刚刚所讲的通用二进制文件就是一个文件如果包含了 1 种以上的 Mach-O 文件，那么他就是通用二进制文件</p>
+<p>我们知道了 Mach-O 文件就是一堆有着特定结构的二进制数据，那么我们如何从这一堆的二进制里获取我们所需要的数据?如果做过股票行情 APP，IM 通讯底层 SDK 或者说使用过 socket 长连接对二进制数据进行过处理，发送，接收的同学，一定会知道对一堆的二进制如何有效的处理，提取我们想要的数据的。以我曾经做过的一款股票行情软件为例，里面就定义了大量的结构体类型，用结构体来对二进制数据进行解析，得到我们想要的数据，那么这个 Mach-O 文件的解析有没有对应的结构体呢?</p>
+<p>当然有，在 Xcode 中使用 command + shift + o 搜索 mach-o&#x2F;loader.h 就会发现一堆的结构体，这些结构体都是系统用来解析 Mach-O 文件的，我们也能从中获取到不少的信息</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>一个典型的 Mach-O 文件结构如下图所示：</p>
+<p><img src="62725ae27df140d393ceba29767885ec~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="v2-35f7008ce676b29129f9ec8bed3c464f_r.png"></p>
+<p>从图中可以了解到一个 Mach-O 文件的结构包括 Header，Load commands 和 Data</p>
+<ul>
+<li><strong>Header</strong>：描述了 Mach-O 的 cpu 架构、文件类型以及加载命令等信息。</li>
+<li><strong>Load commands</strong>：指定文件的逻辑结构和文件在虚拟内存中的布局。</li>
+<li><strong>Data</strong>：原始段数据。每个段 Segment 都有一个或多个 Section，它们存放了具体的数据。</li>
+</ul>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>可以使用 <code>otool</code> 命令来查看 Mach-O 文件的头部信息</p>
+<p><img src="b862cd3818584c92b5905e930bd73acb~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>这个部分的定义，可以通过在 Xcode 中，按 command + shift + o 输入 mach-o&#x2F;loader.h 的方式找到</p>
+<p><img src="332dbf14f8484f068963603e06ed1417~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<ul>
+<li><strong><code>magic</code></strong> 在截图中都能看到的宏定义，对 32 位架构的程序来说，它的值就是 <strong>0xfeedface</strong>，可以使用 <strong>MH_MAGIC</strong> 宏代替。对 64 位架构的程序来说，它的值就是 <strong>0xfeedfacf</strong>，对应的宏  <strong>MH_MAGIC_64</strong></li>
+<li><strong><code>cputype</code></strong> 和上一节中所讲的 fat_header 结构体的含义完全相同</li>
+<li><strong><code>cpusubtype</code></strong> 同上</li>
+<li><strong><code>filetype</code></strong> 表示 Mach-O 文件的具体类型，值有下图所示的12种，常见的有 MH_EXECUTE(可执行文件)，MH_DYLIB(动态库)，MH_DYLINKER(动态连接器)，MH_DSYM(符号表文件)<br><img src="55f1fff26073490d9d7309002b2ba726~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></li>
+<li><strong><code>ncmds</code></strong> load commands 的数量</li>
+<li><strong><code>sizeofcmds</code></strong> 所有 load commands 的占的字节数</li>
+<li><strong><code>flags</code></strong> 标记，值比较多，最好去头文件中查看详细说明</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_NOUNDEFS	0x1		<span class="comment">/* the object file has no undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_INCRLINK	0x2		<span class="comment">/* the object file is the output of an</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   incremental link against a base file</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   and can&#x27;t be link edited again */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_DYLDLINK	0x4		<span class="comment">/* the object file is input for the</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   dynamic linker and can&#x27;t be staticly</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   link edited again */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_BINDATLOAD	0x8		<span class="comment">/* the object file&#x27;s undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references are bound by the dynamic</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   linker when loaded. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_PREBOUND	0x10		<span class="comment">/* the file has its dynamic undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references prebound. */</span></span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>reserved</code></strong> 这个字段只在 64 位架构的 Mach-O 文件中才有，目前它的取值系统保留</li>
+</ul>
+<p>使用 MachOView 查看 Header 的信息</p>
+<p><img src="0ed044569438410193a72cb6d98e4728~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h3 id="Load-Commands"><a href="#Load-Commands" class="headerlink" title="Load Commands"></a>Load Commands</h3><p>Load Commands 描述的是文件的加载信息，加载信息有很多，加载的段、符号表、动态库信息等都在 Load Commands 中取到。这个部分信息还是比较有用的，我们可以从这里获取到符号表和字符串表的偏移量，下文中会有详细的解释。</p>
+<p>Load Commands 加载命令紧跟在 Header 之后，所有加载命令的前两个字段必须是 cmd 和 cmdsize，cmd 字段用该命令类型的常量填充，头文件中定义了许多的宏用于该字段，每个命令类型都有一个特定的结构。cmdsize 字段是以字节为单位的特定加载命令结构的大小，再加上它后面作为加载命令一部分的任何内容（即节结构、字符串等）要前进到下一个加载命令，可以将 cmdsize 加上当前加载命令的偏移量</p>
+<p><img src="b99f9142f65a44e1845403893446cba0~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>cmd 字段的取值有目前有 50 多种，太多了就不全部粘贴出来了…</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> LC_REQ_DYLD 0x80000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Constants for the cmd field of all load commands， the type */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SEGMENT	0x1	<span class="comment">/* segment of this file to be mapped */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SYMTAB	0x2	<span class="comment">/* link-edit stab symbol table info */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SYMSEG	0x3	<span class="comment">/* link-edit gdb symbol table info (obsolete) */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_THREAD	0x4	<span class="comment">/* thread */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_UNIXTHREAD	0x5	<span class="comment">/* unix thread (includes a stack) */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_LOADFVMLIB	0x6	<span class="comment">/* load a specified fixed VM shared library */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_IDFVMLIB	0x7	<span class="comment">/* fixed VM shared library identification */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_IDENT	0x8	<span class="comment">/* object identification info (obsolete) */</span></span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>所有的这些加载命令由系统内核加载器直接使用，或由动态链接器处理。其中几个常见的加载命令有<code>LC_LOAD_DYLIB</code>、<code>LC_SEGMENT</code>、<code>LC_MAIN</code>、<code>LC_CODE_SIGNATURE</code>、<code>LC_ENCRYPTION_INFO</code>等，下面介绍其中的几个</p>
+<h4 id="LC-LOAD-DYLIB"><a href="#LC-LOAD-DYLIB" class="headerlink" title="LC_LOAD_DYLIB"></a>LC_LOAD_DYLIB</h4><p><code>LC_LOAD_DYLIB</code>：表示这是一个需要动态加载的链接库。它使用 dylib_command 结构体表示。定义如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dylib_command</span> &#123;</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmd。		<span class="comment">/* LC_ID_DYLIB， LC_LOAD_&#123;，WEAK_&#125;DYLIB，</span></span><br><span class="line"><span class="comment">					   LC_REEXPORT_DYLIB */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmdsize。	<span class="comment">/* includes pathname string */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dylib</span>	<span class="title">dylib</span>。		/* <span class="title">the</span> <span class="title">library</span> <span class="title">identification</span> */</span></span><br><span class="line"><span class="class">&#125;。</span></span><br></pre></td></tr></table></figure>
+
+<p>当 cmd 类型是<code>LC_ID_DYLIB</code>，<code>LC_LOAD_DYLIB</code>，<code>LC_LOAD_WEAK_DYLIB</code>，<code>LC_REEXPORT_DYLIB</code>时，都使用 dylib_command 结构体表示。其中 dylib 结构体存储要加载的动态库的具体信息如下</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dylib</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> <span class="title">lc_str</span>  <span class="title">name</span>。			/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">path</span> <span class="title">name</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">timestamp</span>。			/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">build</span> <span class="title">time</span> <span class="title">stamp</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">current_version</span>。		/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">current</span> <span class="title">version</span> <span class="title">number</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">compatibility_version</span>。	/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">compatibility</span> <span class="title">vers</span> <span class="title">number</span>*/</span></span><br><span class="line"><span class="class">&#125;。</span></span><br></pre></td></tr></table></figure>
+
+<p><code>name</code> 字段是链接库的完整路径，动态链接器在加载库时，通用此路径来进行加载它。<br><br><code>timestamp</code>字段描述了库构建时的时间戳<br><br><code>current_version</code>与<code>compatibility_version</code>指明了前当版本与兼容的版本号<br></p>
+<p>如果你看了我的上一篇文章 <a href="https://juejin.cn/post/6977384497000448030">代码注入</a> 里面提到了 <code>yololib</code>，这个工具的原理基本就是利用这条 <code>LC_LOAD_DYLIB</code> 加载命令的相关信息实现的</p>
+<h4 id="LC-MAIN"><a href="#LC-MAIN" class="headerlink" title="LC_MAIN"></a>LC_MAIN</h4><p><code>LC_MAIN</code>：此加载命令记录了可执行文件的主函数 main() 的位置。它使用 entry_point_command 结构体表示。定义如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">entry_point_command</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span>  cmd。	<span class="comment">/* LC_MAIN only used in MH_EXECUTE filetypes */</span></span><br><span class="line">    <span class="type">uint32_t</span>  cmdsize。	<span class="comment">/* 24 */</span></span><br><span class="line">    <span class="type">uint64_t</span>  entryoff。	<span class="comment">/* file (__TEXT) offset of main() */</span></span><br><span class="line">    <span class="type">uint64_t</span>  stacksize。<span class="comment">/* if not zero， initial stack size */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>entryoff 字段中就指定了 main() 函数的文件偏移。stacksize 指定了初始的堆栈大小。</p>
+<h4 id="LC-SEGMENT-LC-SEGMENT-64"><a href="#LC-SEGMENT-LC-SEGMENT-64" class="headerlink" title="LC_SEGMENT&#x2F;LC_SEGMENT_64"></a>LC_SEGMENT&#x2F;LC_SEGMENT_64</h4><p><code>LC_SEGMENT/LC_SEGMENT_64</code>：段加载命令，描述了 32 位或 64 位 Mach-O 文件的段的信息，常见的段有 <code>__PAGEZERO</code>，<code>__TEXT</code>，<code>__DATA</code>，<code>__LINKEDIT</code>。</p>
+<p><code>__PAGEZERO</code> 是一个空段，它位于文件起始段的位置</p>
+<p><code>__TEXT</code> 和 <code>__DATA</code> 分别是文本段和数据段，分别存储了代码信息和数据信息</p>
+<p><code>__LINKEDIT</code> 是链接信息段。段(segment)又可以细分为section，每个段(segment)可以包含多个section</p>
+<p>段使用 segment_command 结构体来表示，它的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">segment_command</span> &#123;</span> <span class="comment">/* for 32-bit architectures */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmd。		<span class="comment">/* LC_SEGMENT */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmdsize。	<span class="comment">/* includes sizeof section structs */</span></span><br><span class="line">	<span class="type">char</span>		segname[<span class="number">16</span>]。	<span class="comment">/* segment name */</span></span><br><span class="line">	<span class="type">uint32_t</span>	vmaddr。		<span class="comment">/* memory address of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	vmsize。		<span class="comment">/* memory size of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	fileoff。	<span class="comment">/* file offset of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	filesize。	<span class="comment">/* amount to map from the file */</span></span><br><span class="line">	<span class="type">vm_prot_t</span>	maxprot。	<span class="comment">/* maximum VM protection */</span></span><br><span class="line">	<span class="type">vm_prot_t</span>	initprot。	<span class="comment">/* initial VM protection */</span></span><br><span class="line">	<span class="type">uint32_t</span>	nsects。		<span class="comment">/* number of sections in segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	flags。		<span class="comment">/* flags */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>segname</code> 字段是一个 16 字节大小的空间，用来存储段的名称，比如__TEXT…<br></p>
+<p><code>vmaddr</code> 字段指明了段要加载的虚拟内存地址<br></p>
+<p><code>vmsize</code> 字段指明了段所占的虚拟内存的大小<br></p>
+<p><code>fileoff</code> 字段指明了段数据所在文件中偏移地址<br></p>
+<p><code>filesize</code> 字段指明了段数据实际的大小<br></p>
+<p><code>maxprot</code> 字段指明了页面所需要的最高内存保护<br></p>
+<p><code>initprot</code> 字段指明了页面初始的内存保护<br></p>
+<p><code>nsects</code> 字段指明了段所包含的节区（section）<br></p>
+<p><code>flags</code> 字段指明了段的标志信息<br></p>
+<p>还有很多 Load Commands 加载命令，这里就不一一介绍了…贴一张图大概了解下</p>
+<p><img src="f3f71180aa9843feb445011970d67772~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>使用 MachOView 查看 Load Commands 的内容</p>
+<p><img src="38e722b0733e401a8945d2a834f32ae8~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h3 id="Data"><a href="#Data" class="headerlink" title="Data"></a>Data</h3><p>数据区，除了 Header 和 Load Commands 外所有的原始数据。Load Commands 是对数据的汇总概括，而数据区则是真实的数据。Load Commands 与数据区的关系就像书的目录与章节的关系，如图所示，Segment 为 __TEXT 的段里，显示有 8 个 section，每个 section 具体的内容就在 Data 区里了</p>
+<p><img src="dddae1f46a564c6c9158b4fcd32635dc~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>接下里介绍几个比较重要的 section</p>
+<h4 id="TEXT，-text"><a href="#TEXT，-text" class="headerlink" title="(__TEXT，__text)"></a>(<code>__TEXT</code>，<code>__text</code>)</h4><p>这里存放的是汇编后的代码，当我们进行编译时，每个 .m 文件会经过预编译-&gt;编译-&gt;汇编形成 .o 文件，称之为目标文件。汇编后，所有的代码会形成汇编指令存储在 .o 文件的 (<code>__TEXT，__text</code>) 区（（<code>__DATA，__data</code>）也是类似）。</p>
+<p>链接后，所有的 .o 文件会合并成一个文件，所有 .o 文件的 (<code>__TEXT，__text</code>) 数据都会按链接顺序存放到应用文件的 (<code>__TEXT，__text</code>) 中。</p>
+<p><img src="570ed1a3f60c4e93a1daabd21ffedbea~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="TEXT，-objc-methname"><a href="#TEXT，-objc-methname" class="headerlink" title="(__TEXT，__objc_methname)"></a>(<code>__TEXT，__objc_methname</code>)</h4><p>这里存放了项目里，所有我们用 Objective-C 写的方法名</p>
+<p><img src="2057b7ec64464ce3837bc7f885881527~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="TEXT，-objc-classname"><a href="#TEXT，-objc-classname" class="headerlink" title="(__TEXT，__objc_classname)"></a>(<code>__TEXT，__objc_classname</code>)</h4><p>这里存放了项目里所有 Objective-C 类的名字</p>
+<p><img src="9ab7d736e345420ab2cdd8076c08057d~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>class-dump 工具能够解析出每个类的方法，属性，成员变量，应该就是来自上面两个 section 的数据了，当然这只是我的猜测，具体怎么实现的就要去看 class-dump 的源码了</p>
+<h4 id="Symbol-Table"><a href="#Symbol-Table" class="headerlink" title="Symbol Table"></a>Symbol Table</h4><p>符号表，这个是重点中的重点，符号表是将地址和符号联系起来的桥梁。符号表并不能直接存储符号，而是存储符号位于字符串表的位置。</p>
+<p><img src="2721f7baa7b941e6be63421636ef4764~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="String-Table"><a href="#String-Table" class="headerlink" title="String Table"></a>String Table</h4><p>字符串表所有的变量名、函数名等，都以字符串的形式存储在字符串表中。</p>
+<p><img src="47a85d63ea9a43c29531012586a964c2~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="Dynamic-Symbol-Table"><a href="#Dynamic-Symbol-Table" class="headerlink" title="Dynamic Symbol Table"></a>Dynamic Symbol Table</h4><p>动态符号表存储的是动态库函数位于符号表的偏移信息。(<code>__DATA</code>，<code>__la_symbol_ptr</code>) section 可以从动态符号表中获取到该 section 位于符号表的索引数组。动态符号表并不存储符号信息，而是存储其位于符号表的偏移信息。Fishhook 源码看起来比较复杂主要是因为 hook 的是动态链接的函数，索引和链接关系比较绕。但是我们自己编写的 C 函数不是动态链接的，而是在编译链接后代码指令就存储在文件内部的函数，因此不会用到动态符号表也就无法 hook。</p>
+<p><img src="322f3e1e56ed40309400dc4a483e79d5~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>当然，关于 Mach-O 文件的知识远不止这么点，但是要完全讲清楚里面的所有内容，那估计不是这么一篇文章能够讲的清楚的，至少也得是一本书了，我也只是网上收集到的一些资料，自己写了篇总结而已<br></p>
+<h1 id="Mach-O-的应用"><a href="#Mach-O-的应用" class="headerlink" title="Mach-O 的应用"></a>Mach-O 的应用</h1><p><a href="https://github.com/nygard/class-dump">class-dump</a> 这个工具就是通过对 Mach-O 文件的解析得到的结果。</p>
+]]></content>
+      <categories>
+        <category>iOS 逆向与安全</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
+    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
+
+<p>基于这一现象，我们来进行分析。</p>
+<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
+<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
+<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
+<p>关于服务器的比较逻辑，需要强调一下。</p>
+<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
+<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
+
+<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
+<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
+<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
+<p>OK，到此这次的主题已得到完美解决。</p>
+]]></content>
+      <tags>
+        <tag>bug</tag>
+      </tags>
   </entry>
   <entry>
     <title>Cycript</title>
@@ -631,33 +1585,6 @@
       </categories>
   </entry>
   <entry>
-    <title>SDWebimage设置图片时URL不变，但图片改变的解决办法</title>
-    <url>/2018/07/17/SDWebimage%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E6%97%B6URL%E4%B8%8D%E5%8F%98%EF%BC%8C%E4%BD%86%E5%9B%BE%E7%89%87%E6%94%B9%E5%8F%98%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>本篇文章转载自<a href="https://blog.csdn.net/xumugui007/article/details/51605546">SDWebImage支持URL不变时更新图片内容</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImage在iOS项目中是一个很常用的开源库，而且众所周知的是，它是基于URL作为Key来实现图片缓存机制的。在90%左右的情况下，</span><br><span class="line">图片与URL是一一对应的，即使服务器修改了图片也会相应的变更URL。但是在少数情况下，服务器修改了图片后不会变更相应的URL，也就是</span><br><span class="line">说图片本身的内容变了然而它的URL没有变化，那么按照对SDWebImage的常规使用方法的话，客户端肯定更新不到同一URL对应到服务器已变</span><br><span class="line">更的图片内容。</span><br></pre></td></tr></table></figure>
-
-<p>基于这一现象，我们来进行分析。</p>
-<p>客户端第一次请求图片时，Charles抓包得知response header里有一个名为Last-Modified、数据是时间戳的键值对。</p>
-<p>客户端第二次及以后请求图片时，通过Charles抓包发现，服务器返回304 not modified状态，说明服务器在接收客户端请求后通过某种判断逻辑得出结论：“客户端已缓存的图片与服务器图片都是最新的”，那么服务器如何判断的呢？</p>
-<p>通过查阅HTTP协议相关的资料得知，与服务器返回的Last-Modified相对应的request header里可以加一个名为If-Modified-Since的key，value即是服务器回传的服务端图片最后被修改的时间，第一次图片请求时If-Modified-Since的值为空，第二次及以后的客户端请求会把服务器回传的Last-Modified值作为If-Modified-Since的值传给服务器，这样服务器每次接收到图片请求时就将If-Modified-Since与Last-Modified进行比较，如果客户端图片已陈旧那么返回状态码200、Last-Modified、图片内容，客户端存储Last-Modified和图片；如果客户端图片是最新的那么返回304 Not Modified、不会返回Last-Modified、图片内容。</p>
-<p>关于服务器的比较逻辑，需要强调一下。</p>
-<p>经查资料得知，Apache比较时是看If-Modified-Since之后有没有更新图片，Nginx比较时是看If-Modified-Since与Last-Modified是否相等，所以对于Apache服务器环境客户端每次都要严格的存储服务器回传的Last-Modified以便下次请求时作为If-Modified-Since的值传给服务器，对于Nginx服务器环境客户端不必存储服务器回传的Last-Modified，每次请求时只需将图片自身的fileModificationDate作为If-Modified-Since的值传服务器即可。在实际开发中，如果遇到明明传了If-Modified-Since、服务器图片也变更了、但是客户端却请求不到最新的图片的情况时，那么就需要查看一下服务器对这两个时间戳的比较逻辑。</p>
-<p>那么，现在我们可以回到SDWebImage上来了。通过查看SDWebImageDownloader的源码得知，它开放了一个headersFilter的block，意在让开发者可以对所有图片请求追加一些额外的header，这正合我意。那么我们就可以在诸如AppDelegate didFinishLaunching的地方追加如下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SDWebImageDownloader *imgDownloader = SDWebImageManager.sharedManager.imageDownloader;</span><br><span class="line">imgDownloader.headersFilter  = ^NSDictionary *(NSURL *url, NSDictionary *headers) &#123;</span><br><span class="line"> </span><br><span class="line">    NSFileManager *fm = [[NSFileManager alloc] init];</span><br><span class="line">    NSString *imgKey = [SDWebImageManager.sharedManager cacheKeyForURL:url];</span><br><span class="line">    NSString *imgPath = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:imgKey];</span><br><span class="line">    NSDictionary *fileAttr = [fm attributesOfItemAtPath:imgPath error:nil];</span><br><span class="line"> </span><br><span class="line">    NSMutableDictionary *mutableHeaders = [headers mutableCopy];</span><br><span class="line"> </span><br><span class="line">    NSDate *lastModifiedDate = nil;</span><br><span class="line"> </span><br><span class="line">    if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">        if (fileAttr.count &gt; 0) &#123;</span><br><span class="line">            lastModifiedDate = (NSDate *)fileAttr[NSFileModificationDate];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];</span><br><span class="line">    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@&quot;GMT&quot;];</span><br><span class="line">    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@&quot;en_US&quot;];</span><br><span class="line">    formatter.dateFormat = @&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;;</span><br><span class="line"> </span><br><span class="line">    NSString *lastModifiedStr = [formatter stringFromDate:lastModifiedDate];</span><br><span class="line">    lastModifiedStr = lastModifiedStr.length &gt; 0 ? lastModifiedStr : @&quot;&quot;;</span><br><span class="line">    [mutableHeaders setValue:lastModifiedStr forKey:@&quot;If-Modified-Since&quot;];</span><br><span class="line"> </span><br><span class="line">    return mutableHeaders;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>然后，加载图片的地方以前怎么写还是怎么写，但别忘了Option是SDWebImageRefreshCached</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSURL *imgURL = [NSURL URLWithString:@&quot;http://handy-img-storage.b0.upaiyun.com/3.jpg&quot;];</span><br><span class="line">[[self imageView] sd_setImageWithURL:imgURL</span><br><span class="line">                    placeholderImage:nil</span><br><span class="line">                             options:SDWebImageRefreshCached];</span><br></pre></td></tr></table></figure>
-
-<p>经测试，服务器只修改图片不变更URL的时候，客户端也可以更新到最新的图片。</p>
-<p>从以上第一段代码内容可以看出我采用的是与ngix服务器比较逻辑对应的代码，BTW:我测试的服务器是又拍云，说明又拍云的比较逻辑是等与不等的关系判断，不是大小关系的判断。</p>
-<p>这里顺便说一下，如果服务器的环境是类似于Apache的比较逻辑时，客户端可以把Last-Modified存放在图片的名称上(这需要修改SDWebImage源码，不建议)，或者用一个plist文件存放图片key名称与时间的对应关系(这个不用修改源码)。</p>
-<p>OK，到此这次的主题已得到完美解决。</p>
-]]></content>
-      <tags>
-        <tag>bug</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS 应用砸壳</title>
     <url>/2024/10/27/iOS-%E5%BA%94%E7%94%A8%E7%A0%B8%E5%A3%B3/</url>
     <content><![CDATA[<h1 id="什么是壳"><a href="#什么是壳" class="headerlink" title="什么是壳"></a>什么是壳</h1><p>在软件保护和安全领域，“壳”指的是利用特殊的算法对应用程序的二进制文件进行加密或包装的保护层，通常被称为 “加壳”。壳的作用是保护应用程序的代码，防止未经授权的访问、篡改和逆向工程。壳通常会在应用程序启动时将其解密到内存中，以便正常运行。</p>
@@ -796,7 +1723,7 @@
   </entry>
   <entry>
     <title>密码学概述</title>
-    <url>/2024/04/24/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/</url>
+    <url>/2021/06/10/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/</url>
     <content><![CDATA[<p>密码学（来自希腊语kryptos，意思是隐藏）一词的核心是指使数据无法被窥探者读取的技术。当然，密码学也可以用于其他目的。密码学包括一系列技术，如验证数据的真实性（检测是否修改）、确定个人或其他实体的身份、确定谁发送了特定消息或创建了特定数据片段、通过网络安全地发送数据、用密码或口令安全地锁定文件等等。</p>
 <p>计算机安全中使用的加密主要有两种类型，称为对称密钥加密和非对称密钥加密。</p>
 <h1 id="对称密钥加密"><a href="#对称密钥加密" class="headerlink" title="对称密钥加密"></a>对称密钥加密</h1><p>对称密钥加密（也称为秘密密钥加密）是大多数人熟悉的密钥的经典用法：使用相同的密钥来加密和解密数据。经典且最容易破解的版本是凯撒密码（以朱利叶斯·凯撒命名），其中消息中的每个字母都被替换为字母表中固定位置数的字母（例如，“a”被“c”替换，“b”被替换为“d”等）。在凯撒密码中，用于加密和解密消息的密钥只是字母表旋转的位数以及旋转的方向。现代对称密钥算法更加复杂并且更难破解。</p>
@@ -974,88 +1901,6 @@ m<sup>k * φ(n) + 1</sup> mod n = m
         <tag>RSA</tag>
         <tag>DES</tag>
         <tag>AES</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>揭开神秘的iOS布局</title>
-    <url>/2018/03/26/%E6%8F%AD%E7%A7%98iOS%E5%B8%83%E5%B1%80/</url>
-    <content><![CDATA[<p>翻译自: <a href="http://tech.gc.com/demystifying-ios-layout/">Demystifying iOS Layout</a></p>
-<p>在你刚开始开发iOS应用时,最难避免或者说最难调试的是处理视图的布局和内容;通常这些事情的发生是因为对 <strong>视图更新</strong> 真实发生存在误解;了解 <strong>视图更新</strong> 的方式和时间需要更深入地了解iOS应用程序的主运行循环,以及它如何与<code>UIView</code>提供的某些方法关联;这篇博文将解释这些互动,希望澄清如何使用<code>UIView</code>的方法来获得你想要的行为;</p>
-<h2 id="iOS应用程序的主运行循环"><a href="#iOS应用程序的主运行循环" class="headerlink" title="iOS应用程序的主运行循环"></a>iOS应用程序的主运行循环</h2><p>iOS应用程序的主运行循环用来处理所有用户输入事件并在您的应用程序中触发适当的响应;任何与应用程序的用户交互都会被添加到事件队列中;应用程序对象(如下图所示)将事件队列中的事件取出,并将它们分派给应用程序中的其他对象;<strong>它本质上是通过解释来自用户的输入事件并在应用程序的核心对象中为该输入调用相应的处理程序来执行运行循环</strong>;这些处理程序调用应用程序开发人员编写的代码;一旦这些方法调用返回,控制回到主运行循环并且开始更新周期;更新周期负责布局和重绘视图(在下一节中介绍);下面是应用程序如何与设备进行通信并处理用户输入的插图</p>
-<p><img src="http://tech.gc.com/images/demystifying-ios-layout/main_event_loop.jpg" alt="Main Event Loop"></p>
-<p><em><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html">https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html</a></em></p>
-<h2 id="更新周期-Update-Cycle"><a href="#更新周期-Update-Cycle" class="headerlink" title="更新周期(Update Cycle)"></a>更新周期(Update Cycle)</h2><p>更新周期是应用程序完成运行所有事件处理代码后,控制权返回到主运行循环的点;就是在这个点,系统开始更新布局,显示和约束;如果您要求改变视图而它正在执行事件处理程序,系统会将此视图标记为需要重绘;在下一次更新周期,系统将执行这些视图上所有的变化;用户交互和布局更新之间的时间间隔对用户来说应该是感觉不到的;iOS应用程序通常以60fps动画,这意味着一个刷新周期只需要1&#x2F;60秒;由于这种情况发生的速度很快,用户不会注意到她与设备上的应用程序进行交互和看到内容和布局更新之间的UI的滞后;但是,由于事件被执行的时间和相应视图的重绘时间之间存在时间间隔,所以在运行循环过程中,视图可能不会按照您希望的方式更新;如果您有任何计算依赖视图最新的内容或布局,您有可能操作的是该视图的旧的内容或布局而不是最新的;了解运行循环,更新周期和某些的<code>UIView</code>方法能够帮助避免或者调试这类问题;</p>
-<p>您可以在下图中看到更新周期在运行循环结束时如何发生<br><img src="http://tech.gc.com/images/demystifying-ios-layout/tech-blog-loop.png" alt="Update Cycle"></p>
-<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>视图的布局指的是它在屏幕上的大小和位置;每一个视图都有一个<code>frame</code>属性来描述它在父视图坐标系统中的位置以及它的大小;<code>UIView</code>提供了一些方法,可以让你通知系统一个视图的布局已经改变,同时为你提供了可以重写的方法,以便在重新计算视图的布局后定义要执行的操作</p>
-<h3 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</h3><p>这个<code>UIView</code>方法调整视图及其所有子视图的大小和位置;它给出当前视图和每个子视图的位置和大小;此方法很昂贵,因为它对视图的所有子视图起作用并调用其相应的<code>layoutSubviews</code>方法;系统会在任何需要重新计算视图的 frame 属性时调用此方法,因此当您想要设置 frame 属性指定视图位置和大小的时候您应该重写此方法;但是,当您的视图层次结构需要布局刷新时,您绝不应该显示的调用它;相反,在运行循环期间,您可以使用多种机制在不同点触发<code>layoutSubviews</code>调用,这比直接调用<code>layoutSubviews</code>方法要便宜的多;</p>
-<p>当<code>layoutSubviews</code>方法完成时,将在拥有该视图的视图控制器中触发对<code>viewDidLayoutSubviews</code>的调用;<strong>由于<code>layoutSubviews</code>是更新视图布局后可靠调用的唯一方法,因此应该将任何取决于布局和大小的逻辑代码方法<code>viewDidLayoutSubviews</code>中,而不是放在<code>viewDidLoad</code>或<code>viewDidAppear</code>中</strong>;这是避免使用过时的布局或者位置变量的唯一方法。</p>
-<h2 id="自动刷新触发器"><a href="#自动刷新触发器" class="headerlink" title="自动刷新触发器"></a>自动刷新触发器</h2><p>有多个事件会自动地将视图标记为布局已经改变,所以该视图的<code>layoutSubviews</code>方法将在下一次更新周期时被系统调用,不需要开发人员手动执行这个方法;</p>
-<p>这些自动将视图标记为布局已经改变的方式有以下几种:</p>
-<ul>
-<li>改变视图的大小</li>
-<li>添加子视图</li>
-<li>用户滚动<code>UIScrollView</code>(<code>layoutSubviews</code>方法会被<code>UIScrollView</code>以及它的父视图调用)</li>
-<li>用户旋转设备</li>
-<li>更新视图的约束</li>
-</ul>
-<p>以上这些方式都告诉系统,视图的位置需要重新计算并且会自动导致最终的<code>layoutSubviews</code>方法的调用;当然,也有直接触发<code>layoutSubviews</code>方法调用的办法;</p>
-<h3 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout()"></a>setNeedsLayout()</h3><p>触发<code>layoutSubviews</code>调用最省资源的方式就是在您的视图上调用<code>setNeedsLayout</code>方法;这将指示系统这个视图的布局需要重新计算;<code>setNeedsLayout</code>执行并立即返回,并且在返回之前并不实际更新视图;相反,视图将会在下一个更新周期(系统调用这些视图以及后续所有子视图的<code>layoutSubviews</code>方法)实际更新视图的布局;即使从<code>setNeedsLayout</code>返回后到视图被重新绘制布局之间有一段任意的时间间隔,但是这个延迟不会对用户造成影响,因为永远不会长到对界面造成卡顿;</p>
-<h3 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded()"></a>layoutIfNeeded()</h3><p><code>layoutIfNeeded</code>是<code>UIView</code>的另一个将会在不久后触发<code>layoutSubviews</code>调用的方法;与<code>setNeedsLayout</code>会让视图在下一个周期调用<code>layoutSubviews</code>更新视图不同,<code>layoutIfNeeded</code>会立即触发<code>layoutSubviews</code>方法调用,如果视图需要布局更新的话;如果你在调用<code>setNeedsLayout</code>方法或者触发上面描述的自动刷新触发器之后调用了<code>layoutIfNeeded</code>方法,<code>layoutSubviews</code>将会在视图上被调用;然而,如果你调用<code>layoutIfNeeded</code>之后没有动作指示系统视图需要重新刷新视图,那么<code>layoutSubviews</code>方法将不会被调用;<br>在一次运行循环中,两次调用视图的<code>layoutIfNeeded</code>方法之间,视图的布局并没有变化的话,那么第二次调用将不会触发<code>layoutSubviews</code>的调用;</p>
-<p>与<code>setNeedsLayout</code>方法不同,使用<code>layoutIfNeeded</code>方法,布局和重绘会在函数返回之前立即发生改变(除非有正在运行中的动画);这个方法在你需要依赖新的布局而又无法等待视图的下次更新周期到来的时候特别有用;然而,除了这种情况外,你还是应该调用<code>setNeedsLayout</code>然后等待下次更新周期的到来,这样在每次运行循环中都只会更新一次布局;</p>
-<p>动画更改约束时,此方法特别有用;您应该在动画的 block 开始之前调用一次<code>layoutIfNeeded</code>,以确保在动画开始之前通知所有的布局更新;配置新的约束,然后在动画 block 内,再次调用<code>layoutIfNeeded</code>以动画到最新的状态;</p>
-<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>视图的显示包含颜色,文本,图片和Core Graphics绘制等视图属性,但不包含它和它的子视图的大小和位置;和布局的方法类似,显示也有触发更新的方法,它们由系统在检测到更新时被自动调用,或者我们可以手动调用直接触发更新;</p>
-<h3 id="draw"><a href="#draw" class="headerlink" title="draw(_:)"></a>draw(_:)</h3><p><code>UIView</code>的<code>draw</code>方法(Objective-C中的<code>drawRect</code>)对视图的显示内容的作用	就像 <code>layoutSubviews</code>方法对视图的位置和尺寸的作用;同<code>layoutSubviews</code>一样,你不应该在代码中直接调用<code>draw</code>方法,而应该在运行循环的不同点调用能触发<code>draw</code>方法调用的方法;然而,与<code>layoutSubviews</code>方法不同的是,<code>draw</code>方法不会触发后续子视图的调用;</p>
-<h3 id="setNeedsDisplay"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay()"></a>setNeedsDisplay()</h3><p>这个方法类似布局中的<code>setNeedsLayout</code>;它会给有显示内容更新的视图设置一个内部的标记之后返回,并不会真正的视图重绘;而是在接下来的更新周期中,系统会遍历所有已被标记的视图,调用它们的<code>draw</code>方法;如果你只想在下次更新时重绘部分的视图,你可以调用<code>setNeedsDisplay(_:)</code>(Objective-C中的<code>setNeedsDisplayInRect:</code>)方法,并把希望重绘的矩形部分传入参数;</p>
-<p>大部分时候,在视图中更新任何 UI 组件都会通过自动设置内部的”显示内容更新”标记将视图标记为”dirty”的;导致在下一次更新周期中视图的内容就会重绘而不需要直接显示调用<code>setNeedsDisplay</code>;然而如果你有一个属性没有绑定到UI控件,但需要在属性值每次更新重绘视图,那么你可以实现该属性的<code>didSet</code>方法,并在里面调用<code>setNeedsDisplay</code>方法来触发视图的更新;</p>
-<p>有时设置一个属性要求自定义绘制,这种情况下你需要重写<code>draw</code>方法;在下面的例子中,设置<code>numberOfPoints</code>会触发系统根据具体点数绘制不同的视图;在这个例子中,你需要在<code>draw</code>方法中实现自定义绘制,并在<code>numberOfPoints</code>的property observer里调用<code>setNeedsDisplay</code>;</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class MyView: UIView &#123;</span><br><span class="line">	var numberOfPoints = 0 &#123;</span><br><span class="line">		didSet &#123;</span><br><span class="line">			setNeedsDisplay()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	override func draw(_ rect: CGRect) &#123;</span><br><span class="line">		switch numberOfPoints &#123;</span><br><span class="line">		case 0: </span><br><span class="line">			return</span><br><span class="line">		case 1: </span><br><span class="line">			drawPoint(rect)</span><br><span class="line">		case 2:</span><br><span class="line">			drawLine(rect)</span><br><span class="line">		case 3: </span><br><span class="line">			drawTriangle(rect)</span><br><span class="line">		case 4:</span><br><span class="line">			drawRectangle(rect)</span><br><span class="line">		case 5: </span><br><span class="line">			drawPentagon(rect)</span><br><span class="line">		default:</span><br><span class="line">			drawEllipse(rect)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>视图的显示方法里没有类似布局中的<code>layoutIfNeeded</code>这样可以触发立即更新的方法;通常情况下等到下一个更新周期再重新绘制视图也无所谓;</p>
-<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>在自动布局技术中布局和重绘视图有三个步骤;第一步是更新约束,系统计算并设置视图上所有必需的约束条件;第二步是布局阶段,布局引擎计算视图和子视图的 frame 并且将它们布局;最后一步完成这一循环的是显示阶段;第三步完成此次循环的是显示阶段,如果有必要,那么通过调用视图的<code>draw</code>方法重绘视图的内容;</p>
-<h3 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints()"></a>updateConstraints()</h3><p>这个方法用在自动布局中动态的改变视图的约束;和布局中的<code>layoutSubviews</code>方法和显示内容中的<code>draw</code>方法类似,<code>updateConstraints</code>只应该被重写,而不应该在你的代码中直接调用;一般来说,您应该在<code>updateConstraints</code>方法中仅仅实现必须要更新的约束;静态的约束应该设置在interface builder,视图的初始化方法(initializer)或者控制器的<code>viewDidLoad</code>中;</p>
-<p>通常情况下,开启或者关闭约束,更改约束的优先级或者常量值,或者从视图层级中移除一个视图时都会设置一个内部的标记,这个标记将会在下一次更新周期触发<code>updateConstraints</code>方法调用;当然啦,也有手动的给视图打上需要更新约束的标记的方法,如下:</p>
-<h3 id="setNeedsUpdateConstraints"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints()"></a>setNeedsUpdateConstraints()</h3><p>调用<code>setNeedsUpdateConstraints</code>会保证在下一次的更新周期中更新约束;它通过标记视图的约束已更新来触发<code>updateConstraints</code>调用;这个方法和<code>setNeedsDisplay</code>,<code>setNeedsLayout</code>方法的工作机制类似;</p>
-<h3 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded()"></a>updateConstraintsIfNeeded()</h3><p>这个方法就等同于使用了自动布局的视图中的<code>layoutIfNeeded</code>方法;它会检查视图约束是否更新的标记(能够被自动设置,或者通过<code>setNeedsUpdateConstraints</code>设置,或者通过<code>invalidateInstrinsicContentSize</code>设置),如果它表明约束需要更新,它将立刻触发<code>updateConstraints</code>方法的调用而不需要等到运行循环的结束;</p>
-<h3 id="invalidateIntrinsicContentSize"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize()"></a>invalidateIntrinsicContentSize()</h3><p>一些使用自动布局的视图中会有一个<code>intrinsicContentSize</code>的属性,这是视图根据它的内容得到的自然尺寸;一个视图的<code>intrinsicContentSize</code>属性通常由所包含的元素的约束来决定,但是也可以通过重写来提供自定义的行为;调用<code>invalidateIntrinsicContentSize</code>会设置一个标记表示这个视图的<code>intrinsicContentSize</code>已经过期,需要在下一个布局阶段重新计算;</p>
-<h2 id="它们是如何连接的"><a href="#它们是如何连接的" class="headerlink" title="它们是如何连接的"></a>它们是如何连接的</h2><p>视图的布局,显示以及约束都遵循着相似的模式,例如它们更新的方式以及如何在运行循环的不同点上强制更新;任意组件都有一个实际去更新的方法(<code>layoutSubviews</code>,<code>draw</code>,以及<code>updateConstraints</code>),你可以重写来手动操作视图,但是任何情况下都不要在你的代码中直接调用;这些方法仅仅在视图有标记,告诉系统视图的某些组件需要更新了,在主运行循环的后面被调用;有些操作会自动设置这个标志,也有一些方法能够让您手动的设置它;对于布局和约束的更新,如果您无法等到更新周期的到来(因为有些操作依赖最新的布局),有这么一些方法可以让你立即更新,并保证布局需要更新标记被正确标记;下面的表格列出了任意组件会怎样更新及其对应方法;</p>
-<table>
-<thead>
-<tr>
-<th>Method purposes</th>
-<th>Layout</th>
-<th>Display</th>
-<th>Constraints</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Implement updates(override,don’t call explicitly)</td>
-<td><code>layoutSubviews</code></td>
-<td><code>draw</code></td>
-<td><code>updateConstraints</code></td>
-</tr>
-<tr>
-<td>Explicitly mark view as needing update on next update cycle</td>
-<td><code>setNeedsLayout</code></td>
-<td><code>setNeedsDisplay</code></td>
-<td><code>setNeedsUpdateConstraints</code> <code>invalidateIntrinsicContentSize</code></td>
-</tr>
-<tr>
-<td>Update iimmediately if view is marked as ‘dirty’</td>
-<td><code>layoutIfNeeded</code></td>
-<td></td>
-<td><code>updateConstraintsIfNeeded</code></td>
-</tr>
-<tr>
-<td>Actions that implicitly cause views to be updated</td>
-<td><code>addSubview</code><br> Resizing视图,通过<code>setFrame</code>改变视图的<code>bounds</code>(不只是translation)<br>用户滑动UIScrollView<br>用户旋转设备</td>
-<td>改变视图的<code>bounds</code></td>
-<td>激活&#x2F;禁用约束<br>更改约束的值或者优先级<br>从视图层次结构中移除视图</td>
-</tr>
-</tbody></table>
-<p>下面的流程图总结了<strong>更新周期</strong>和<strong>事件循环</strong>之间的交互,并指出了上文提到的方法在<strong>运行循环</strong>期间的位置;你可以在运行循环中的任意一点直接的调用<code>layoutIfNeeded</code>或者<code>updateConstraintsIfNeeded</code>,需要记住,这开销会很大;在循环的主运行循环的后面是更新周期,如果视图被设置特定的”需要更新约束”,”需要更新布局”或者”需要更新显示”的标记,在这个节点会进行更新约束,更新布局以及更新显示内容;一旦这些更新结束,主运行循环会重新开始;</p>
-<p><img src="http://tech.gc.com/images/demystifying-ios-layout/update_cycle.png" alt="Update Cycle"><em><a href="https://i.stack.imgur.com/i9YuN.png">https://i.stack.imgur.com/i9YuN.png</a></em></p>
-]]></content>
-      <tags>
-        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
@@ -1488,6 +2333,88 @@ m<sup>k * φ(n) + 1</sup> mod n = m
 ]]></content>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>揭开神秘的iOS布局</title>
+    <url>/2018/03/26/%E6%8F%AD%E7%A7%98iOS%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<p>翻译自: <a href="http://tech.gc.com/demystifying-ios-layout/">Demystifying iOS Layout</a></p>
+<p>在你刚开始开发iOS应用时,最难避免或者说最难调试的是处理视图的布局和内容;通常这些事情的发生是因为对 <strong>视图更新</strong> 真实发生存在误解;了解 <strong>视图更新</strong> 的方式和时间需要更深入地了解iOS应用程序的主运行循环,以及它如何与<code>UIView</code>提供的某些方法关联;这篇博文将解释这些互动,希望澄清如何使用<code>UIView</code>的方法来获得你想要的行为;</p>
+<h2 id="iOS应用程序的主运行循环"><a href="#iOS应用程序的主运行循环" class="headerlink" title="iOS应用程序的主运行循环"></a>iOS应用程序的主运行循环</h2><p>iOS应用程序的主运行循环用来处理所有用户输入事件并在您的应用程序中触发适当的响应;任何与应用程序的用户交互都会被添加到事件队列中;应用程序对象(如下图所示)将事件队列中的事件取出,并将它们分派给应用程序中的其他对象;<strong>它本质上是通过解释来自用户的输入事件并在应用程序的核心对象中为该输入调用相应的处理程序来执行运行循环</strong>;这些处理程序调用应用程序开发人员编写的代码;一旦这些方法调用返回,控制回到主运行循环并且开始更新周期;更新周期负责布局和重绘视图(在下一节中介绍);下面是应用程序如何与设备进行通信并处理用户输入的插图</p>
+<p><img src="http://tech.gc.com/images/demystifying-ios-layout/main_event_loop.jpg" alt="Main Event Loop"></p>
+<p><em><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html">https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/MainEventLoop.html</a></em></p>
+<h2 id="更新周期-Update-Cycle"><a href="#更新周期-Update-Cycle" class="headerlink" title="更新周期(Update Cycle)"></a>更新周期(Update Cycle)</h2><p>更新周期是应用程序完成运行所有事件处理代码后,控制权返回到主运行循环的点;就是在这个点,系统开始更新布局,显示和约束;如果您要求改变视图而它正在执行事件处理程序,系统会将此视图标记为需要重绘;在下一次更新周期,系统将执行这些视图上所有的变化;用户交互和布局更新之间的时间间隔对用户来说应该是感觉不到的;iOS应用程序通常以60fps动画,这意味着一个刷新周期只需要1&#x2F;60秒;由于这种情况发生的速度很快,用户不会注意到她与设备上的应用程序进行交互和看到内容和布局更新之间的UI的滞后;但是,由于事件被执行的时间和相应视图的重绘时间之间存在时间间隔,所以在运行循环过程中,视图可能不会按照您希望的方式更新;如果您有任何计算依赖视图最新的内容或布局,您有可能操作的是该视图的旧的内容或布局而不是最新的;了解运行循环,更新周期和某些的<code>UIView</code>方法能够帮助避免或者调试这类问题;</p>
+<p>您可以在下图中看到更新周期在运行循环结束时如何发生<br><img src="http://tech.gc.com/images/demystifying-ios-layout/tech-blog-loop.png" alt="Update Cycle"></p>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>视图的布局指的是它在屏幕上的大小和位置;每一个视图都有一个<code>frame</code>属性来描述它在父视图坐标系统中的位置以及它的大小;<code>UIView</code>提供了一些方法,可以让你通知系统一个视图的布局已经改变,同时为你提供了可以重写的方法,以便在重新计算视图的布局后定义要执行的操作</p>
+<h3 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews()"></a>layoutSubviews()</h3><p>这个<code>UIView</code>方法调整视图及其所有子视图的大小和位置;它给出当前视图和每个子视图的位置和大小;此方法很昂贵,因为它对视图的所有子视图起作用并调用其相应的<code>layoutSubviews</code>方法;系统会在任何需要重新计算视图的 frame 属性时调用此方法,因此当您想要设置 frame 属性指定视图位置和大小的时候您应该重写此方法;但是,当您的视图层次结构需要布局刷新时,您绝不应该显示的调用它;相反,在运行循环期间,您可以使用多种机制在不同点触发<code>layoutSubviews</code>调用,这比直接调用<code>layoutSubviews</code>方法要便宜的多;</p>
+<p>当<code>layoutSubviews</code>方法完成时,将在拥有该视图的视图控制器中触发对<code>viewDidLayoutSubviews</code>的调用;<strong>由于<code>layoutSubviews</code>是更新视图布局后可靠调用的唯一方法,因此应该将任何取决于布局和大小的逻辑代码方法<code>viewDidLayoutSubviews</code>中,而不是放在<code>viewDidLoad</code>或<code>viewDidAppear</code>中</strong>;这是避免使用过时的布局或者位置变量的唯一方法。</p>
+<h2 id="自动刷新触发器"><a href="#自动刷新触发器" class="headerlink" title="自动刷新触发器"></a>自动刷新触发器</h2><p>有多个事件会自动地将视图标记为布局已经改变,所以该视图的<code>layoutSubviews</code>方法将在下一次更新周期时被系统调用,不需要开发人员手动执行这个方法;</p>
+<p>这些自动将视图标记为布局已经改变的方式有以下几种:</p>
+<ul>
+<li>改变视图的大小</li>
+<li>添加子视图</li>
+<li>用户滚动<code>UIScrollView</code>(<code>layoutSubviews</code>方法会被<code>UIScrollView</code>以及它的父视图调用)</li>
+<li>用户旋转设备</li>
+<li>更新视图的约束</li>
+</ul>
+<p>以上这些方式都告诉系统,视图的位置需要重新计算并且会自动导致最终的<code>layoutSubviews</code>方法的调用;当然,也有直接触发<code>layoutSubviews</code>方法调用的办法;</p>
+<h3 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout()"></a>setNeedsLayout()</h3><p>触发<code>layoutSubviews</code>调用最省资源的方式就是在您的视图上调用<code>setNeedsLayout</code>方法;这将指示系统这个视图的布局需要重新计算;<code>setNeedsLayout</code>执行并立即返回,并且在返回之前并不实际更新视图;相反,视图将会在下一个更新周期(系统调用这些视图以及后续所有子视图的<code>layoutSubviews</code>方法)实际更新视图的布局;即使从<code>setNeedsLayout</code>返回后到视图被重新绘制布局之间有一段任意的时间间隔,但是这个延迟不会对用户造成影响,因为永远不会长到对界面造成卡顿;</p>
+<h3 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded()"></a>layoutIfNeeded()</h3><p><code>layoutIfNeeded</code>是<code>UIView</code>的另一个将会在不久后触发<code>layoutSubviews</code>调用的方法;与<code>setNeedsLayout</code>会让视图在下一个周期调用<code>layoutSubviews</code>更新视图不同,<code>layoutIfNeeded</code>会立即触发<code>layoutSubviews</code>方法调用,如果视图需要布局更新的话;如果你在调用<code>setNeedsLayout</code>方法或者触发上面描述的自动刷新触发器之后调用了<code>layoutIfNeeded</code>方法,<code>layoutSubviews</code>将会在视图上被调用;然而,如果你调用<code>layoutIfNeeded</code>之后没有动作指示系统视图需要重新刷新视图,那么<code>layoutSubviews</code>方法将不会被调用;<br>在一次运行循环中,两次调用视图的<code>layoutIfNeeded</code>方法之间,视图的布局并没有变化的话,那么第二次调用将不会触发<code>layoutSubviews</code>的调用;</p>
+<p>与<code>setNeedsLayout</code>方法不同,使用<code>layoutIfNeeded</code>方法,布局和重绘会在函数返回之前立即发生改变(除非有正在运行中的动画);这个方法在你需要依赖新的布局而又无法等待视图的下次更新周期到来的时候特别有用;然而,除了这种情况外,你还是应该调用<code>setNeedsLayout</code>然后等待下次更新周期的到来,这样在每次运行循环中都只会更新一次布局;</p>
+<p>动画更改约束时,此方法特别有用;您应该在动画的 block 开始之前调用一次<code>layoutIfNeeded</code>,以确保在动画开始之前通知所有的布局更新;配置新的约束,然后在动画 block 内,再次调用<code>layoutIfNeeded</code>以动画到最新的状态;</p>
+<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>视图的显示包含颜色,文本,图片和Core Graphics绘制等视图属性,但不包含它和它的子视图的大小和位置;和布局的方法类似,显示也有触发更新的方法,它们由系统在检测到更新时被自动调用,或者我们可以手动调用直接触发更新;</p>
+<h3 id="draw"><a href="#draw" class="headerlink" title="draw(_:)"></a>draw(_:)</h3><p><code>UIView</code>的<code>draw</code>方法(Objective-C中的<code>drawRect</code>)对视图的显示内容的作用	就像 <code>layoutSubviews</code>方法对视图的位置和尺寸的作用;同<code>layoutSubviews</code>一样,你不应该在代码中直接调用<code>draw</code>方法,而应该在运行循环的不同点调用能触发<code>draw</code>方法调用的方法;然而,与<code>layoutSubviews</code>方法不同的是,<code>draw</code>方法不会触发后续子视图的调用;</p>
+<h3 id="setNeedsDisplay"><a href="#setNeedsDisplay" class="headerlink" title="setNeedsDisplay()"></a>setNeedsDisplay()</h3><p>这个方法类似布局中的<code>setNeedsLayout</code>;它会给有显示内容更新的视图设置一个内部的标记之后返回,并不会真正的视图重绘;而是在接下来的更新周期中,系统会遍历所有已被标记的视图,调用它们的<code>draw</code>方法;如果你只想在下次更新时重绘部分的视图,你可以调用<code>setNeedsDisplay(_:)</code>(Objective-C中的<code>setNeedsDisplayInRect:</code>)方法,并把希望重绘的矩形部分传入参数;</p>
+<p>大部分时候,在视图中更新任何 UI 组件都会通过自动设置内部的”显示内容更新”标记将视图标记为”dirty”的;导致在下一次更新周期中视图的内容就会重绘而不需要直接显示调用<code>setNeedsDisplay</code>;然而如果你有一个属性没有绑定到UI控件,但需要在属性值每次更新重绘视图,那么你可以实现该属性的<code>didSet</code>方法,并在里面调用<code>setNeedsDisplay</code>方法来触发视图的更新;</p>
+<p>有时设置一个属性要求自定义绘制,这种情况下你需要重写<code>draw</code>方法;在下面的例子中,设置<code>numberOfPoints</code>会触发系统根据具体点数绘制不同的视图;在这个例子中,你需要在<code>draw</code>方法中实现自定义绘制,并在<code>numberOfPoints</code>的property observer里调用<code>setNeedsDisplay</code>;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class MyView: UIView &#123;</span><br><span class="line">	var numberOfPoints = 0 &#123;</span><br><span class="line">		didSet &#123;</span><br><span class="line">			setNeedsDisplay()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	override func draw(_ rect: CGRect) &#123;</span><br><span class="line">		switch numberOfPoints &#123;</span><br><span class="line">		case 0: </span><br><span class="line">			return</span><br><span class="line">		case 1: </span><br><span class="line">			drawPoint(rect)</span><br><span class="line">		case 2:</span><br><span class="line">			drawLine(rect)</span><br><span class="line">		case 3: </span><br><span class="line">			drawTriangle(rect)</span><br><span class="line">		case 4:</span><br><span class="line">			drawRectangle(rect)</span><br><span class="line">		case 5: </span><br><span class="line">			drawPentagon(rect)</span><br><span class="line">		default:</span><br><span class="line">			drawEllipse(rect)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>视图的显示方法里没有类似布局中的<code>layoutIfNeeded</code>这样可以触发立即更新的方法;通常情况下等到下一个更新周期再重新绘制视图也无所谓;</p>
+<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2><p>在自动布局技术中布局和重绘视图有三个步骤;第一步是更新约束,系统计算并设置视图上所有必需的约束条件;第二步是布局阶段,布局引擎计算视图和子视图的 frame 并且将它们布局;最后一步完成这一循环的是显示阶段;第三步完成此次循环的是显示阶段,如果有必要,那么通过调用视图的<code>draw</code>方法重绘视图的内容;</p>
+<h3 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints()"></a>updateConstraints()</h3><p>这个方法用在自动布局中动态的改变视图的约束;和布局中的<code>layoutSubviews</code>方法和显示内容中的<code>draw</code>方法类似,<code>updateConstraints</code>只应该被重写,而不应该在你的代码中直接调用;一般来说,您应该在<code>updateConstraints</code>方法中仅仅实现必须要更新的约束;静态的约束应该设置在interface builder,视图的初始化方法(initializer)或者控制器的<code>viewDidLoad</code>中;</p>
+<p>通常情况下,开启或者关闭约束,更改约束的优先级或者常量值,或者从视图层级中移除一个视图时都会设置一个内部的标记,这个标记将会在下一次更新周期触发<code>updateConstraints</code>方法调用;当然啦,也有手动的给视图打上需要更新约束的标记的方法,如下:</p>
+<h3 id="setNeedsUpdateConstraints"><a href="#setNeedsUpdateConstraints" class="headerlink" title="setNeedsUpdateConstraints()"></a>setNeedsUpdateConstraints()</h3><p>调用<code>setNeedsUpdateConstraints</code>会保证在下一次的更新周期中更新约束;它通过标记视图的约束已更新来触发<code>updateConstraints</code>调用;这个方法和<code>setNeedsDisplay</code>,<code>setNeedsLayout</code>方法的工作机制类似;</p>
+<h3 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded()"></a>updateConstraintsIfNeeded()</h3><p>这个方法就等同于使用了自动布局的视图中的<code>layoutIfNeeded</code>方法;它会检查视图约束是否更新的标记(能够被自动设置,或者通过<code>setNeedsUpdateConstraints</code>设置,或者通过<code>invalidateInstrinsicContentSize</code>设置),如果它表明约束需要更新,它将立刻触发<code>updateConstraints</code>方法的调用而不需要等到运行循环的结束;</p>
+<h3 id="invalidateIntrinsicContentSize"><a href="#invalidateIntrinsicContentSize" class="headerlink" title="invalidateIntrinsicContentSize()"></a>invalidateIntrinsicContentSize()</h3><p>一些使用自动布局的视图中会有一个<code>intrinsicContentSize</code>的属性,这是视图根据它的内容得到的自然尺寸;一个视图的<code>intrinsicContentSize</code>属性通常由所包含的元素的约束来决定,但是也可以通过重写来提供自定义的行为;调用<code>invalidateIntrinsicContentSize</code>会设置一个标记表示这个视图的<code>intrinsicContentSize</code>已经过期,需要在下一个布局阶段重新计算;</p>
+<h2 id="它们是如何连接的"><a href="#它们是如何连接的" class="headerlink" title="它们是如何连接的"></a>它们是如何连接的</h2><p>视图的布局,显示以及约束都遵循着相似的模式,例如它们更新的方式以及如何在运行循环的不同点上强制更新;任意组件都有一个实际去更新的方法(<code>layoutSubviews</code>,<code>draw</code>,以及<code>updateConstraints</code>),你可以重写来手动操作视图,但是任何情况下都不要在你的代码中直接调用;这些方法仅仅在视图有标记,告诉系统视图的某些组件需要更新了,在主运行循环的后面被调用;有些操作会自动设置这个标志,也有一些方法能够让您手动的设置它;对于布局和约束的更新,如果您无法等到更新周期的到来(因为有些操作依赖最新的布局),有这么一些方法可以让你立即更新,并保证布局需要更新标记被正确标记;下面的表格列出了任意组件会怎样更新及其对应方法;</p>
+<table>
+<thead>
+<tr>
+<th>Method purposes</th>
+<th>Layout</th>
+<th>Display</th>
+<th>Constraints</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Implement updates(override,don’t call explicitly)</td>
+<td><code>layoutSubviews</code></td>
+<td><code>draw</code></td>
+<td><code>updateConstraints</code></td>
+</tr>
+<tr>
+<td>Explicitly mark view as needing update on next update cycle</td>
+<td><code>setNeedsLayout</code></td>
+<td><code>setNeedsDisplay</code></td>
+<td><code>setNeedsUpdateConstraints</code> <code>invalidateIntrinsicContentSize</code></td>
+</tr>
+<tr>
+<td>Update iimmediately if view is marked as ‘dirty’</td>
+<td><code>layoutIfNeeded</code></td>
+<td></td>
+<td><code>updateConstraintsIfNeeded</code></td>
+</tr>
+<tr>
+<td>Actions that implicitly cause views to be updated</td>
+<td><code>addSubview</code><br> Resizing视图,通过<code>setFrame</code>改变视图的<code>bounds</code>(不只是translation)<br>用户滑动UIScrollView<br>用户旋转设备</td>
+<td>改变视图的<code>bounds</code></td>
+<td>激活&#x2F;禁用约束<br>更改约束的值或者优先级<br>从视图层次结构中移除视图</td>
+</tr>
+</tbody></table>
+<p>下面的流程图总结了<strong>更新周期</strong>和<strong>事件循环</strong>之间的交互,并指出了上文提到的方法在<strong>运行循环</strong>期间的位置;你可以在运行循环中的任意一点直接的调用<code>layoutIfNeeded</code>或者<code>updateConstraintsIfNeeded</code>,需要记住,这开销会很大;在循环的主运行循环的后面是更新周期,如果视图被设置特定的”需要更新约束”,”需要更新布局”或者”需要更新显示”的标记,在这个节点会进行更新约束,更新布局以及更新显示内容;一旦这些更新结束,主运行循环会重新开始;</p>
+<p><img src="http://tech.gc.com/images/demystifying-ios-layout/update_cycle.png" alt="Update Cycle"><em><a href="https://i.stack.imgur.com/i9YuN.png">https://i.stack.imgur.com/i9YuN.png</a></em></p>
+]]></content>
+      <tags>
+        <tag>iOS</tag>
       </tags>
   </entry>
   <entry>

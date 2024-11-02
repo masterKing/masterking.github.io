@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Mach-O | masterKing 的个人博客</title><meta name="author" content="masterKing"><meta name="copyright" content="masterKing"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="通用二进制(Universal binary)文件macOS 系统一路走来，支持的 CPU 及硬件平台都有了很大的变化，从早期的 PowerPC 平台，到后来的 x86，再到现在主流的 arm、x86-64 平台。软件开发人员为了做到不同硬件平台的兼容性，如果需要为每一个平台编译一个可执行文件，这将是非常繁琐的。 为了解决软件在多个硬件平台上的兼容性问题，苹果开发了一个通用的二进制文件格式（Uni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mach-O">
+<meta property="og:url" content="https://masterking.github.io/2021/06/28/Mach-O/index.html">
+<meta property="og:site_name" content="masterKing 的个人博客">
+<meta property="og:description" content="通用二进制(Universal binary)文件macOS 系统一路走来，支持的 CPU 及硬件平台都有了很大的变化，从早期的 PowerPC 平台，到后来的 x86，再到现在主流的 arm、x86-64 平台。软件开发人员为了做到不同硬件平台的兼容性，如果需要为每一个平台编译一个可执行文件，这将是非常繁琐的。 为了解决软件在多个硬件平台上的兼容性问题，苹果开发了一个通用的二进制文件格式（Uni">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://masterking.github.io/images/iOSReveseEngineeringAndSecurity1.webp">
+<meta property="article:published_time" content="2021-06-27T17:56:08.000Z">
+<meta property="article:modified_time" content="2024-10-31T14:18:00.025Z">
+<meta property="article:author" content="masterKing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://masterking.github.io/images/iOSReveseEngineeringAndSecurity1.webp"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://masterking.github.io/2021/06/28/Mach-O/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e6857234b462ad05308d8b79794f0358";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":500,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Mach-O',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-10-31 22:18:00'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg" style="background: linear-gradient( 135deg, #2c241f, #968282);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/WechatIMG1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/sileorepo/"><i class="fa-fw fas fa-shop"></i><span> sileo源</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/iOSReveseEngineeringAndSecurity1.webp);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">masterKing 的个人博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Mach-O</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/sileorepo/"><i class="fa-fw fas fa-shop"></i><span> sileo源</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Mach-O</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-27T17:56:08.000Z" title="发表于 2021-06-28 01:56:08">2021-06-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-10-31T14:18:00.025Z" title="更新于 2024-10-31 22:18:00">2024-10-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/iOS-%E9%80%86%E5%90%91%E4%B8%8E%E5%AE%89%E5%85%A8/">iOS 逆向与安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/06/28/Mach-O/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/06/28/Mach-O/" itemprop="commentCount"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="通用二进制-Universal-binary-文件"><a href="#通用二进制-Universal-binary-文件" class="headerlink" title="通用二进制(Universal binary)文件"></a>通用二进制(Universal binary)文件</h1><p>macOS 系统一路走来，支持的 CPU 及硬件平台都有了很大的变化，从早期的 PowerPC 平台，到后来的 x86，再到现在主流的 arm、x86-64 平台。软件开发人员为了做到不同硬件平台的兼容性，如果需要为每一个平台编译一个可执行文件，这将是非常繁琐的。</p>
+<p>为了解决软件在多个硬件平台上的兼容性问题，苹果开发了一个通用的二进制文件格式（Universal Binary）。又称为胖二进制（Fat Binary），通用二进制文件中将多个支持不同 CPU 架构的二进制文件打包成一个文件，系统在加载运行该程序时，会根据通用二进制文件中提供的多个架构来与当前系统平台做匹配，运行适合当前系统的那个版本。</p>
+<p>有人或许会好奇，不是讲 Mach-O 文件吗?怎么开始讲通用二进制文件，不要着急，看下面 <code>file</code> 命令查看 dyld 的打印，universal binary 前面不就是 Mach-O 吗</p>
+<p>苹果自家系统中存在着很多通用二进制文件。比如 &#x2F;usr&#x2F;lib&#x2F;dyld，在终端中执行 <code>file</code> 命令可以查看它的信息：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> ~/ file /usr/lib/dyld</span><br><span class="line">/usr/lib/dyld： Mach-O universal binary with 3 architectures： [i386：Mach-O dynamic linker i386] [x86_64：Mach-O 64-bit dynamic linker x86_64] [arm64e]</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture i386)：	Mach-O dynamic linker i386</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture x86_64)：	Mach-O 64-bit dynamic linker x86_64</span><br><span class="line">/usr/lib/dyld (<span class="keyword">for</span> architecture arm64e)：	Mach-O 64-bit dynamic linker arm64e</span><br></pre></td></tr></table></figure>
+
+<p>我们创建一个名为 test 的 iOS 工程，然后在 Xcode 中通过设置 Build Settings 中的 Architectures 来生成兼容各种架构的 APP</p>
+<p><img src="84375053987242bda5a6f2207abf73f7~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>编译之后，使用 <code>file</code> 命令查看生成的 ipa 包里的可执行文件</p>
+<p><img src="6d1f4577c2fb4a3fa7b2266f44a20a08~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h2 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h2><p>系统提供了一个命令行工具<code>lipo</code>来操作通用二进制文件。它可以添加、提取、删除以及替换通用二进制文件中特定架构的二进制版本。</p>
+<p>查看通用二进制文件信息： </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -info <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>提取 test 中 armv7 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -extract armv7 -output test_armv7</span><br></pre></td></tr></table></figure>
+
+<p>提取 test 中 arm64 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -extract arm64 -output test_arm64</span><br></pre></td></tr></table></figure>
+
+<p>合并 test_armv7 和 test_arm64：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo -create test_armv7 test_arm64 -output test0</span><br></pre></td></tr></table></figure>
+
+<p>删除 test 中 armv7s 版本的二进制文件可以执行：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lipo <span class="built_in">test</span> -remove armv7s -output test1</span><br></pre></td></tr></table></figure>
+
+<p>通用二进制的”通用”不止针对可以直接运行的可以执行文件，系统中的动态库 .dylib 文件，静态库 .a 文件以及 Framework 等都可以是通用二进制文件，对它们同样也可以使用 <code>lipo</code> 命令来进行管理</p>
+<p>接下来打开我们的 Xcode，按 command + shift + o 输入 mach-o&#x2F;fat.h 就可以看到对通用二进制文件格式的声明，从文件的命名和声明来看，将通用二进制叫作胖二进制或许更合适。胖二进制的头部定义如下：</p>
+<p><img src="4240093e2e8f4c94aeeb393d242744b3~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="Snip20210627_130.png"></p>
+<p><code>magic</code> 字段被定义为常量 FAT_MAGIC，它的取值根据架构是固定的，在 32 位架构上是 <strong>0xcafebabe</strong>，在 64 位架构上是 <strong>0xcafebabf</strong>，表示这是一个通用二进制文件。这里要说一下字节序，计算机硬件有两种储存数据的方式，分别为大端字节序，和小端字节序，大端字节序：高位字节在前，低位字节在后，这是人类读写数值的方法。小端字节序：低位字节在前，高位字节在后，是大多数机器读取数据的方式。下图所示的是同一个数字 01234567 在大端和小端下的存储方式<br></p>
+<p><img src="93163b5b30e94d20b9164059e60e8b47~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="bg2016112201.gif"><br></p>
+<p><code>nfat_arch</code> 字段表示后面的 Mach-O 文件的数量<br></p>
+<p>每个通用二进制架构信息都使用 fat_arch 结构体表示，在 fat_header 结构体之后，紧接着的是一个或多个连续的 fat_arch 结构体，它的定义如下：</p>
+<p><img src="b58efccc561546129423509f485bdd24~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p><code>cputype</code>字段是 cpu 说明符，类型是<code>cpu_type_t</code>，定义在&lt;mach&#x2F;machine.h&gt;文件，使用同样的 command + shift + o 然后输入头文件的方法可以打开 &lt;mach&#x2F;machine.h&gt; 文件，在 macOS 上取值一般为 <code>CPU_TYPE_I386</code> 或 <code>CPU_TYPE_X86_64</code>，在 iOS 平台上一般是 <code>CPU_TYPE_ARM</code> 或 <code>CPU_TYPE_ARM64</code> <br></p>
+<p><code>cpu_subtype</code> 字段是机器说明符，类型是 <code>cpu_subtype_t</code>，同样定义在 &lt;mach&#x2F;machine.h&gt; 文件，macOS 上一般是 <code>CPU_SUBTYPE_I386_ALL</code>，<code>CPU_SUBTYPE_X86_64_ALL</code>，在 iOS 上一般则是 <code>CPU_SUBTYPE_ARM64_ALL</code>，<code>CPU_SUBTYPE_ARM_V7</code><br></p>
+<p><code>offset</code> 字段指明了当前 Mach-O 数据相对于当前文件开头的偏移值<br></p>
+<p><code>size</code> 字段指明了数据的大小<br></p>
+<p><code>align</code> 字段指明了数据的内存对齐边界，取值必须是 2 的 n 次方，它确保了当前 cpu 架构的目标文件加载到内存中时，数据是经过内存优化对齐的</p>
+<p>使用 <a target="_blank" rel="noopener" href="https://github.com/gdbinit/MachOView">MachOView</a> 可以十分清楚的看到这些信息</p>
+<p><img src="b729551411874ad489f96eec9739a78d~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>在 fat_arch 结构体往下就是具体的 Mach-O 格式文件了，它的内容复杂得多，将在下一小节进行讨论。</p>
+<h1 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mach-O（Mach Object file format）是一种文件格式，用于在 macOS、iOS 以及其他基于 Mach 内核的操作系统上保存可执行文件、目标文件、动态库和内核转储。Mach-O 格式是这些系统上程序的核心组成部分，存储了程序运行所需的所有信息，比如代码、数据、符号表、调试信息等。</p>
+<p>熟悉 Mach-O 文件格式，有助于了解苹果软件底层运行机制，更好的掌握 dyld 加载 Mach-O 的步骤，为自己动手开发 Mach-O 相关的加解密工具打下基础</p>
+<ol>
+<li>MacOS 上的可执行文件是一种 Mach-O 文件(比如 ruby，phtyon…)，但不是所有可执行文件都是 Mach-O 文件</li>
+<li>库文件是一种 Mach-O 文件，动态库 .dylib，静态库 .a，还有 Framework 都是一种 Mach-O 文件</li>
+<li>.o 文件(clang 编译 c 源文件得到的)也叫目标文件夹，是一种 Mach-O 文件</li>
+<li>.dsym 文件(符号表)也是一种 Mach-O 文件</li>
+<li>dyld 是可执行文件，自然也是一种 Mach-O 文件</li>
+</ol>
+<p>以上这些都属于 Mach-O 文件，当然除了以上这五种，还有其他类型的 Mach-O 文件，只是这五种比较常见…其他还有八种，其他八种会在下面对 Mach-O 文件结构的介绍中提到</p>
+<p>从上面 MachOView 的截图中可以看到，test 文件内有 4 种不同架构的文件，每种架构的文件都可以称它为一个 Mach-O 文件，而刚刚所讲的通用二进制文件就是一个文件如果包含了 1 种以上的 Mach-O 文件，那么他就是通用二进制文件</p>
+<p>我们知道了 Mach-O 文件就是一堆有着特定结构的二进制数据，那么我们如何从这一堆的二进制里获取我们所需要的数据?如果做过股票行情 APP，IM 通讯底层 SDK 或者说使用过 socket 长连接对二进制数据进行过处理，发送，接收的同学，一定会知道对一堆的二进制如何有效的处理，提取我们想要的数据的。以我曾经做过的一款股票行情软件为例，里面就定义了大量的结构体类型，用结构体来对二进制数据进行解析，得到我们想要的数据，那么这个 Mach-O 文件的解析有没有对应的结构体呢?</p>
+<p>当然有，在 Xcode 中使用 command + shift + o 搜索 mach-o&#x2F;loader.h 就会发现一堆的结构体，这些结构体都是系统用来解析 Mach-O 文件的，我们也能从中获取到不少的信息</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>一个典型的 Mach-O 文件结构如下图所示：</p>
+<p><img src="62725ae27df140d393ceba29767885ec~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="v2-35f7008ce676b29129f9ec8bed3c464f_r.png"></p>
+<p>从图中可以了解到一个 Mach-O 文件的结构包括 Header，Load commands 和 Data</p>
+<ul>
+<li><strong>Header</strong>：描述了 Mach-O 的 cpu 架构、文件类型以及加载命令等信息。</li>
+<li><strong>Load commands</strong>：指定文件的逻辑结构和文件在虚拟内存中的布局。</li>
+<li><strong>Data</strong>：原始段数据。每个段 Segment 都有一个或多个 Section，它们存放了具体的数据。</li>
+</ul>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>可以使用 <code>otool</code> 命令来查看 Mach-O 文件的头部信息</p>
+<p><img src="b862cd3818584c92b5905e930bd73acb~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>这个部分的定义，可以通过在 Xcode 中，按 command + shift + o 输入 mach-o&#x2F;loader.h 的方式找到</p>
+<p><img src="332dbf14f8484f068963603e06ed1417~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<ul>
+<li><strong><code>magic</code></strong> 在截图中都能看到的宏定义，对 32 位架构的程序来说，它的值就是 <strong>0xfeedface</strong>，可以使用 <strong>MH_MAGIC</strong> 宏代替。对 64 位架构的程序来说，它的值就是 <strong>0xfeedfacf</strong>，对应的宏  <strong>MH_MAGIC_64</strong></li>
+<li><strong><code>cputype</code></strong> 和上一节中所讲的 fat_header 结构体的含义完全相同</li>
+<li><strong><code>cpusubtype</code></strong> 同上</li>
+<li><strong><code>filetype</code></strong> 表示 Mach-O 文件的具体类型，值有下图所示的12种，常见的有 MH_EXECUTE(可执行文件)，MH_DYLIB(动态库)，MH_DYLINKER(动态连接器)，MH_DSYM(符号表文件)<br><img src="55f1fff26073490d9d7309002b2ba726~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></li>
+<li><strong><code>ncmds</code></strong> load commands 的数量</li>
+<li><strong><code>sizeofcmds</code></strong> 所有 load commands 的占的字节数</li>
+<li><strong><code>flags</code></strong> 标记，值比较多，最好去头文件中查看详细说明</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_NOUNDEFS	0x1		<span class="comment">/* the object file has no undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_INCRLINK	0x2		<span class="comment">/* the object file is the output of an</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   incremental link against a base file</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   and can&#x27;t be link edited again */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_DYLDLINK	0x4		<span class="comment">/* the object file is input for the</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   dynamic linker and can&#x27;t be staticly</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   link edited again */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_BINDATLOAD	0x8		<span class="comment">/* the object file&#x27;s undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references are bound by the dynamic</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   linker when loaded. */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MH_PREBOUND	0x10		<span class="comment">/* the file has its dynamic undefined</span></span></span><br><span class="line"><span class="comment"><span class="meta">					   references prebound. */</span></span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>reserved</code></strong> 这个字段只在 64 位架构的 Mach-O 文件中才有，目前它的取值系统保留</li>
+</ul>
+<p>使用 MachOView 查看 Header 的信息</p>
+<p><img src="0ed044569438410193a72cb6d98e4728~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h3 id="Load-Commands"><a href="#Load-Commands" class="headerlink" title="Load Commands"></a>Load Commands</h3><p>Load Commands 描述的是文件的加载信息，加载信息有很多，加载的段、符号表、动态库信息等都在 Load Commands 中取到。这个部分信息还是比较有用的，我们可以从这里获取到符号表和字符串表的偏移量，下文中会有详细的解释。</p>
+<p>Load Commands 加载命令紧跟在 Header 之后，所有加载命令的前两个字段必须是 cmd 和 cmdsize，cmd 字段用该命令类型的常量填充，头文件中定义了许多的宏用于该字段，每个命令类型都有一个特定的结构。cmdsize 字段是以字节为单位的特定加载命令结构的大小，再加上它后面作为加载命令一部分的任何内容（即节结构、字符串等）要前进到下一个加载命令，可以将 cmdsize 加上当前加载命令的偏移量</p>
+<p><img src="b99f9142f65a44e1845403893446cba0~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>cmd 字段的取值有目前有 50 多种，太多了就不全部粘贴出来了…</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> LC_REQ_DYLD 0x80000000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Constants for the cmd field of all load commands， the type */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SEGMENT	0x1	<span class="comment">/* segment of this file to be mapped */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SYMTAB	0x2	<span class="comment">/* link-edit stab symbol table info */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_SYMSEG	0x3	<span class="comment">/* link-edit gdb symbol table info (obsolete) */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_THREAD	0x4	<span class="comment">/* thread */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_UNIXTHREAD	0x5	<span class="comment">/* unix thread (includes a stack) */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_LOADFVMLIB	0x6	<span class="comment">/* load a specified fixed VM shared library */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_IDFVMLIB	0x7	<span class="comment">/* fixed VM shared library identification */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	LC_IDENT	0x8	<span class="comment">/* object identification info (obsolete) */</span></span></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>所有的这些加载命令由系统内核加载器直接使用，或由动态链接器处理。其中几个常见的加载命令有<code>LC_LOAD_DYLIB</code>、<code>LC_SEGMENT</code>、<code>LC_MAIN</code>、<code>LC_CODE_SIGNATURE</code>、<code>LC_ENCRYPTION_INFO</code>等，下面介绍其中的几个</p>
+<h4 id="LC-LOAD-DYLIB"><a href="#LC-LOAD-DYLIB" class="headerlink" title="LC_LOAD_DYLIB"></a>LC_LOAD_DYLIB</h4><p><code>LC_LOAD_DYLIB</code>：表示这是一个需要动态加载的链接库。它使用 dylib_command 结构体表示。定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dylib_command</span> &#123;</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmd。		<span class="comment">/* LC_ID_DYLIB， LC_LOAD_&#123;，WEAK_&#125;DYLIB，</span></span><br><span class="line"><span class="comment">					   LC_REEXPORT_DYLIB */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmdsize。	<span class="comment">/* includes pathname string */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">dylib</span>	<span class="title">dylib</span>。		/* <span class="title">the</span> <span class="title">library</span> <span class="title">identification</span> */</span></span><br><span class="line"><span class="class">&#125;。</span></span><br></pre></td></tr></table></figure>
+
+<p>当 cmd 类型是<code>LC_ID_DYLIB</code>，<code>LC_LOAD_DYLIB</code>，<code>LC_LOAD_WEAK_DYLIB</code>，<code>LC_REEXPORT_DYLIB</code>时，都使用 dylib_command 结构体表示。其中 dylib 结构体存储要加载的动态库的具体信息如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dylib</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> <span class="title">lc_str</span>  <span class="title">name</span>。			/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">path</span> <span class="title">name</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">timestamp</span>。			/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">build</span> <span class="title">time</span> <span class="title">stamp</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">current_version</span>。		/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">current</span> <span class="title">version</span> <span class="title">number</span> */</span></span><br><span class="line"><span class="class">    <span class="title">uint32_t</span> <span class="title">compatibility_version</span>。	/* <span class="title">library</span>&#x27;<span class="title">s</span> <span class="title">compatibility</span> <span class="title">vers</span> <span class="title">number</span>*/</span></span><br><span class="line"><span class="class">&#125;。</span></span><br></pre></td></tr></table></figure>
+
+<p><code>name</code> 字段是链接库的完整路径，动态链接器在加载库时，通用此路径来进行加载它。<br><br><code>timestamp</code>字段描述了库构建时的时间戳<br><br><code>current_version</code>与<code>compatibility_version</code>指明了前当版本与兼容的版本号<br></p>
+<p>如果你看了我的上一篇文章 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6977384497000448030">代码注入</a> 里面提到了 <code>yololib</code>，这个工具的原理基本就是利用这条 <code>LC_LOAD_DYLIB</code> 加载命令的相关信息实现的</p>
+<h4 id="LC-MAIN"><a href="#LC-MAIN" class="headerlink" title="LC_MAIN"></a>LC_MAIN</h4><p><code>LC_MAIN</code>：此加载命令记录了可执行文件的主函数 main() 的位置。它使用 entry_point_command 结构体表示。定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">entry_point_command</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span>  cmd。	<span class="comment">/* LC_MAIN only used in MH_EXECUTE filetypes */</span></span><br><span class="line">    <span class="type">uint32_t</span>  cmdsize。	<span class="comment">/* 24 */</span></span><br><span class="line">    <span class="type">uint64_t</span>  entryoff。	<span class="comment">/* file (__TEXT) offset of main() */</span></span><br><span class="line">    <span class="type">uint64_t</span>  stacksize。<span class="comment">/* if not zero， initial stack size */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>entryoff 字段中就指定了 main() 函数的文件偏移。stacksize 指定了初始的堆栈大小。</p>
+<h4 id="LC-SEGMENT-LC-SEGMENT-64"><a href="#LC-SEGMENT-LC-SEGMENT-64" class="headerlink" title="LC_SEGMENT&#x2F;LC_SEGMENT_64"></a>LC_SEGMENT&#x2F;LC_SEGMENT_64</h4><p><code>LC_SEGMENT/LC_SEGMENT_64</code>：段加载命令，描述了 32 位或 64 位 Mach-O 文件的段的信息，常见的段有 <code>__PAGEZERO</code>，<code>__TEXT</code>，<code>__DATA</code>，<code>__LINKEDIT</code>。</p>
+<p><code>__PAGEZERO</code> 是一个空段，它位于文件起始段的位置</p>
+<p><code>__TEXT</code> 和 <code>__DATA</code> 分别是文本段和数据段，分别存储了代码信息和数据信息</p>
+<p><code>__LINKEDIT</code> 是链接信息段。段(segment)又可以细分为section，每个段(segment)可以包含多个section</p>
+<p>段使用 segment_command 结构体来表示，它的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">segment_command</span> &#123;</span> <span class="comment">/* for 32-bit architectures */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmd。		<span class="comment">/* LC_SEGMENT */</span></span><br><span class="line">	<span class="type">uint32_t</span>	cmdsize。	<span class="comment">/* includes sizeof section structs */</span></span><br><span class="line">	<span class="type">char</span>		segname[<span class="number">16</span>]。	<span class="comment">/* segment name */</span></span><br><span class="line">	<span class="type">uint32_t</span>	vmaddr。		<span class="comment">/* memory address of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	vmsize。		<span class="comment">/* memory size of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	fileoff。	<span class="comment">/* file offset of this segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	filesize。	<span class="comment">/* amount to map from the file */</span></span><br><span class="line">	<span class="type">vm_prot_t</span>	maxprot。	<span class="comment">/* maximum VM protection */</span></span><br><span class="line">	<span class="type">vm_prot_t</span>	initprot。	<span class="comment">/* initial VM protection */</span></span><br><span class="line">	<span class="type">uint32_t</span>	nsects。		<span class="comment">/* number of sections in segment */</span></span><br><span class="line">	<span class="type">uint32_t</span>	flags。		<span class="comment">/* flags */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>segname</code> 字段是一个 16 字节大小的空间，用来存储段的名称，比如__TEXT…<br></p>
+<p><code>vmaddr</code> 字段指明了段要加载的虚拟内存地址<br></p>
+<p><code>vmsize</code> 字段指明了段所占的虚拟内存的大小<br></p>
+<p><code>fileoff</code> 字段指明了段数据所在文件中偏移地址<br></p>
+<p><code>filesize</code> 字段指明了段数据实际的大小<br></p>
+<p><code>maxprot</code> 字段指明了页面所需要的最高内存保护<br></p>
+<p><code>initprot</code> 字段指明了页面初始的内存保护<br></p>
+<p><code>nsects</code> 字段指明了段所包含的节区（section）<br></p>
+<p><code>flags</code> 字段指明了段的标志信息<br></p>
+<p>还有很多 Load Commands 加载命令，这里就不一一介绍了…贴一张图大概了解下</p>
+<p><img src="f3f71180aa9843feb445011970d67772~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>使用 MachOView 查看 Load Commands 的内容</p>
+<p><img src="38e722b0733e401a8945d2a834f32ae8~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h3 id="Data"><a href="#Data" class="headerlink" title="Data"></a>Data</h3><p>数据区，除了 Header 和 Load Commands 外所有的原始数据。Load Commands 是对数据的汇总概括，而数据区则是真实的数据。Load Commands 与数据区的关系就像书的目录与章节的关系，如图所示，Segment 为 __TEXT 的段里，显示有 8 个 section，每个 section 具体的内容就在 Data 区里了</p>
+<p><img src="dddae1f46a564c6c9158b4fcd32635dc~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>接下里介绍几个比较重要的 section</p>
+<h4 id="TEXT，-text"><a href="#TEXT，-text" class="headerlink" title="(__TEXT，__text)"></a>(<code>__TEXT</code>，<code>__text</code>)</h4><p>这里存放的是汇编后的代码，当我们进行编译时，每个 .m 文件会经过预编译-&gt;编译-&gt;汇编形成 .o 文件，称之为目标文件。汇编后，所有的代码会形成汇编指令存储在 .o 文件的 (<code>__TEXT，__text</code>) 区（（<code>__DATA，__data</code>）也是类似）。</p>
+<p>链接后，所有的 .o 文件会合并成一个文件，所有 .o 文件的 (<code>__TEXT，__text</code>) 数据都会按链接顺序存放到应用文件的 (<code>__TEXT，__text</code>) 中。</p>
+<p><img src="570ed1a3f60c4e93a1daabd21ffedbea~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="TEXT，-objc-methname"><a href="#TEXT，-objc-methname" class="headerlink" title="(__TEXT，__objc_methname)"></a>(<code>__TEXT，__objc_methname</code>)</h4><p>这里存放了项目里，所有我们用 Objective-C 写的方法名</p>
+<p><img src="2057b7ec64464ce3837bc7f885881527~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="TEXT，-objc-classname"><a href="#TEXT，-objc-classname" class="headerlink" title="(__TEXT，__objc_classname)"></a>(<code>__TEXT，__objc_classname</code>)</h4><p>这里存放了项目里所有 Objective-C 类的名字</p>
+<p><img src="9ab7d736e345420ab2cdd8076c08057d~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>class-dump 工具能够解析出每个类的方法，属性，成员变量，应该就是来自上面两个 section 的数据了，当然这只是我的猜测，具体怎么实现的就要去看 class-dump 的源码了</p>
+<h4 id="Symbol-Table"><a href="#Symbol-Table" class="headerlink" title="Symbol Table"></a>Symbol Table</h4><p>符号表，这个是重点中的重点，符号表是将地址和符号联系起来的桥梁。符号表并不能直接存储符号，而是存储符号位于字符串表的位置。</p>
+<p><img src="2721f7baa7b941e6be63421636ef4764~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="String-Table"><a href="#String-Table" class="headerlink" title="String Table"></a>String Table</h4><p>字符串表所有的变量名、函数名等，都以字符串的形式存储在字符串表中。</p>
+<p><img src="47a85d63ea9a43c29531012586a964c2~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<h4 id="Dynamic-Symbol-Table"><a href="#Dynamic-Symbol-Table" class="headerlink" title="Dynamic Symbol Table"></a>Dynamic Symbol Table</h4><p>动态符号表存储的是动态库函数位于符号表的偏移信息。(<code>__DATA</code>，<code>__la_symbol_ptr</code>) section 可以从动态符号表中获取到该 section 位于符号表的索引数组。动态符号表并不存储符号信息，而是存储其位于符号表的偏移信息。Fishhook 源码看起来比较复杂主要是因为 hook 的是动态链接的函数，索引和链接关系比较绕。但是我们自己编写的 C 函数不是动态链接的，而是在编译链接后代码指令就存储在文件内部的函数，因此不会用到动态符号表也就无法 hook。</p>
+<p><img src="322f3e1e56ed40309400dc4a483e79d5~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.webp" alt="image.png"></p>
+<p>当然，关于 Mach-O 文件的知识远不止这么点，但是要完全讲清楚里面的所有内容，那估计不是这么一篇文章能够讲的清楚的，至少也得是一本书了，我也只是网上收集到的一些资料，自己写了篇总结而已<br></p>
+<h1 id="Mach-O-的应用"><a href="#Mach-O-的应用" class="headerlink" title="Mach-O 的应用"></a>Mach-O 的应用</h1><p><a target="_blank" rel="noopener" href="https://github.com/nygard/class-dump">class-dump</a> 这个工具就是通过对 Mach-O 文件的解析得到的结果。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://masterking.github.io">masterKing</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://masterking.github.io/2021/06/28/Mach-O/">https://masterking.github.io/2021/06/28/Mach-O/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://masterking.github.io" target="_blank">masterKing 的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/images/iOSReveseEngineeringAndSecurity1.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2021/06/10/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/" title="密码学概述"><img class="cover" src="/images/iOSReveseEngineeringAndSecurity1.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">密码学概述</div></div><div class="info-2"><div class="info-item-1">密码学（来自希腊语kryptos，意思是隐藏）一词的核心是指使数据无法被窥探者读取的技术。当然，密码学也可以用于其他目的。密码学包括一系列技术，如验证数据的真实性（检测是否修改）、确定个人或其他实体的身份、确定谁发送了特定消息或创建了特定数据片段、通过网络安全地发送数据、用密码或口令安全地锁定文件等等。</div></div></div></a><a class="pagination-related" href="/2021/07/10/8%E5%A4%A9%E8%AE%A9iOS%E5%BC%80%E5%8F%91%E8%80%85%E4%B8%8A%E6%89%8BFlutter%E4%B9%8B%E4%B8%80%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8Flutter/" title="8天让iOS开发者上手Flutter之一：快速入门Flutter"><img class="cover" src="/images/flutterCover0.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">8天让iOS开发者上手Flutter之一：快速入门Flutter</div></div><div class="info-2"><div class="info-item-1">flutter 现在是越来越火了，现在作为一个 iOS 开发，如果你不会 flutter 都好像不算个正常人似的？而且现在的 flutter 情况，有点像 2012 年那会儿刚刚兴起的 iOS，Android 开发一样，会点皮毛 UI 就可以提升不少身价…这些年过来，有无数的前端跨平台框架兴起。却只有 flutter 一家独秀，说明它还是有两把刷子的。今天这篇文章内容是基于 Mac 和...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6-Universal-binary-%E6%96%87%E4%BB%B6"><span class="toc-text">通用二进制(Universal binary)文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#lipo"><span class="toc-text">lipo</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mach-O"><span class="toc-text">Mach-O</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-text">结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Header"><span class="toc-text">Header</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Load-Commands"><span class="toc-text">Load Commands</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LC-LOAD-DYLIB"><span class="toc-text">LC_LOAD_DYLIB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LC-MAIN"><span class="toc-text">LC_MAIN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LC-SEGMENT-LC-SEGMENT-64"><span class="toc-text">LC_SEGMENT&#x2F;LC_SEGMENT_64</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Data"><span class="toc-text">Data</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TEXT%EF%BC%8C-text"><span class="toc-text">(__TEXT，__text)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TEXT%EF%BC%8C-objc-methname"><span class="toc-text">(__TEXT，__objc_methname)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TEXT%EF%BC%8C-objc-classname"><span class="toc-text">(__TEXT，__objc_classname)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Symbol-Table"><span class="toc-text">Symbol Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#String-Table"><span class="toc-text">String Table</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dynamic-Symbol-Table"><span class="toc-text">Dynamic Symbol Table</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mach-O-%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">Mach-O 的应用</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/images/iOSReveseEngineeringAndSecurity1.webp);"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2024 By masterKing</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'Nj4rbGaJ3pAWBRJWseaRg9Zu-gzGzoHsz',
+      appKey: '3tVispErrQeAytUHyJrFos3n',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
